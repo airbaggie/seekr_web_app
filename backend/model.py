@@ -9,7 +9,7 @@ class Job(db.Model):
 
     __tablename__ = "jobs"
 
-    job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    job_id = db.Column(db.String(20), primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     company = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=False)
@@ -61,7 +61,7 @@ class Tag(db.Model):
     # the type of "framwork" contains frameworks, libraries and tools
 
     to_job = db.relationship("Job", secondary="job_tags")
-    to_user = db.relationship("User", secondary="job_tags")
+    to_user = db.relationship("User", secondary="user_tags")
 
 
 class JobTag(db.Model):
@@ -70,8 +70,8 @@ class JobTag(db.Model):
     __tablename__ = "job_tags"
 
     job_tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False, index=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False, index=True)
+    job_id = db.Column(db.String(20), db.ForeignKey('jobs.job_id'), nullable=False)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False)
 
 
 class UserTag(db.Model):
@@ -80,8 +80,8 @@ class UserTag(db.Model):
     __tablename__ = "user_tags"
 
     user_tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False, index=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False, index=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False)
 
 
 class UserJob(db.Model):
@@ -91,7 +91,7 @@ class UserJob(db.Model):
 
     user_job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False, index=True)
-    job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False, index=True)
+    job_id = db.Column(db.String(20), db.ForeignKey('jobs.job_id'), nullable=False, index=True)
     status = db.Column(db.String(50), nullable=False)
     decision = db.Column(db.String(50), nullable=False)
     calendar_available = db.Column(db.Boolean, nullable=False, default=False)
@@ -116,6 +116,7 @@ class Comment(db.Model):
 
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_job_id = db.Column(db.Integer, db.ForeignKey('user_jobs.user_job_id'), nullable=False, index=True)
+    ext_job_id = db.Column(db.Integer, db.ForeignKey('ext_jobs.ext_job_id'), nullable=False, index=True)
     comment = db.Column(db.String(20000), nullable=False)
     comment_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
@@ -135,7 +136,8 @@ class Company(db.Model):
     address = db.Column(db.String(200), nullable=False)
     rating = db.Column(db.Float, nullable=True)
 
-    to_jobs = db.relationship("Job")
+    # to_jobs = db.relationship("Job")
+    # Traceback: Can't find any foreign key relationships between 'companies' and 'jobs'
 
 
 class ExtJob(db.Model):
