@@ -9,19 +9,23 @@ class Job(db.Model):
 
     __tablename__ = "jobs"
 
-    job_id = db.Column(db.String(20), primary_key=True)
+    job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    unique_key = db.Column(db.String(20), nullable=True)
     title = db.Column(db.String(120), nullable=False)
-    company = db.Column(db.String(100), nullable=False)
-    location = db.Column(db.String(100), nullable=False)
-    apply_url = db.Column(db.String(200), nullable=False)
-    is_active = db.Column(db.Boolean, nullable=False, default=True)
-    description = db.Column(db.String(20000),nullable=False)
-    indeed_url = db.Column(db.String(200), nullable=False)
-    create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=True)
+    location = db.Column(db.String(100), nullable=True)
+    apply_url = db.Column(db.String(200), nullable=True)
+    is_active = db.Column(db.Boolean, default=True)
+    description = db.Column(db.String(20000), nullable=True)
+    indeed_url = db.Column(db.String(200), nullable=True)
+    create_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # Define relationships
     to_user = db.relationship("User", secondary="user_jobs")
-    to_tag = db.relationship("Tag", secondary="job_tags")
+    to_tag = db.relationship("JobTag")
+    to_userjob = db.relationship("UserJob")
+    to_comment = db.relationship("Comment", secondary="user_jobs")
+    to_company = db.relationship("Company")
 
 
 class User(db.Model):
@@ -36,15 +40,14 @@ class User(db.Model):
     zipcode = db.Column(db.String(50), nullable=True)
     is_googler = db.Column(db.Boolean, nullable=False, default=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-    avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=False, default=1, index=True)
+    avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=False, default=1)
 
     # Define relationships
-    to_tag = db.relationship("Tag", secondary="user_tags")
+    to_tag = db.relationship("UserTag")
     to_job = db.relationship("Job", secondary="user_jobs")
     to_userjob = db.relationship("UserJob")
     to_comment = db.relationship("Comment", secondary="user_jobs")
     to_avatar = db.relationship("Avatar")
-    to_extjob = db.relationship("ExtJob")
 
 
 class Tag(db.Model):
@@ -56,12 +59,13 @@ class Tag(db.Model):
     tag_type = db.Column(db.String(50), nullable=False)
     tag_name = db.Column(db.String(50), nullable=False)
 
+    # Define relationships
+    to_job = db.relationship("Job", secondary="job_tags")
+    to_user = db.relationship("User", secondary="user_tags")
+
     ### options of tag_type ###
     # "language", "framework", "database", "platform"
     # the type of "framwork" contains frameworks, libraries and tools
-
-    to_job = db.relationship("Job", secondary="job_tags")
-    to_user = db.relationship("User", secondary="user_tags")
 
 
 class JobTag(db.Model):
@@ -70,8 +74,11 @@ class JobTag(db.Model):
     __tablename__ = "job_tags"
 
     job_tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    job_id = db.Column(db.String(20), db.ForeignKey('jobs.job_id'), nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False)
+
+    to_job = db.relationship("Job")
+    to_tag = db.relationship("Tag")
 
 
 class UserTag(db.Model):
@@ -83,6 +90,10 @@ class UserTag(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False)
 
+    # Define relationships
+    to_user = db.relationship("User")
+    to_tag = db.relationship("Tag")
+
 
 class UserJob(db.Model):
     """Tracking info of jobs that saved by a user."""
@@ -90,40 +101,53 @@ class UserJob(db.Model):
     __tablename__ = "user_jobs"
 
     user_job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False, index=True)
-    job_id = db.Column(db.String(20), db.ForeignKey('jobs.job_id'), nullable=False, index=True)
-    status = db.Column(db.String(50), nullable=False)
-    decision = db.Column(db.String(50), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
+    status_id = db.Column(db.Integer, db.ForeignKey('statuses.status_id'), nullable=False, default = 1)
+    decision_id = db.Column(db.Integer, db.ForeignKey('decisions.decision_id'), nullable=False, default = 1)
     calendar_available = db.Column(db.Boolean, nullable=False, default=False)
     save_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
-    ### options of status ###
-    # "saved", "applied", "phone-screen scheduled", "phone-screen completed", 
-    # "on-site scheduled", "on-site completed", "decision made"
-
-    ### options of decision ###
-    # "unknown", "unselected", "closed", "withdrawn", "offered"
-
+    # Define relationships
     to_user = db.relationship("User")
     to_job = db.relationship("Job")
     to_comment = db.relationship("Comment")
+    to_status = db.relationship("Status")
+    to_decision = db.relationship("Decision")
+
+
+class Status(db.Model):
+    """List of job statuses."""
+
+    __tablename__ = "statuses"
+
+    status_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    status = db.Column(db.String(50), nullable=False)
+
+
+class Decision(db.Model):
+    """List of job decisions."""
+
+    __tablename__ = "decisions"
+
+    decision_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    decision = db.Column(db.String(50), nullable=False)
 
 
 class Comment(db.Model):
-    """Comment of a job application by a user."""
+    """Comment of a job application."""
 
     __tablename__ = "comments"
 
     comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_job_id = db.Column(db.Integer, db.ForeignKey('user_jobs.user_job_id'), nullable=False, index=True)
-    ext_job_id = db.Column(db.Integer, db.ForeignKey('ext_jobs.ext_job_id'), nullable=False, index=True)
+    user_job_id = db.Column(db.Integer, db.ForeignKey('user_jobs.user_job_id'), nullable=False)
     comment = db.Column(db.String(20000), nullable=False)
     comment_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
+    # Define relationships
     to_userjob = db.relationship("UserJob")
     to_user = db.relationship("User", secondary="user_jobs")
     to_job = db.relationship("Job", secondary="user_jobs")
-    to_extjob = db.relationship("ExtJob")
 
 
 class Company(db.Model):
@@ -133,31 +157,11 @@ class Company(db.Model):
 
     company_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     company = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(200), nullable=False)
+    address = db.Column(db.String(200), nullable=True)
     rating = db.Column(db.Float, nullable=True)
 
-    # to_jobs = db.relationship("Job")
-    # Traceback: Can't find any foreign key relationships between 'companies' and 'jobs'
-
-
-class ExtJob(db.Model):
-    """Info of a job which was saved from other job websites by a user."""
-
-    __tablename__ = "ext_jobs"
-
-    ext_job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False, index=True)
-    title = db.Column(db.String(120), nullable=False)
-    company = db.Column(db.String(100), nullable=False)
-    url = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.String(20000),nullable=False)
-    status = db.Column(db.String(50), nullable=False)
-    decision = db.Column(db.String(50), nullable=False)
-    calendar_available = db.Column(db.Boolean, nullable=False, default=False)
-    save_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-
-    to_user = db.relationship("User")
-    to_comment = db.relationship("Comment")
+    # Define relationships
+    to_jobs = db.relationship("Job")
 
 
 class Avatar(db.Model):
@@ -167,7 +171,6 @@ class Avatar(db.Model):
 
     avatar_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     avatar = db.Column(db.String(200), nullable=False)
-
 
 
 ##############################################################################
@@ -192,4 +195,3 @@ if __name__ == "__main__":
 
     connect_to_db(app)
     print("Connected to DB.")
-
