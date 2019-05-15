@@ -186,6 +186,9 @@ def connect_to_db(app):
     db.app = app
     db.init_app(app)
 
+def create_tables():
+    db.create_all()
+
 
 if __name__ == "__main__":
     # Leave a state of being able to work with the soft database,
@@ -195,3 +198,5 @@ if __name__ == "__main__":
 
     connect_to_db(app)
     print("Connected to DB.")
+    create_tables()
+    print("Tables created.")
