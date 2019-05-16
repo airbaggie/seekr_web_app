@@ -77,6 +77,8 @@ def load_job_tags():
 def load_tags():
     """Load tags from static.tag into database."""
 
+    Tag.query.delete()
+    
     for i, row in enumerate(open("seed_data/static.tag")):
         row = row.rstrip()
         tag_id, tag_type, tag_name = row.split("|")
@@ -95,6 +97,8 @@ def load_tags():
 def load_statuses():
     """Load statuses from static.status into database."""
 
+    Status.query.delete()
+
     for i, row in enumerate(open("seed_data/static.status")):
         row = row.rstrip()
         status_id, status = row.split("|")
@@ -110,6 +114,8 @@ def load_statuses():
 
 def load_decisions():
     """Load decisions from static.decision into database."""
+
+    Decision.query.delete()
 
     for i, row in enumerate(open("seed_data/static.decision")):
         row = row.rstrip()

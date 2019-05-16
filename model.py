@@ -27,6 +27,11 @@ class Job(db.Model):
     to_comment = db.relationship("Comment", secondary="user_jobs")
     to_company = db.relationship("Company")
 
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<Job job_id={self.job_id} title={self.title} company={self.to_company.company}>"
+
 
 class User(db.Model):
     """User of the website."""
@@ -34,13 +39,13 @@ class User(db.Model):
     __tablename__ = "users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_name = db.Column(db.String(50), nullable=False)
+    user_name = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(20), nullable=False)
     zipcode = db.Column(db.String(50), nullable=True)
     is_googler = db.Column(db.Boolean, nullable=False, default=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-    avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=False, default=1)
+    avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=True)
 
     # Define relationships
     to_tag = db.relationship("UserTag")
@@ -48,6 +53,11 @@ class User(db.Model):
     to_userjob = db.relationship("UserJob")
     to_comment = db.relationship("Comment", secondary="user_jobs")
     to_avatar = db.relationship("Avatar")
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<User user_id={self.user_id} email={self.email} zipcode={self.zipcode}>"
 
 
 class Tag(db.Model):
@@ -67,6 +77,11 @@ class Tag(db.Model):
     # "language", "framework", "database", "platform"
     # the type of "framwork" contains frameworks, libraries and tools
 
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<Tag tag_id={self.tag_id} tag_type={self.tag_type} tag_name={self.tag_name}>"
+
 
 class JobTag(db.Model):
     """Associate table which connects jobs and tags tables. Tag/keyword of a job."""
@@ -79,6 +94,11 @@ class JobTag(db.Model):
 
     to_job = db.relationship("Job")
     to_tag = db.relationship("Tag")
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<JobTag job_tag_id={self.job_tag_id} title={self.to_job.title} tag_name={self.to_tag.tag_name}>"
 
 
 class UserTag(db.Model):
@@ -93,6 +113,11 @@ class UserTag(db.Model):
     # Define relationships
     to_user = db.relationship("User")
     to_tag = db.relationship("Tag")
+
+    def __repr__(self):
+        """Provide helpful representation when printed."""
+
+        return f"<UserTag email={self.to_user.email} tag_name={self.to_tag.tag_name}>"
 
 
 class UserJob(db.Model):
