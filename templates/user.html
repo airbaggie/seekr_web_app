@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<br>
+<div class="well spaced" style="width:97%">
+  <h2>Welcome, {{ user.email }} !)</h2>
+  <b>
+    <p style="color:blue">Id: {{ user.user_id }}</p>
+    <p style="color:blue">Email: {{ user.email }}</p>
+    <p style="color:blue">Zipcode: {{ user.zipcode }}</p>
+  </b>
+
+  <form action="/select_tag" method="POST">
+  <div class="well spaced" style="width:40%;">
+    <p>Language</p>
+    <select name="language">
+      <option name="language" value="JavaScript">JavaScript</option>
+      <option name="language" value="HTML">HTML</option>
+      <option name="language" value="CSS">CSS</option>
+      <option name="language" value="Java">Java</option>
+      <option name="language" value="Bash">Bash</option>
+      <option name="language" value="Python">Python</option>
+      <option name="language" value="C#">C#</option>
+      <option name="language" value="PHP">PHP</option>
+      <option name="language" value="C++">C++</option>
+      <option name="language" value="C">C</option>
+      <option name="language" value="TypeScript">TypeScript</option>
+      <option name="language" value="Ruby">Ruby</option>
+      <option name="language" value="Swift">Swift</option>
+      <option name="language" value="Assembly">Assembly</option>
+      <option name="language" value="Go">Go</option>
+      <option name="language" value="Objective-C">Objective-C</option>
+      <option name="language" value="R">R</option>
+      <option name="language" value="Kotlin">Kotlin</option>
+      <option name="language" value="Scala">Scala</option>
+      <option name="language" value="Groovy">Groovy</option>
+      <option name="language" value="Perl">Perl</option>
+    </select>
+
+    <p>Framework, Library, Tool</p>
+    <select name="framework">
+      <option name="framework" value="Node.js">Node.js</option>
+      <option name="framework" value="Angular">Angular</option>
+      <option name="framework" value="React">React</option>
+      <option name="framework" value=".NET">.NET</option>
+      <option name="framework" value="Spring">Spring</option>
+      <option name="framework" value="Django">Django</option>
+      <option name="framework" value="TensorFlow">TensorFlow</option>
+      <option name="framework" value="Flask">Flask</option>
+      <option name="framework" value="Xamarin">Xamarin</option>
+      <option name="framework" value="Spark">Spark</option>
+      <option name="framework" value="Hadoop">Hadoop</option>
+      <option name="framework" value="PyTorch">PyTorch</option>
+    </select>
+
+    <p>Database</p>
+    <select name="database">
+      <option name="database" value="MySQL">MySQL</option>
+      <option name="database" value="SQL">SQL</option>
+      <option name="database" value="PostgreSQL">PostgreSQL</option>
+      <option name="database" value="MongoDB">MongoDB</option>
+      <option name="database" value="SQLite">SQLite</option>
+      <option name="database" value="Redis">Redis</option>
+      <option name="database" value="Elasticsearch">Elasticsearch</option>
+      <option name="database" value="MariaDB">MariaDB</option>
+      <option name="database" value="Oracle">Oracle</option>
+      <option name="database" value="Memcached">Memcached</option>
+      <option name="database" value="DynamoDB">DynamoDB</option>
+      <option name="database" value="RDS">RDS</option>
+      <option name="database" value="Cassandra">Cassandra</option>
+    </select>
+
+    <p>Platform</p>
+    <select name="platform">
+      <option name="platform" value="Linux">Linux</option>
+      <option name="platform" value="Android">Android</option>
+      <option name="platform" value="AWS">AWS</option>
+      <option name="platform" value="Mac">Mac</option>
+      <option name="platform" value="WordPress">WordPress</option>
+      <option name="platform" value="iOS">iOS</option>
+      <option name="platform" value="Firebase">Firebase</option>
+      <option name="platform" value="Azure">Azure</option>
+      <option name="platform" value="Heroku">Heroku</option>
+    </select>
+
+    <div class="form-group">
+      <input type="submit" value="Add Tag" class="btn btn-danger">
+    </div>
+  </form>
+
+</div>
+{% endblock %}

@@ -75,6 +75,37 @@ def login_process():
     return redirect(f"/users/{user.user_id}")
 
 
+@app.route("/users/<int:user_id>", methods=['GET'])
+def user_detail(user_id):
+    """Show info about user."""
+
+    user = User.query.get(user_id)
+    return render_template("user.html", user=user)
+
+
+@app.route("/select_tag", methods=['POST'])
+def select_tag_process():
+    """Process tag selection."""
+
+    user_id = session["user_id"]
+    user = User.query.get(user_id)
+
+    tag_list = []
+    tag_list.append(request.form.get("language"))
+    tag_list.append(request.form.get("framework"))
+    tag_list.append(request.form.get("database"))
+    tag_list.append(request.form.get("platform"))
+
+    for tag in tag_list:
+        tag = Tag.query.filter(Tag.tag_name == tag).one()
+        user_tag = UserTag(user_id=user.user_id, tag_id=tag.tag_id)
+        db.session.add(user_tag)
+    db.session.commit()
+
+    flash(f"User {tag} added.")
+    return redirect(f"/users/{user.user_id}")
+
+
 @app.route('/logout')
 def logout():
     """Log out."""
