@@ -128,8 +128,8 @@ class UserJob(db.Model):
     user_job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
-    status_id = db.Column(db.Integer, db.ForeignKey('statuses.status_id'), nullable=False, default = 1)
-    decision_id = db.Column(db.Integer, db.ForeignKey('decisions.decision_id'), nullable=False, default = 1)
+    status = db.Column(db.String, nullable=False, default = "Saved")
+    decision = db.Column(db.String, nullable=False, default = "Unknown")
     calendar_available = db.Column(db.Boolean, nullable=False, default=False)
     save_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
@@ -137,26 +137,12 @@ class UserJob(db.Model):
     to_user = db.relationship("User")
     to_job = db.relationship("Job")
     to_comment = db.relationship("Comment")
-    to_status = db.relationship("Status")
-    to_decision = db.relationship("Decision")
 
-
-class Status(db.Model):
-    """List of job statuses."""
-
-    __tablename__ = "statuses"
-
-    status_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    status = db.Column(db.String(50), nullable=False)
-
-
-class Decision(db.Model):
-    """List of job decisions."""
-
-    __tablename__ = "decisions"
-
-    decision_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    decision = db.Column(db.String(50), nullable=False)
+    # Status: 
+    #   Saved / Applied/ Phone-screen Scheduled / Phone-screen Completed /
+    #   On-site Scheduled / On-site Completed / Decision Made
+    # Decisions: 
+    #   Unknown / Closed / Withdrawn / Offered / Unselected
 
 
 class Comment(db.Model):
@@ -182,7 +168,11 @@ class Company(db.Model):
 
     company_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     company = db.Column(db.String(100), nullable=False)
+
+    # Use Google Places API to get below info
     address = db.Column(db.String(200), nullable=True)
+    lat = db.Column(db.Float, nullable=True)
+    lng = db.Column(db.Float, nullable=True)
     rating = db.Column(db.Float, nullable=True)
 
     # Define relationships

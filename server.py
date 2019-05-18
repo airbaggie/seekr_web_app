@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, session
+from flask import Flask, render_template, request, flash, redirect, session, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, Job, User, Tag, JobTag, UserTag, UserJob, Comment, Status, Decision, Company, Avatar
+from model import connect_to_db, db, Job, User, Tag, JobTag, UserTag, UserJob, Comment, Company, Avatar
 
 app = Flask(__name__)
 
@@ -12,11 +12,28 @@ app.secret_key = "TEMPKEY"
 app.jinja_env.undefined = StrictUndefined
 
 
+
 @app.route("/")
 def index():
     """Homepage."""
 
     return render_template("homepage.html")
+
+
+@app.route("/search.json")
+def get_search_result_json():
+    """Job searching from database."""
+
+    keyword = request.args.get('keyword')
+    search_result = Job.query.filter(Job.description.ilike(f'%{keyword}%')).all()
+
+    results = {}
+    for job in search_result:
+        results[job.job_id]= {"title": job.title,
+                              "company": job.to_company.company,
+                             }
+
+    return jsonify(results)
 
 
 @app.route('/register', methods=['GET'])
@@ -80,6 +97,7 @@ def user_detail(user_id):
     """Show info about user."""
 
     user = User.query.get(user_id)
+
     return render_template("user.html", user=user)
 
 
@@ -96,6 +114,41 @@ def select_tag_process():
     tag_list.append(request.form.get("database"))
     tag_list.append(request.form.get("platform"))
 
+    """
+    call to ajax endpoint
+    URL(
+        base=localhost.
+        port=50000 # or1
+        /path/to/endpoint
+    ) = localhost
+
+    URL.addparameters({
+        key1=2,
+        key2=b
+    })
+
+    www.something.com/hello/world&key1=2?key2=b
+    
+    #&key1=2?key2=b are paramters
+
+    URL.addData("Some field or whatever")
+
+    response = URL.call()
+
+    # parse response data
+
+    "guidlines". Standards for what your API is doing
+    POST
+        add a tag
+    GET
+        get tags/job posting
+    DELETE
+    UPDATE/PUT (if you want to impress interviewers learn this diff because no one knows it :D)
+
+
+
+    """
+    # Improvement needed: only add user_tag if the tag has not been added to this user. 
     for tag in tag_list:
         tag = Tag.query.filter(Tag.tag_name == tag).one()
         user_tag = UserTag(user_id=user.user_id, tag_id=tag.tag_id)

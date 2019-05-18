@@ -1,5 +1,5 @@
 from sqlalchemy import func, exists
-from model import Job, Tag, JobTag, Company, Status, Decision, connect_to_db, db
+from model import Job, Tag, JobTag, Company, connect_to_db, db
 from server import app
 import json
 import datetime
@@ -152,8 +152,6 @@ if __name__ == "__main__":
     # Import different types of data
 
     load_tags()
-    load_statuses()
-    load_decisions()
     load_companies()
     load_jobs()
     load_job_tags()

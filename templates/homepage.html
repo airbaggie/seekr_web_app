@@ -1,18 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="title, company, skill etc." aria-label="search" aria-describedby="button-addon2">
-  <div class="input-group-append">
-    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+  <form id="search-form">
+    <div class="form-group">
+      <input class="form-control" type="text" name="keyword" id="keyword-field" placeholder="title, company, skill etc.">
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </div>
+  </form>
+  <div id="search-results">
+
   </div>
-</div>
-  <div class="testing">
-    <button type="button" class="btn btn-info" onclick="">Company list</button>
-    <button type="button" class="btn btn-info">Job list with company name</button>
-    <button type="button" class="btn btn-info">Tag list</button>
-    <button type="button" class="btn btn-info">User list</button>
-  </div>
-<div id="serch-result"> 
-    <!-- job info goes here -->
 </div>
 {% endblock %}
