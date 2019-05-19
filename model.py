@@ -13,7 +13,6 @@ class Job(db.Model):
     unique_key = db.Column(db.String(20), nullable=True)
     title = db.Column(db.String(120), nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=True)
-    location = db.Column(db.String(100), nullable=True)
     apply_url = db.Column(db.String(200), nullable=True)
     is_active = db.Column(db.Boolean, default=True)
     description = db.Column(db.String(20000), nullable=True)
@@ -167,7 +166,8 @@ class Company(db.Model):
     __tablename__ = "companies"
 
     company_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    company = db.Column(db.String(100), nullable=False)
+    company_name = db.Column(db.String(100), nullable=False)
+    location = db.Column(db.String(100), nullable=True)
 
     # Use Google Places API to get below info
     address = db.Column(db.String(200), nullable=True)

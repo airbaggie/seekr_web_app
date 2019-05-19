@@ -5,7 +5,7 @@ function displaySearchResults(results) {
     
     $("#search-results").empty();
     for (var id in results) {
-        $("#search-results").append("<p>"+results[id]["company"]+"</p>");
+        $("#search-results").append("<p>"+results[id]["company_name"]+"</p>");
         $("#search-results").append("<p>"+results[id]["title"]+"</p>");
     }
     

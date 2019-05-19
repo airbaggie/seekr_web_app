@@ -30,7 +30,7 @@ def get_search_result_json():
     results = {}
     for job in search_result:
         results[job.job_id]= {"title": job.title,
-                              "company": job.to_company.company,
+                              "company_name": job.to_company.company_name,
                              }
 
     return jsonify(results)

@@ -1,42 +1,10 @@
-### Seed new-created database. ###
+### Seed existing database with more job posts. ###
 
 from sqlalchemy import func, exists
 from model import Job, Tag, JobTag, Company, connect_to_db, db
 from server import app
 import json
 import datetime
-
-
-def load_companies():
-
-    Company.query.delete()
-
-    comp_list = json.load(open('seed_data/companies.json'))
-
-    for c in comp_list:
-        comp_id = c['company_id']
-        is_exist = db.session.query(Company.query.filter(Company.company_id == comp_id).exists()).scalar()
-
-        if is_exist:
-            continue
-        elif c['address'] != "None":
-            company = Company(company_id=c['company_id'],
-                              company_name=c['company_name'],
-                              location=c['location'],
-                              address=c['address'],
-                              lat=c['lat'],
-                              lng=c['lng'],
-                              rating=c['rating'])
-            db.session.add(company)
-        else:
-            company = Company(company_id=c['company_id'],
-                              company_name=c['company_name'],
-                              location=c['location'])
-            db.session.add(company)
-
-    db.session.commit()
-
-    print("Companies loaded.")
 
 
 def add_companies():
@@ -106,26 +74,6 @@ def load_job_tags():
     print("Job tags loaded.")
 
 
-def load_tags():
-    """Load tags from static.tag into database."""
-
-    Tag.query.delete()
-    
-    for i, row in enumerate(open("seed_data/static.tag")):
-        row = row.rstrip()
-        tag_id, tag_type, tag_name = row.split("|")
-
-        tag = Tag(tag_id=tag_id,
-                  tag_type=tag_type,
-                  tag_name=tag_name)
-
-        db.session.add(tag)
-
-    db.session.commit()
-
-    print("Tags loaded.")
-
-
 def set_val_job_id():
     """Set value for the next job_id after seeding database"""
 
@@ -160,8 +108,6 @@ if __name__ == "__main__":
 
     # Import different types of data
 
-    load_companies()
-    load_tags()
     add_companies()
     load_jobs()
     load_job_tags()

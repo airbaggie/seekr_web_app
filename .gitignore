@@ -1,3 +1,4 @@
 env/
+g.conf
 .DS_Store
 __pycache__/

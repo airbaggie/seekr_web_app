@@ -1,0 +1,650 @@
+[
+    {
+        "company_id":"43",
+        "company_name":"The Meet Group",
+        "location":"San Francisco Bay Area, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"45",
+        "company_name":"Home Care Assistance",
+        "location":"San Francisco, CA 94105",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"46",
+        "company_name":"P3 North America",
+        "location":"San Francisco, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"52",
+        "company_name":"Radiance Solutions",
+        "location":"San Ramon, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"54",
+        "company_name":"Retain.AI",
+        "location":"San Francisco, CA 94107",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"57",
+        "company_name":"theSaaS",
+        "location":"San Francisco, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"1",
+        "company_name":"Square",
+        "location":"San Francisco, CA 94103",
+        "address":"1455 Market St #600, San Francisco, CA 94103, USA",
+        "lat":"37.775316",
+        "lng":"-122.4174373",
+        "rating":"2.8"
+    },
+    {
+        "company_id":"2",
+        "company_name":"Activision",
+        "location":"Foster City, CA",
+        "address":"1001 E Hillsdale Blvd, Foster City, CA 94404, USA",
+        "lat":"37.5594762",
+        "lng":"-122.2718526",
+        "rating":"4.2"
+    },
+    {
+        "company_id":"3",
+        "company_name":"Oracle",
+        "location":"Redwood City, CA 94065",
+        "address":"300 Oracle Pkwy, Redwood City, CA 94065, USA",
+        "lat":"37.5306445",
+        "lng":"-122.2643722",
+        "rating":"4.6"
+    },
+    {
+        "company_id":"4",
+        "company_name":"Sability",
+        "location":"San Francisco, CA",
+        "address":"745 Franklin St, San Francisco, CA 94102, USA",
+        "lat":"37.7816251",
+        "lng":"-122.4224965",
+        "rating":"1.8"
+    },
+    {
+        "company_id":"5",
+        "company_name":"Patch Homes",
+        "location":"San Francisco Bay Area, CA",
+        "address":"576 Sacramento St #400, San Francisco, CA 94111, USA",
+        "lat":"37.7940088",
+        "lng":"-122.4026463",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"6",
+        "company_name":"Auris Health, Inc.",
+        "location":"Redwood City, CA",
+        "address":"150 Shoreline Dr, Redwood City, CA 94065, USA",
+        "lat":"37.5216395",
+        "lng":"-122.2606102",
+        "rating":"4.7"
+    },
+    {
+        "company_id":"7",
+        "company_name":"Cisco Meraki",
+        "location":"San Francisco, CA",
+        "address":"500 Terry A Francois Blvd, San Francisco, CA 94158, USA",
+        "lat":"37.770371",
+        "lng":"-122.387123",
+        "rating":"4.8"
+    },
+    {
+        "company_id":"8",
+        "company_name":"Smaato Inc.",
+        "location":"San Francisco, CA 94108",
+        "address":"240 Stockton St 10th floor, San Francisco, CA 94108, USA",
+        "lat":"37.788168",
+        "lng":"-122.406508",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"9",
+        "company_name":"CALYPSO Software",
+        "location":"San Ramon, CA 94583",
+        "address":"12667 Alcosta Blvd #375, San Ramon, CA 94583, USA",
+        "lat":"37.7745035",
+        "lng":"-121.9609669",
+        "rating":"4.9"
+    },
+    {
+        "company_id":"10",
+        "company_name":"WANdisco",
+        "location":"San Ramon, CA 94583",
+        "address":"5000 Executive Pkwy, San Ramon, CA 94583, USA",
+        "lat":"37.7690158",
+        "lng":"-121.9667764",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"11",
+        "company_name":"Accenture",
+        "location":"San Francisco, CA 94105",
+        "address":"415 Mission St Floor 35, San Francisco, CA 94105, USA",
+        "lat":"37.7898162",
+        "lng":"-122.3969054",
+        "rating":"4.7"
+    },
+    {
+        "company_id":"12",
+        "company_name":"Mobile Programming LLC",
+        "location":"Berkeley, CA 94703",
+        "address":"929 Berryessa Rd, San Jose, CA 95133, USA",
+        "lat":"37.364775",
+        "lng":"-121.887651",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"13",
+        "company_name":"Bolt",
+        "location":"San Francisco, CA",
+        "address":"724 Brannan St, San Francisco, CA 94103, USA",
+        "lat":"37.774397",
+        "lng":"-122.4019307",
+        "rating":"4.5"
+    },
+    {
+        "company_id":"14",
+        "company_name":"Salesforce",
+        "location":"San Francisco, CA 94105",
+        "address":"1 Market St #300, San Francisco, CA 94105, USA",
+        "lat":"37.7941181",
+        "lng":"-122.3949838",
+        "rating":"4.5"
+    },
+    {
+        "company_id":"15",
+        "company_name":"Google",
+        "location":"San Francisco, CA 94105",
+        "address":"345 Spear St, San Francisco, CA 94105, USA",
+        "lat":"37.789682",
+        "lng":"-122.3901086",
+        "rating":"4.8"
+    },
+    {
+        "company_id":"16",
+        "company_name":"Rigetti Computing",
+        "location":"Berkeley, CA",
+        "address":"775 Heinz Ave, Berkeley, CA 94710, USA",
+        "lat":"37.8532775",
+        "lng":"-122.2936366",
+        "rating":"4.8"
+    },
+    {
+        "company_id":"17",
+        "company_name":"Evernote",
+        "location":"Redwood City, CA 94063",
+        "address":"305 Walnut St, Redwood City, CA 94063, USA",
+        "lat":"37.4920687",
+        "lng":"-122.2223723",
+        "rating":"3.4"
+    },
+    {
+        "company_id":"18",
+        "company_name":"McKesson",
+        "location":"San Francisco, CA 94104",
+        "address":"1 Post St, San Francisco, CA 94101, USA",
+        "lat":"37.7886826",
+        "lng":"-122.4024594",
+        "rating":"2.8"
+    },
+    {
+        "company_id":"19",
+        "company_name":"Federal Reserve Bank of San Francisco",
+        "location":"San Francisco, CA 94105",
+        "address":"101 Market St, San Francisco, CA 94105, USA",
+        "lat":"37.7935",
+        "lng":"-122.3955072",
+        "rating":"3.2"
+    },
+    {
+        "company_id":"20",
+        "company_name":"HelloSign",
+        "location":"San Francisco, CA",
+        "address":"250 Brannan St, San Francisco, CA 94107, USA",
+        "lat":"37.7831",
+        "lng":"-122.3910195",
+        "rating":"3.6"
+    },
+    {
+        "company_id":"21",
+        "company_name":"Exabeam",
+        "location":"San Mateo, CA 94403",
+        "address":"2, Waters Park Dr #200, San Mateo, CA 94403, USA",
+        "lat":"37.5509465",
+        "lng":"-122.2907119",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"22",
+        "company_name":"Twitter",
+        "location":"San Francisco, CA 94103",
+        "address":"1355 Market St #900, San Francisco, CA 94103, USA",
+        "lat":"37.7764685",
+        "lng":"-122.4172004",
+        "rating":"3.7"
+    },
+    {
+        "company_id":"23",
+        "company_name":"GuideSpark",
+        "location":"Redwood City, CA",
+        "address":"1400a Seaport Blvd Suite #500, Redwood City, CA 94063, USA",
+        "lat":"37.514064",
+        "lng":"-122.199931",
+        "rating":"3.9"
+    },
+    {
+        "company_id":"24",
+        "company_name":"Myriad Genetics, Inc.",
+        "location":"South San Francisco, CA",
+        "address":"180 Kimball Way, South San Francisco, CA 94080, USA",
+        "lat":"37.650778",
+        "lng":"-122.392697",
+        "rating":"2.7"
+    },
+    {
+        "company_id":"25",
+        "company_name":"JUUL Labs",
+        "location":"San Francisco, CA 94107",
+        "address":"560 20th St, San Francisco, CA 94107, USA",
+        "lat":"37.7608031",
+        "lng":"-122.3861288",
+        "rating":"3.3"
+    },
+    {
+        "company_id":"26",
+        "company_name":"Elation Health",
+        "location":"San Francisco, CA",
+        "address":"550 15th St #21, San Francisco, CA 94103, USA",
+        "lat":"37.7674338",
+        "lng":"-122.406222",
+        "rating":"4.5"
+    },
+    {
+        "company_id":"27",
+        "company_name":"PMA Consultants",
+        "location":"San Francisco, CA",
+        "address":"455 Market St Suite 1270, San Francisco, CA 94105, USA",
+        "lat":"37.7907919",
+        "lng":"-122.3984543",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"28",
+        "company_name":"EarLens Corporation",
+        "location":"Menlo Park, CA 94025",
+        "address":"4045 Campbell Ave, Menlo Park, CA 94025, USA",
+        "lat":"37.4803333",
+        "lng":"-122.181599",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"29",
+        "company_name":"Iterable",
+        "location":"San Francisco, CA",
+        "address":"71 Stevenson St #300, San Francisco, CA 94105, USA",
+        "lat":"37.7892727",
+        "lng":"-122.3995828",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"30",
+        "company_name":"Okta",
+        "location":"San Francisco, CA 94107",
+        "address":"100 1st St 6th floor, San Francisco, CA 94105, USA",
+        "lat":"37.789152",
+        "lng":"-122.3976135",
+        "rating":"4.2"
+    },
+    {
+        "company_id":"31",
+        "company_name":"Reputation.com",
+        "location":"Redwood City, CA 94063",
+        "address":"1400A Seaport Blvd #401, Redwood City, CA 94063, USA",
+        "lat":"37.514069",
+        "lng":"-122.199825",
+        "rating":"4.8"
+    },
+    {
+        "company_id":"32",
+        "company_name":"LiveRamp",
+        "location":"San Francisco, CA",
+        "address":"225 Bush St 17th Floor, San Francisco, CA 94104, USA",
+        "lat":"37.7908301",
+        "lng":"-122.401286",
+        "rating":"4.3"
+    },
+    {
+        "company_id":"33",
+        "company_name":"Twitch",
+        "location":"San Francisco, CA",
+        "address":"350 Bush St, San Francisco, CA 94104, USA",
+        "lat":"37.7914175",
+        "lng":"-122.4034082",
+        "rating":"4.3"
+    },
+    {
+        "company_id":"34",
+        "company_name":"Fitbit",
+        "location":"San Francisco, CA 94105",
+        "address":"199 Fremont St, San Francisco, CA 94105, USA",
+        "lat":"37.7899813",
+        "lng":"-122.3948664",
+        "rating":"3.0"
+    },
+    {
+        "company_id":"35",
+        "company_name":"Wood Rodgers",
+        "location":"Oakland, CA 94612",
+        "address":"180 Grand Ave Suite 775, Oakland, CA 94612, USA",
+        "lat":"37.8114771",
+        "lng":"-122.2627643",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"36",
+        "company_name":"Roblox",
+        "location":"San Mateo, CA",
+        "address":"970 Park Pl, San Mateo, CA 94403, USA",
+        "lat":"37.5444649",
+        "lng":"-122.2936852",
+        "rating":"4.3"
+    },
+    {
+        "company_id":"37",
+        "company_name":"Advanced Systems Group",
+        "location":"San Francisco, CA",
+        "address":"1226 Powell St, Emeryville, CA 94608, USA",
+        "lat":"37.8404344",
+        "lng":"-122.2855843",
+        "rating":"3.7"
+    },
+    {
+        "company_id":"38",
+        "company_name":"Brown and Caldwell",
+        "location":"Walnut Creek, CA 94596",
+        "address":"201 N Civic Dr #300, Walnut Creek, CA 94596, USA",
+        "lat":"37.909699",
+        "lng":"-122.059664",
+        "rating":"4.4"
+    },
+    {
+        "company_id":"39",
+        "company_name":"MDC Vacuum",
+        "location":"Hayward, CA 94541",
+        "address":"7058, 30962 Santana St, Hayward, CA 94544, United States",
+        "lat":"37.6139694",
+        "lng":"-122.0567082",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"40",
+        "company_name":"Wood Rodgers, Inc.",
+        "location":"Oakland, CA 94612",
+        "address":"180 Grand Ave Suite 775, Oakland, CA 94612, USA",
+        "lat":"37.8114771",
+        "lng":"-122.2627643",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"41",
+        "company_name":"Natera",
+        "location":"San Carlos, CA 94070",
+        "address":"201 Industrial Rd, San Carlos, CA 94070, USA",
+        "lat":"37.5192701",
+        "lng":"-122.2641319",
+        "rating":"4.4"
+    },
+    {
+        "company_id":"42",
+        "company_name":"Cumming Corporation",
+        "location":"San Francisco, CA 94111",
+        "address":"475 Sansome St # 700, San Francisco, CA 94111, USA",
+        "lat":"37.7946714",
+        "lng":"-122.4018175",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"44",
+        "company_name":"Arterys",
+        "location":"San Francisco, CA",
+        "address":"51 Federal St #305, San Francisco, CA 94107, USA",
+        "lat":"37.783505",
+        "lng":"-122.391728",
+        "rating":"4.6"
+    },
+    {
+        "company_id":"47",
+        "company_name":"Komodo Health",
+        "location":"San Francisco, CA",
+        "address":"680 Folsom St 5th Floor, San Francisco, CA 94107, USA",
+        "lat":"37.7847556",
+        "lng":"-122.3993783",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"48",
+        "company_name":"Pantheon",
+        "location":"San Francisco, CA",
+        "address":"717 California St Floor 2, San Francisco, CA 94108, USA",
+        "lat":"37.7922304",
+        "lng":"-122.4061408",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"49",
+        "company_name":"IBM",
+        "location":"Emeryville, CA 94662",
+        "address":"6001 Shellmound St Suite 300, Emeryville, CA 94608, USA",
+        "lat":"37.8418928",
+        "lng":"-122.2938369",
+        "rating":"4.5"
+    },
+    {
+        "company_id":"50",
+        "company_name":"BitTorrent Inc.",
+        "location":"San Francisco, CA 94107",
+        "address":"301 Howard St Floor 20, San Francisco, CA 94105, USA",
+        "lat":"37.7895408",
+        "lng":"-122.394228",
+        "rating":"4.6"
+    },
+    {
+        "company_id":"51",
+        "company_name":"Tron",
+        "location":"San Francisco, CA",
+        "address":"301 Howard St Fl 20, San Francisco, CA 94105, USA",
+        "lat":"37.7895408",
+        "lng":"-122.394228",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"53",
+        "company_name":"SAP",
+        "location":"South San Francisco, CA",
+        "address":"1 Tower Pl #1100, South San Francisco, CA 94080, USA",
+        "lat":"37.6664341",
+        "lng":"-122.3978736",
+        "rating":"4.6"
+    },
+    {
+        "company_id":"55",
+        "company_name":"Gap Inc.",
+        "location":"San Francisco, CA",
+        "address":"2 Folsom St, San Francisco, CA 94105, USA",
+        "lat":"37.7906941",
+        "lng":"-122.3910195",
+        "rating":"4.3"
+    },
+    {
+        "company_id":"56",
+        "company_name":"Uber",
+        "location":"San Francisco, CA 94103",
+        "address":"1455 Market St #400, San Francisco, CA 94103, USA",
+        "lat":"37.7756852",
+        "lng":"-122.4179707",
+        "rating":"2.3"
+    },
+    {
+        "company_id":"58",
+        "company_name":"WeWork",
+        "location":"San Francisco, CA",
+        "address":"600 California St, San Francisco, CA 94108, USA",
+        "lat":"37.7929216",
+        "lng":"-122.4047371",
+        "rating":"4.8"
+    },
+    {
+        "company_id":"60",
+        "company_name":"Rodan and Fields, LLC",
+        "location":"San Ramon, CA",
+        "address":"2600 Camino Ramon, San Ramon, CA 94583, USA",
+        "lat":"37.7657415",
+        "lng":"-121.9630754",
+        "rating":"4.8"
+    },
+    {
+        "company_id":"59",
+        "company_name":"Brave Software Inc.",
+        "location":"San Francisco, CA",
+        "address":"512 2nd St, San Francisco, CA 94107, USA",
+        "lat":"37.7828196",
+        "lng":"-122.3935839",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"64",
+        "company_name":"MANTICORE GAMES",
+        "location":"San Mateo, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"62",
+        "company_name":"SmartBiz Loans",
+        "location":"San Francisco, CA 94104",
+        "address":"417 Montgomery St, San Francisco, CA 94104, USA",
+        "lat":"37.7933978",
+        "lng":"-122.4032278",
+        "rating":"4.4"
+    },
+    {
+        "company_id":"63",
+        "company_name":"Cruise Automation",
+        "location":"San Francisco, CA",
+        "address":"1201 Bryant St, San Francisco, CA 94103, USA",
+        "lat":"37.7698681",
+        "lng":"-122.409789",
+        "rating":"4.0"
+    },
+    {
+        "company_id":"65",
+        "company_name":"OSIsoft",
+        "location":"San Leandro, CA",
+        "address":"1600 Alvarado St, San Leandro, CA 94577, USA",
+        "lat":"37.7211861",
+        "lng":"-122.1617994",
+        "rating":"4.9"
+    },
+    {
+        "company_id":"66",
+        "company_name":"UJET",
+        "location":"San Francisco, CA",
+        "address":"201 3rd St, San Francisco, CA 94103, USA",
+        "lat":"37.7850675",
+        "lng":"-122.3998681",
+        "rating":"2.8"
+    },
+    {
+        "company_id":"67",
+        "company_name":"Levi Strauss & Co.",
+        "location":"San Francisco, CA 94111",
+        "address":"1155 Battery St, San Francisco, CA 94111, USA",
+        "lat":"37.801791",
+        "lng":"-122.402309",
+        "rating":"3.1"
+    },
+    {
+        "company_id":"68",
+        "company_name":"TigerGraph",
+        "location":"Redwood City, CA",
+        "address":"3 Twin Dolphin Dr Suite 225, Redwood City, CA 94065, USA",
+        "lat":"37.526858",
+        "lng":"-122.2627745",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"71",
+        "company_name":"Disney Streaming Services",
+        "location":"San Francisco, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"73",
+        "company_name":"Lyte",
+        "location":"San Francisco, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"70",
+        "company_name":"Genentech",
+        "location":"South San Francisco, CA 94083",
+        "address":"611 Gateway Blvd, South San Francisco, CA 94080, USA",
+        "lat":"37.6586897",
+        "lng":"-122.4001359",
+        "rating":"4.0"
+    },
+    {
+        "company_id":"72",
+        "company_name":"Guidebook",
+        "location":"San Francisco, CA 94107",
+        "address":"340 Bryant St, San Francisco, CA 94107, USA",
+        "lat":"37.7841463",
+        "lng":"-122.3927201",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"74",
+        "company_name":"JP Morgan Chase",
+        "location":"Redwood City, CA 94063",
+        "address":"2300 Broadway, Redwood City, CA 94063, USA",
+        "lat":"37.4867039",
+        "lng":"-122.2307412",
+        "rating":"2.8"
+    }
+]
