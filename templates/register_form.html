@@ -2,28 +2,11 @@
 {% block content %}
 <div class="well spaced" style="width:40%;">
   <h1>Sign Up</h1>
-  <form action="register" method="POST">
-    <div class="form-group">
-      <label>
-        Email
-        <input type="email" name="email" class="form-control">
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        Password
-        <input type="password" name="password" class="form-control">
-      </label>
-    </div>
-    <div class="form-group">
-      <label>
-        Zipcode
-        <input type="text" name="zipcode" class="form-control">
-      </label>
-    </div>
-    <div class="form-group">
-      <input type="submit" value="Sign Up!" class="btn btn-danger">
-    </div>
+  <form method="POST" action="/register">
+    <input type="text" name="email" placeholder="Email" />
+    <input type="password" name="password" placeholder="Password" />
+    <input type="text" name="zipcode" placeholder="Zipcode" />
+    <input type="submit" />
   </form>
 </div>
 {% endblock %}

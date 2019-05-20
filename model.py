@@ -14,7 +14,6 @@ class Job(db.Model):
     title = db.Column(db.String(120), nullable=False)
     company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=True)
     apply_url = db.Column(db.String(200), nullable=True)
-    is_active = db.Column(db.Boolean, default=True)
     description = db.Column(db.String(20000), nullable=True)
     indeed_url = db.Column(db.String(200), nullable=True)
     create_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -31,7 +30,38 @@ class Job(db.Model):
 
         return f"<Job job_id={self.job_id} title={self.title} company={self.to_company.company}>"
 
+    def __init__(self, title, company_id=None, unique_key=None, apply_url=None, description=None, indeed_url=None):
+        """Instantiate a Job."""
+        # Instantiate a job instance when user is manully adding a job info on his/her tracking board.
 
+        self.unique_key = unique_key
+        self.title = title
+        self.company_id = company_id
+        self.apply_url = apply_url
+        self.description = description
+        self.indeed_url = indeed_url
+
+    # Class method
+    def get_job_id(self):
+
+        return self.job_id
+
+    def get_attributes(self):
+
+        return {"title": self.title,
+                "description": self.description,
+                "apply_url": self.apply_url,
+                "company_name": self.to_company.company_name,
+                "rating": self.to_company.rating,
+                "lat": self.to_company.lat,
+                "lng": self.to_company.lng,
+                }
+    
+    def get_job_tags(self):
+        # need to add tag list query
+        pass
+        
+        
 class User(db.Model):
     """User of the website."""
 
@@ -45,6 +75,11 @@ class User(db.Model):
     is_googler = db.Column(db.Boolean, nullable=False, default=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=True)
+    
+    # Properties requred by flask_login
+    is_authenticated = db.Column(db.Boolean, nullable=False, default=False)
+    is_active = db.Column(db.Boolean, nullable=False, default=True)
+    is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
 
     # Define relationships
     to_tag = db.relationship("UserTag")
@@ -53,10 +88,31 @@ class User(db.Model):
     to_comment = db.relationship("Comment", secondary="user_jobs")
     to_avatar = db.relationship("Avatar")
 
+
     def __repr__(self):
         """Provide helpful representation when printed."""
 
         return f"<User user_id={self.user_id} email={self.email} zipcode={self.zipcode}>"
+
+    def __init__(self, email, password, user_name=None, zipcode=None, avatar_id=None):
+        """Instantiate a User."""
+
+        self.user_name = user_name
+        self.email = email
+        self.password = password
+        self.zipcode = zipcode
+        self.avatar_id = avatar_id
+
+    # Class methods
+    def is_password(self, password):
+        """Return true if stored password matches hash of given password."""
+
+        return self.password == password
+    
+    def get_id(self):
+        """Return unicode user_id."""
+
+        return self.user_id
 
 
 class Tag(db.Model):

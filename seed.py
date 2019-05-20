@@ -87,25 +87,6 @@ def load_jobs():
     print("Jobs loaded.")
 
 
-def load_job_tags():
-    """Load job tags from jobs.json into database."""
-
-    job_dict = json.load(open('seed_data/jobs.json'))
-
-    for j in job_dict:
-        j_id = db.session.query(Job.job_id).filter(Job.unique_key == j)
-        tags_list = job_dict[j]["tags"]
-        for t in tags_list:
-            t_id = db.session.query(Tag.tag_id).filter(Tag.tag_name == t)
-            jobtag = JobTag(job_id=j_id, tag_id=t_id)
-
-            db.session.add(jobtag)
-
-    db.session.commit()
-
-    print("Job tags loaded.")
-
-
 def load_tags():
     """Load tags from static.tag into database."""
 
@@ -124,6 +105,25 @@ def load_tags():
     db.session.commit()
 
     print("Tags loaded.")
+
+
+def load_job_tags():
+    """Load job tags from jobs.json into database."""
+
+    job_dict = json.load(open('seed_data/jobs.json'))
+
+    for j in job_dict:
+        j_id = db.session.query(Job.job_id).filter(Job.unique_key == j)
+        tags_list = job_dict[j]["tags"]
+        for t in tags_list:
+            t_id = db.session.query(Tag.tag_id).filter(Tag.tag_name == t)
+            jobtag = JobTag(job_id=j_id, tag_id=t_id)
+
+            db.session.add(jobtag)
+
+    db.session.commit()
+
+    print("Job tags loaded.")
 
 
 def set_val_job_id():

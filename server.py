@@ -1,7 +1,8 @@
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, session, jsonify
+from flask import Flask, render_template, request, flash, redirect, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, Job, User, Tag, JobTag, UserTag, UserJob, Comment, Company, Avatar
+from flask_login import LoginManager, login_user, login_required
 
 app = Flask(__name__)
 
@@ -11,6 +12,17 @@ app.secret_key = "TEMPKEY"
 # Raise an error if an undefined variable is in use.
 app.jinja_env.undefined = StrictUndefined
 
+# Configuration for login handling
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    """Requirement for flask_login."""
+
+    return User.query.get(user_id)
 
 
 @app.route("/")
@@ -20,20 +32,39 @@ def index():
     return render_template("homepage.html")
 
 
-@app.route("/search.json")
-def get_search_result_json():
-    """Job searching from database."""
+@app.route('/user/login', methods=['GET', 'POST'])
+def login():
+    """Display login form and handle logging in user."""
 
-    keyword = request.args.get('keyword')
-    search_result = Job.query.filter(Job.description.ilike(f'%{keyword}%')).all()
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
 
-    results = {}
-    for job in search_result:
-        results[job.job_id]= {"title": job.title,
-                              "company_name": job.to_company.company_name,
-                             }
+        user = User.query.filter(User.email == email).first()
 
-    return jsonify(results)
+        if user and user.is_password(password):
+            user.is_authenticated = True
+            login_user(user)
+
+            # need a login user page
+            return redirect('/')
+
+    return render_template('login_form.html')
+
+
+# @app.route("/search.json")
+# def get_search_result_json():
+#     """Job searching from database."""
+
+#     keyword = request.args.get('keyword')
+#     search_result = Job.query.filter(Job.description.ilike(f'%{keyword}%')).all()
+
+#     results = {}
+#     for job in search_result:
+#         job_id = job.get_job_id()
+#         results[job_id]= job.get_attributes()
+
+#     return jsonify(results)
 
 
 @app.route('/register', methods=['GET'])
@@ -61,37 +92,6 @@ def register_process():
     return redirect(f"/users/{new_user.user_id}")
 
 
-@app.route('/login', methods=['GET'])
-def login_form():
-    """Show login form."""
-
-    return render_template("login_form.html")
-
-
-@app.route('/login', methods=['POST'])
-def login_process():
-    """Process login."""
-
-    # Get form variables
-    email = request.form["email"]
-    password = request.form["password"]
-
-    user = User.query.filter_by(email=email).first()
-
-    if not user:
-        flash("No such user")
-        return redirect("/register")
-
-    if user.password != password:
-        flash("Incorrect password")
-        return redirect("/login")
-
-    session["user_id"] = user.user_id
-
-    flash("Logged in")
-    return redirect(f"/users/{user.user_id}")
-
-
 @app.route("/users/<int:user_id>", methods=['GET'])
 def user_detail(user_id):
     """Show info about user."""
@@ -114,40 +114,6 @@ def select_tag_process():
     tag_list.append(request.form.get("database"))
     tag_list.append(request.form.get("platform"))
 
-    """
-    call to ajax endpoint
-    URL(
-        base=localhost.
-        port=50000 # or1
-        /path/to/endpoint
-    ) = localhost
-
-    URL.addparameters({
-        key1=2,
-        key2=b
-    })
-
-    www.something.com/hello/world&key1=2?key2=b
-    
-    #&key1=2?key2=b are paramters
-
-    URL.addData("Some field or whatever")
-
-    response = URL.call()
-
-    # parse response data
-
-    "guidlines". Standards for what your API is doing
-    POST
-        add a tag
-    GET
-        get tags/job posting
-    DELETE
-    UPDATE/PUT (if you want to impress interviewers learn this diff because no one knows it :D)
-
-
-
-    """
     # Improvement needed: only add user_tag if the tag has not been added to this user. 
     for tag in tag_list:
         tag = Tag.query.filter(Tag.tag_name == tag).one()
