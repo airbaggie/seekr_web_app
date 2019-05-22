@@ -4,7 +4,7 @@ from flask_restful import Resource, Api
 from flask_cors import CORS
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app) 
 CORS(app)
 
 class Search_Result(Resource):
@@ -26,14 +26,21 @@ class Search_Result(Resource):
 api.add_resource(Search_Result, '/search')
 
 
+class Job_Detail(Resource):
+    def get(self):
+        """Job detail from database."""
+
+        key = request.args.get('key')
+        job = Job.query.get(key)
+
+        return jsonify(job.get_attributes())
+
+api.add_resource(Job_Detail, '/jobs')
+
 
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
 
-    # Do not debug for demo
-    app.debug = True
-
     connect_to_db(app)
-
     app.run(host="0.0.0.0", port=5001)

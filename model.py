@@ -16,7 +16,7 @@ class Job(db.Model):
     apply_url = db.Column(db.String(200), nullable=True)
     description = db.Column(db.String(20000), nullable=True)
     indeed_url = db.Column(db.String(200), nullable=True)
-    create_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     # Define relationships
     to_user = db.relationship("User", secondary="user_jobs")
@@ -40,22 +40,24 @@ class Job(db.Model):
         self.apply_url = apply_url
         self.description = description
         self.indeed_url = indeed_url
+    
+    def get_attributes(self):
+        """Return a dictionary representation of a job."""
+
+        return {
+                "title": self.title,
+                "company_name": self.to_company.company_name,
+                "apply_url = apply_url": self.apply_url,
+                "description": self.description,
+                "rating": self.to_company.rating,
+                "lat": self.to_company.lat,
+                "lng": self.to_company.lng,
+                }
 
     # Class method
     def get_job_id(self):
 
         return self.job_id
-
-    def get_attributes(self):
-
-        return {"title": self.title,
-                "description": self.description,
-                "apply_url": self.apply_url,
-                "company_name": self.to_company.company_name,
-                "rating": self.to_company.rating,
-                "lat": self.to_company.lat,
-                "lng": self.to_company.lng,
-                }
     
     def get_job_tags(self):
         # need to add tag list query

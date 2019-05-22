@@ -1,0 +1,7 @@
+#map-canvas {
+    min-width: 1000px;
+    width: 60%;
+    min-height: 700px;
+    height: 40%;
+    border: 1px solid grey;
+}

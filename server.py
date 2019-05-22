@@ -1,10 +1,14 @@
 from jinja2 import StrictUndefined
-from flask import Flask, render_template, request, flash, redirect, jsonify
+from flask import Flask, render_template, abort, make_response, request, flash, redirect, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, Job, User, Tag, JobTag, UserTag, UserJob, Comment, Company, Avatar
 from flask_login import LoginManager, login_user, login_required
+from flask_restful import Resource, Api
+from flask_cors import CORS
 
 app = Flask(__name__)
+api = Api(app) 
+CORS(app)
 
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "TEMPKEY"
@@ -16,6 +20,36 @@ app.jinja_env.undefined = StrictUndefined
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
+
+
+class Search_Result(Resource):
+    def get(self):
+        """Job searching from database."""
+
+        ### TODO: if login user ###
+
+        keyword = request.args.get('keyword')
+        search_result = Job.query.filter(Job.description.ilike(f'%{keyword}%')).all()
+        results = {}
+        for job in search_result:
+            job_id = job.get_job_id()
+            results[job_id]= job.get_attributes()
+
+        return jsonify(results)
+
+api.add_resource(Search_Result, '/search')
+
+
+class Job_Detail(Resource):
+    def get(self):
+        """Job detail from database."""
+
+        key = request.args.get('key')
+        job = Job.query.get(key)
+
+        return jsonify(job.get_attributes())
+
+api.add_resource(Job_Detail, '/jobs')
 
 
 @login_manager.user_loader
@@ -30,6 +64,22 @@ def index():
     """Homepage."""
 
     return render_template("homepage.html")
+
+
+# @app.route("/job/<int:job_id>", methods=['GET'])
+# def job_detail(job_id):
+#     """Show info about job."""
+
+#     job = Job.query.get(job_id)
+#     job_info = job.get_attributes()
+
+#     return render_template("job_detail.html", job=job_info)
+
+
+@app.route("/map")
+def view_on_map():
+
+    return render_template("map.html")
 
 
 @app.route('/user/login', methods=['GET', 'POST'])

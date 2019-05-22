@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block body %}
 <br>
 <div class="well spaced" style="width:97%">
   <h2>Welcome, {{ user.email }} !</h2>
@@ -8,92 +8,7 @@
     <p style="color:blue">Email: {{ user.email }}</p>
     <p style="color:blue">Zipcode: {{ user.zipcode }}</p>
   </b>
-  <!-- <div class="user-tags">
-    <ul>
-      {% for user-tag in user-tags %}
-      <span class="badge badge-light">{{ user-tag }}</span>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <form action="/select_tag" method="POST">
-  <div class="well spaced" style="width:40%;">
-    <p>Language</p>
-    <select multiple name="language">
-      <option value="JavaScript">JavaScript</option>
-      <option value="HTML">HTML</option>
-      <option value="CSS">CSS</option>
-      <option value="Java">Java</option>
-      <option value="Bash">Bash</option>
-      <option value="Python">Python</option>
-      <option value="C#">C#</option>
-      <option value="PHP">PHP</option>
-      <option value="C++">C++</option>
-      <option value="C">C</option>
-      <option value="TypeScript">TypeScript</option>
-      <option value="Ruby">Ruby</option>
-      <option value="Swift">Swift</option>
-      <option value="Assembly">Assembly</option>
-      <option value="Go">Go</option>
-      <option value="Objective-C">Objective-C</option>
-      <option value="R">R</option>
-      <option value="Kotlin">Kotlin</option>
-      <option value="Scala">Scala</option>
-      <option value="Groovy">Groovy</option>
-      <option value="Perl">Perl</option>
-    </select>
-
-    <p>Framework, Library, Tool</p>
-    <select multiple name="framework">
-      <option value="Node.js">Node.js</option>
-      <option value="Angular">Angular</option>
-      <option value="React">React</option>
-      <option value=".NET">.NET</option>
-      <option value="Spring">Spring</option>
-      <option value="Django">Django</option>
-      <option value="TensorFlow">TensorFlow</option>
-      <option value="Flask">Flask</option>
-      <option value="Xamarin">Xamarin</option>
-      <option value="Spark">Spark</option>
-      <option value="Hadoop">Hadoop</option>
-      <option value="PyTorch">PyTorch</option>
-    </select>
-
-    <p>Database</p>
-    <select multiple name="database">
-      <option value="MySQL">MySQL</option>
-      <option value="SQL">SQL</option>
-      <option value="PostgreSQL">PostgreSQL</option>
-      <option value="MongoDB">MongoDB</option>
-      <option value="SQLite">SQLite</option>
-      <option value="Redis">Redis</option>
-      <option value="Elasticsearch">Elasticsearch</option>
-      <option value="MariaDB">MariaDB</option>
-      <option value="Oracle">Oracle</option>
-      <option value="Memcached">M
-      <option value="DynamoDB">DynamoDB</option>
-      <option value="RDS">RDS</option>
-      <option value="Cassandra">Cassandra</option>
-    </select>
-
-    <p>Platform</p>
-    <select multiple name="platform">
-      <option value="Linux">Linux</option>
-      <option value="Android">Android</option>
-      <option value="AWS">AWS</option>
-      <option value="Mac">Mac</option>
-      <option value="WordPress">WordPress</option>
-      <option value="iOS">iOS</option>
-      <option value="Firebase">Firebase</option>
-      <option value="Azure">Azure</option>
-      <option value="Heroku">Heroku</option>
-    </select>
-
-    <div class="form-group">
-      <input type="submit" value="Add Tag" class="btn btn-danger">
-    </div>
-  </div>
-  </form> -->
-
 </div>
+<script src="/static/js/user.js"></script>
+
 {% endblock %}
