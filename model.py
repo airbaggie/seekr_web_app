@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 import datetime
 
 db = SQLAlchemy()
@@ -45,26 +46,22 @@ class Job(db.Model):
         """Return a dictionary representation of a job."""
 
         return {
+                "job_id": self.job_id,
                 "title": self.title,
                 "company_name": self.to_company.company_name,
-                "apply_url = apply_url": self.apply_url,
+                "apply_url": self.apply_url,
                 "description": self.description,
                 "rating": self.to_company.rating,
                 "lat": self.to_company.lat,
                 "lng": self.to_company.lng,
                 }
-
-    # Class method
-    def get_job_id(self):
-
-        return self.job_id
     
     def get_job_tags(self):
         # need to add tag list query
         pass
         
         
-class User(db.Model):
+class User(UserMixin, db.Model):
     """User of the website."""
 
     __tablename__ = "users"
@@ -79,9 +76,9 @@ class User(db.Model):
     avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=True)
     
     # Properties requred by flask_login
-    is_authenticated = db.Column(db.Boolean, nullable=False, default=False)
-    is_active = db.Column(db.Boolean, nullable=False, default=True)
-    is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
+    # is_authenticated = db.Column(db.Boolean, nullable=False, default=False)
+    # is_active = db.Column(db.Boolean, nullable=False, default=True)
+    # is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
 
     # Define relationships
     to_tag = db.relationship("UserTag")
@@ -111,10 +108,10 @@ class User(db.Model):
 
         return self.password == password
     
-    def get_id(self):
-        """Return unicode user_id."""
+    # def get_id(self):
+    #     """Return unicode user_id."""
 
-        return self.user_id
+    #     return self.user_id
 
 
 class Tag(db.Model):
