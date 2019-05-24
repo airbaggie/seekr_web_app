@@ -1,15 +1,14 @@
 "use strict";
 
 
-class JobModal extends React.Component {
+class JobDetail extends React.Component {
     constructor(props, context) {
         super(props, context);
     
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSave = this.handleSave.bind(this);
-        this.handleTags = this.handleTags.bind(this);
-        this.handleApply = this.handleApply.bind(this);
+        this.redirectApplication = this.redirectApplication.bind(this);
     
         this.state = {
             show: false,
@@ -30,39 +29,41 @@ class JobModal extends React.Component {
         // props.user_id (called id in database)
     }
 
-    handleApply() {
-        window.open(`${props.rating}`);
-    }
-
-    handleTags() {
-        job_tags = []
-
-        for (const tag of props.tags) {
-            // props.tag should be list of tag strings
-            job_tags.push(<span>{tag}</span>);
-        }
-        return <div className="jobtag">{job_tags}</div>;
+    redirectApplication() {
+        window.open(`${this.props.apply_url}`);
     }
   
     render() {
+        const Modal = ReactBootstrap.Modal;
+        const Button = ReactBootstrap.Button;
+
+        const job_tags = []
+        for (const tag of this.props.tags) {
+            job_tags.push(<Button variant="outline-info">{tag}</Button>);
+        }
+
         return (
-            <div key={props.job_id}>
+            <div key={this.props.job_id}>
                 <Button variant="primary" onClick={this.handleShow}>
                     View Details
                 </Button>
         
-                <Modal show={this.state.show} onHide={this.handleClose}>
+                <Modal show={this.state.show}
+                       onHide={this.handleClose}
+                       size="lg"
+                       aria-labelledby="contained-modal-title-vcenter"
+                       centered>
                     <Modal.Header closeButton>
-                    <Modal.Title>{props.job_title}</Modal.Title>
+                    <Modal.Title key={this.props.job_id}>{this.props.title}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{props.company_name}{props.rating}{props.description}</Modal.Body>
-                    { this.handleTags() }
+                    <Modal.Body>{this.props.company_name}{this.props.rating}{this.props.description}</Modal.Body>
+                    <div className="jobtag">{job_tags}</div>
                     <Modal.Footer>
+                    <Button variant="link" onClick={this.redirectApplication}>
+                        Apply
+                    </Button>
                     <Button variant="primary" onClick={this.handleSave}>
                         Save
-                    </Button>
-                    <Button variant="secondary" onClick={this.handleApply}>
-                        Apply
                     </Button>
                     <Button variant="secondary" onClick={this.handleClose}>
                         Close
@@ -75,15 +76,33 @@ class JobModal extends React.Component {
 }
 
 
-function JobCard(props) {
-
+function JobBriefInfo(props) {
     return (
         <div key={props.job_id}>
-            <p>{props.title}</p>
+            <p >{props.title}</p>
             <p>{props.company_name} {props.rating}</p>
         </div>
     )
 };
+
+
+function JobCard(props) {
+    return (
+        <div key={props.job_id}>
+            <JobBriefInfo job_id={props.job_id} 
+                    title={props.title} 
+                    company_name={props.company_name} 
+                    rating={props.rating} />
+            <JobDetail job_id={props.job_id}
+                    title={props.title}
+                    company_name={props.company_name} 
+                    rating={props.rating}
+                    description={props.description} 
+                    apply_url={props.apply_url}
+                    tags={["python", "react"]} />
+        </div>
+    )
+}
 
 
 class JobSearch extends React.Component {
@@ -97,20 +116,20 @@ class JobSearch extends React.Component {
             log_in_user: false,
         };
 
-        this.handleKeyword = this.handleKeyword.bind(this);
-        this.handleMapview = this.handleMapview.bind(this);
-        this.displayResults = this.displayResults.bind(this);
         this.handleKeywordChange = this.handleKeywordChange.bind(this);
         this.handleViewChange = this.handleViewChange.bind(this);
         this.handleSearchResult = this.handleSearchResult.bind(this);
-        this.displayInList = this.displayInList.bind(this);
+        this.displayResults = this.displayResults.bind(this);
     }
 
 
     handleKeywordChange = (evt) => {
         this.setState({ keyword: evt.target.value });
-        };
+    };
 
+    handleViewChange = (evt) => {
+        this.setState({ mapview: evt.target.checked });
+    };
 
     handleSearchResult (evt) {
         evt.preventDefault();
@@ -122,17 +141,23 @@ class JobSearch extends React.Component {
             });
     }
 
-    displayInList() {
-        job_cards = [];
+    // where should I call this function?
+    displayResults() {
+        if (!this.state.mapview) {
+            return <div className="jobcards">{job_cards}</div>
+        }
+        else {
+            return <p>Map View is comming soon!</p>
+        }
+    }
+
+    render() {
+        const job_cards = [];
 
         for (const job of this.state.results) {
             job_cards.push(
                 <div key={job.job_id}>
-                    <JobCard job_id={job.job_id} 
-                            title={job.title} 
-                            company_name={job.company_name} 
-                            rating={job.rating} />
-                    <JobModal job_id={job.job_id}
+                    <JobCard job_id={job.job_id}
                             title={job.title}
                             company_name={job.company_name} 
                             rating={job.rating}
@@ -142,69 +167,34 @@ class JobSearch extends React.Component {
                 </div>
             );
         }
-        return <div className="jobcards">{job_cards}</div>;
-    }
-
-
-    displayResults() {
-        if (!this.state.mapview) {
-            {this.displayInList}
-        }
-        else {
-            return <p>Map View is comming soon!</p>
-        }
-    }
-    
-
-    handleKeyword() {
         return (
-            <form>
-            <input
-                type="text"
-                id="keyword-field"
-                name="keyword"
-                className="form-control mr-sm-2"
-                value={this.state.keyword}
-                onChange={this.handleKeywordChange}
-                placeholder="Search by keywords"
-                />
-            <button
-                className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
-                onClick={this.handleSearchResult}>Search</button>
-            </form>
-        )
-    }
-    
-
-    // handles the change of this.state.mapview
-    handleViewChange = (evt) => {
-        this.setState({ mapview: evt.target.checked });
-        };
-
-
-    handleMapview() {
-        return (
-            <label>
+            <div className="job-search">
+                <form>
+                    <input
+                        type="text"
+                        id="keyword-field"
+                        name="keyword"
+                        className="form-control mr-sm-2"
+                        value={this.state.keyword}
+                        onChange={this.handleKeywordChange}
+                        placeholder="Search by keywords"
+                        />
+                    <button
+                        className="btn btn-outline-success my-2 my-sm-0"
+                        type="submit"
+                        onClick={this.handleSearchResult}>Search</button>
+                </form>
+                <label>
                 <input
                     type="checkbox"
                     checked={this.state.mapview}
                     onChange={this.handleViewChange}
                     />
-                Map View
-            </label>
-        )
-    };
-
-
-    render() {
-        return (
-        <div className="job-search">
-            { this.handleKeyword() }
-            { this.handleMapview() }
-            { this.displayResults() }
-        </div>
-        )
+                    Map View
+                </label>
+                <div className="jobcards">{job_cards}</div>
+            </div>
+        );
     }
 };
 
@@ -212,6 +202,14 @@ ReactDOM.render(
     <JobSearch results />,
     document.getElementById("root")
 );
+
+
+// document.addEventListener('load', () => {
+    
+
+//     const Alert = ReactBootsta
+// });
+
 
 
 
