@@ -66,12 +66,11 @@ class User(UserMixin, db.Model):
 
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_name = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(20), nullable=False)
     zipcode = db.Column(db.String(50), nullable=True)
-    is_googler = db.Column(db.Boolean, nullable=False, default=False)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=True)
     
@@ -91,7 +90,7 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<User user_id={self.user_id} email={self.email} zipcode={self.zipcode}>"
+        return f"<User id={self.id} email={self.email} zipcode={self.zipcode}>"
 
     def __init__(self, email, password, user_name=None, zipcode=None, avatar_id=None):
         """Instantiate a User."""
@@ -109,9 +108,9 @@ class User(UserMixin, db.Model):
         return self.password == password
     
     # def get_id(self):
-    #     """Return unicode user_id."""
+    #     """Return unicode id."""
 
-    #     return self.user_id
+    #     return self.id
 
 
 class Tag(db.Model):
@@ -154,6 +153,9 @@ class JobTag(db.Model):
 
         return f"<JobTag job_tag_id={self.job_tag_id} title={self.to_job.title} tag_name={self.to_tag.tag_name}>"
 
+    def get_tag_name(self):
+
+        return self.to_tag.tag_name
 
 class UserTag(db.Model):
     """Associate table which connects users and tags tables. Tag/keyword of a user."""
@@ -161,7 +163,7 @@ class UserTag(db.Model):
     __tablename__ = "user_tags"
 
     user_tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False)
 
     # Define relationships
@@ -180,7 +182,7 @@ class UserJob(db.Model):
     __tablename__ = "user_jobs"
 
     user_job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
     status = db.Column(db.String, nullable=False, default = "Saved")
     decision = db.Column(db.String, nullable=False, default = "Unknown")

@@ -1,22 +1,14 @@
 {% extends 'base.html' %}
 
-{% block head %}
-<ul class="navbar-nav mr-auto">
-  <li id="signin" class="nav-item">
-    <a class="nav-link" href="/user/login">Log in<span class="sr-only">(current)</span></a>
-  </li>
-  <li id="signup" class="nav-item">
-    <a class="nav-link" href="/signup">Sign up<span class="sr-only">(current)</span></a>
-  </li>
-</ul>
-{% endblock %}
-
 {% if current_user.is_authenticated %}
   Hi {{ current_user.name }}!
 {% endif %}
 
-{% block body %}
 <div id="root"></div>
+
+{% block body %}
+{% endblock %}
+
 <!-- <form id="search-form" class="form-inline">
   <input class="form-control mr-sm-2" type="text" name="keyword" id="keyword-field" placeholder="title, company, skill etc.">
   <span class="input-group-btn">
@@ -32,5 +24,3 @@
 <div id="search-results"></div>
 <div id="map-canvas"></div>
 <div id="modal"></div> -->
-
-{% endblock %}
