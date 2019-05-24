@@ -69,7 +69,7 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_name = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(20), nullable=False)
+    hashed_password = db.Column(db.BigInteger, nullable=False)
     zipcode = db.Column(db.String(50), nullable=True)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=True)
@@ -92,26 +92,18 @@ class User(UserMixin, db.Model):
 
         return f"<User id={self.id} email={self.email} zipcode={self.zipcode}>"
 
-    def __init__(self, email, password, user_name=None, zipcode=None, avatar_id=None):
+    def __init__(self, email, hashed_password):
         """Instantiate a User."""
 
-        self.user_name = user_name
         self.email = email
-        self.password = password
-        self.zipcode = zipcode
-        self.avatar_id = avatar_id
+        self.hashed_password = hashed_password
 
     # Class methods
-    def is_password(self, password):
+    def is_hashed_password(self, password):
         """Return true if stored password matches hash of given password."""
 
-        return self.password == password
+        return self.hashed_password == hash(password)
     
-    # def get_id(self):
-    #     """Return unicode id."""
-
-    #     return self.id
-
 
 class Tag(db.Model):
     """Available tag/keywords for a job post and user profile."""
@@ -199,6 +191,12 @@ class UserJob(db.Model):
     #   On-site Scheduled / On-site Completed / Decision Made
     # Decisions: 
     #   Unknown / Closed / Withdrawn / Offered / Unselected
+
+    def __init__(self, user_id, job_id):
+        """Instantiate a UserJob."""
+
+        self.user_id = user_id
+        self.job_id = job_id
 
 
 class Comment(db.Model):

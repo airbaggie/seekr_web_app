@@ -64,6 +64,12 @@ class Job_Tags(Resource):
 api.add_resource(Job_Tags, '/tags')
 
 
+class User_Jobs(Resource):
+    def post(self):
+        """Add new UserJob instance in user_jobs table."""
+
+
+
 
 ################# WEB ROUTES #################
 
@@ -86,7 +92,7 @@ def login():
         password = request.form.get('password')
         user = User.query.filter(User.email == email).first()
 
-        if user and user.is_password(password):
+        if user and user.is_hashed_password(password):
             login_user(user)
             return redirect(f"/user/{user.id}")
 
@@ -103,14 +109,14 @@ def sign_up():
     if request.method == 'POST':
         email = request.form["email"]
         password = request.form["password"]
-        zipcode = request.form["zipcode"]
+        # zipcode = request.form["zipcode"]
         user = User.query.filter(User.email == email).first()
 
         if user:
             return redirect('/login')
         
         else:
-            new_user = User(email=email, password=password, zipcode=zipcode)
+            new_user = User(email, hash(password))
             db.session.add(new_user)
             db.session.commit()
             return redirect('/login')

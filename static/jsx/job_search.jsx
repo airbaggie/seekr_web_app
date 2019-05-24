@@ -8,25 +8,37 @@ class JobDetail extends React.Component {
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.fetchTags = this.fetchTags.bind(this);
         this.redirectApplication = this.redirectApplication.bind(this);
     
         this.state = {
             show: false,
+            tags: [],
             // add user log in(?) boolean
         };
     }
   
-    handleClose() {
+    handleClose(evt) {
         this.setState({ show: false });
     }
   
-    handleShow() {
+    handleShow(evt) {
         this.setState({ show: true });
     }
 
-    handleSave() {
+    handleSave(evt) {
         // post userid, job_id to UserJob tables
         // props.user_id (called id in database)
+    }
+
+    fetchTags (evt) {
+        evt.preventDefault();
+
+        fetch(`/tags?key=${this.props.job_id}`)
+            .then(res => res.json())
+            .then(data => { 
+                this.setState({ tags: data });
+            });
     }
 
     redirectApplication() {
@@ -36,15 +48,19 @@ class JobDetail extends React.Component {
     render() {
         const Modal = ReactBootstrap.Modal;
         const Button = ReactBootstrap.Button;
+        const Badge = ReactBootstrap.Badge;
 
         const job_tags = []
-        for (const tag of this.props.tags) {
-            job_tags.push(<Button variant="outline-info">{tag}</Button>);
+        for (const tag of this.state.tags) {
+            job_tags.push(<Badge variant="secondary">{tag}</Badge>);
         }
 
         return (
             <div key={this.props.job_id}>
-                <Button variant="primary" onClick={this.handleShow}>
+                <Button variant="primary" onClick={(evt) => {
+                                                    this.handleShow(evt);
+                                                    this.fetchTags(evt);
+                                                    }}>
                     View Details
                 </Button>
         
@@ -54,10 +70,15 @@ class JobDetail extends React.Component {
                        aria-labelledby="contained-modal-title-vcenter"
                        centered>
                     <Modal.Header closeButton>
-                    <Modal.Title key={this.props.job_id}>{this.props.title}</Modal.Title>
+                    <Modal.Title key={this.props.job_id}>
+                        <div>
+                            <h3>{this.props.title}</h3>
+                            <h5>{this.props.company_name}{this.props.rating}</h5>
+                        </div>
+                    </Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>{this.props.company_name}{this.props.rating}{this.props.description}</Modal.Body>
                     <div className="jobtag">{job_tags}</div>
+                    <Modal.Body>{this.props.description}</Modal.Body>
                     <Modal.Footer>
                     <Button variant="link" onClick={this.redirectApplication}>
                         Apply
@@ -77,9 +98,15 @@ class JobDetail extends React.Component {
 
 
 function JobBriefInfo(props) {
+    const style={margin: '10px',
+                 width: '550px',
+                 borderRadius: '20px',
+                 backgroundColor: '#DFE8D1',
+                };
+
     return (
         <div key={props.job_id}>
-            <p >{props.title}</p>
+            <p>{props.title}</p>
             <p>{props.company_name} {props.rating}</p>
         </div>
     )
@@ -87,19 +114,19 @@ function JobBriefInfo(props) {
 
 
 function JobCard(props) {
+
     return (
         <div key={props.job_id}>
             <JobBriefInfo job_id={props.job_id} 
                     title={props.title} 
                     company_name={props.company_name} 
-                    rating={props.rating} />
+                    rating={props.rating}/>
             <JobDetail job_id={props.job_id}
                     title={props.title}
                     company_name={props.company_name} 
                     rating={props.rating}
                     description={props.description} 
-                    apply_url={props.apply_url}
-                    tags={["python", "react"]} />
+                    apply_url={props.apply_url}/>
         </div>
     )
 }
@@ -118,7 +145,7 @@ class JobSearch extends React.Component {
 
         this.handleKeywordChange = this.handleKeywordChange.bind(this);
         this.handleViewChange = this.handleViewChange.bind(this);
-        this.handleSearchResult = this.handleSearchResult.bind(this);
+        this.fetchSearchingResult = this.fetchSearchingResult.bind(this);
         this.displayResults = this.displayResults.bind(this);
     }
 
@@ -131,7 +158,7 @@ class JobSearch extends React.Component {
         this.setState({ mapview: evt.target.checked });
     };
 
-    handleSearchResult (evt) {
+    fetchSearchingResult (evt) {
         evt.preventDefault();
 
         fetch(`/search?keyword=${this.state.keyword}`)
@@ -182,7 +209,7 @@ class JobSearch extends React.Component {
                     <button
                         className="btn btn-outline-success my-2 my-sm-0"
                         type="submit"
-                        onClick={this.handleSearchResult}>Search</button>
+                        onClick={this.fetchSearchingResult}>Search</button>
                 </form>
                 <label>
                 <input
