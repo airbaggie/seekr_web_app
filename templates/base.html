@@ -28,12 +28,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/">Jobs <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="/">Search <span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/myboard">My Board</a>
-          </li>
+        </ul>
 
+          
+        <ul class="nav justify-content-end">
           {% if current_user.is_anonymous %}
           <li class="nav-item">
             <a class="nav-link" href="/signup">Sign up</a>
@@ -43,16 +43,17 @@
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="/">My Profile</a>
-
-            <!-- should redirect to /user/current_user.id -->
-            
+            <a class="nav-link" href="/myboard">My Jobs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/{{ current_user.id }}">My Profile</a>            
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/logout">Log out</a>
           </li>
           {% endif %}
         </ul>
+
       </div>
     </nav>
 

@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -69,16 +70,11 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_name = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(50), nullable=False)
-    hashed_password = db.Column(db.BigInteger, nullable=False)
+    pw_hash = db.Column(db.String(256), nullable=False)
     zipcode = db.Column(db.String(50), nullable=True)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=True)
     
-    # Properties requred by flask_login
-    # is_authenticated = db.Column(db.Boolean, nullable=False, default=False)
-    # is_active = db.Column(db.Boolean, nullable=False, default=True)
-    # is_anonymous = db.Column(db.Boolean, nullable=False, default=False)
-
     # Define relationships
     to_tag = db.relationship("UserTag")
     to_job = db.relationship("Job", secondary="user_jobs")
@@ -92,17 +88,26 @@ class User(UserMixin, db.Model):
 
         return f"<User id={self.id} email={self.email} zipcode={self.zipcode}>"
 
-    def __init__(self, email, hashed_password):
+    def __init__(self, email, password):
         """Instantiate a User."""
 
         self.email = email
-        self.hashed_password = hashed_password
+        self.set_password(password)
 
-    # Class methods
-    def is_hashed_password(self, password):
+    def set_password(self, password):
+        """Set user password."""
+
+        self.pw_hash = generate_password_hash(password)
+
+    def check_password(self, password):
         """Return true if stored password matches hash of given password."""
 
-        return self.hashed_password == hash(password)
+        return check_password_hash(self.pw_hash, password)
+    
+    # def is_hashed_password(self, password):
+    #     """Return true if stored password matches hash of given password."""
+
+    #     return self.hashed_password == hash(password)
     
 
 class Tag(db.Model):

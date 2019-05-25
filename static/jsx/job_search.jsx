@@ -78,7 +78,9 @@ class JobDetail extends React.Component {
                     </Modal.Title>
                     </Modal.Header>
                     <div className="jobtag">{job_tags}</div>
-                    <Modal.Body>{this.props.description}</Modal.Body>
+                    <Modal.Body>{this.props.description.split('\n').map((item, key) => {
+                                return <span key={key}>{item}<br/></span>})}
+                    </Modal.Body>
                     <Modal.Footer>
                     <Button variant="link" onClick={this.redirectApplication}>
                         Apply

@@ -84,17 +84,23 @@ def index():
 def login():
     """Display login form and handle logging in user."""
 
-    if current_user.is_authenticated:
-        return redirect("/")
+    # if current_user.is_authenticated():
+    #     return redirect("/")
 
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
         user = User.query.filter(User.email == email).first()
+        print(user)
 
-        if user and user.is_hashed_password(password):
-            login_user(user)
-            return redirect(f"/user/{user.id}")
+        if user:
+            if user.check_password(password):
+                login_user(user)
+                print('pass')
+                return redirect(f"/user/{user.id}")
+        
+        else:
+                return redirect('/signup')
 
     return render_template('login.html')
 
@@ -103,8 +109,8 @@ def login():
 def sign_up():
     """Show form for user signup."""
 
-    if current_user.is_authenticated:
-        return redirect("/")
+    # if current_user.is_authenticated:
+    #     return redirect("/")
 
     if request.method == 'POST':
         email = request.form["email"]
@@ -116,7 +122,7 @@ def sign_up():
             return redirect('/login')
         
         else:
-            new_user = User(email, hash(password))
+            new_user = User(email, password)
             db.session.add(new_user)
             db.session.commit()
             return redirect('/login')
@@ -141,11 +147,10 @@ def view_my_dashboard():
 
 
 @app.route('/logout')
-@login_required
+# @login_required
 def logout():
     logout_user()
     return redirect("/")
-
 
 
 if __name__ == "__main__":
