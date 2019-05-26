@@ -65,6 +65,22 @@ class Job_Tags(Resource):
 api.add_resource(Job_Tags, '/tags')
 
 
+class User_Jobs(Resource):
+    def get(self):
+        """User jobs from database."""
+
+        key = current_user.get_id()
+        search_result = UserJob.query.filter(UserJob.user_id == f'{key}').all()
+        results = []
+        
+        for user_job in search_result:
+            results.append(user_job.to_job.get_attributes())
+
+        return jsonify(results)
+
+api.add_resource(User_Jobs, '/userjobs')
+
+
 
 ################# WEB ROUTES #################
 
@@ -125,6 +141,7 @@ def user_detail(id):
 
 
 @app.route('/api/userjobs', methods=['POST'])
+@login_required
 def save_job():
     """Update database when user saves a job."""
 
@@ -138,16 +155,49 @@ def save_job():
         # check if user has already saved this job
         # only add unsaved job to database
         if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
-            return jsonify('You have saved this job already.')
+            message = 'You have saved this job already.'
 
         else:
             new_user_job = UserJob(user_id, job_id)
             db.session.add(new_user_job)
             db.session.commit()
-            return jsonify('Job added!')
+            message = 'Job added succesfully'
 
     else:
-        return jsonify('Please login to save this job.')
+        message = 'Please login to save this job.'
+
+    return message
+
+
+@app.route('/api/remove', methods=['DELETE'])
+@login_required
+def remove_job():
+    """Delete a user saved job from user_jobs table."""
+
+    # check if user is a login user
+    # only login user can save jobs
+    if current_user.is_active:
+
+        user_id = current_user.get_id()
+        job_id = request.form.get('job_id')
+
+        # check if user has already saved this job
+        # only add unsaved job to database
+        if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
+            UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).delete()
+            db.session.commit()
+            message = 'Job removed succesfully.'
+
+            print('removed')
+
+        else:
+            print('Job not found')
+
+    else:
+        message = 'Please login first.'
+        print('unlogin')
+    
+    return message
 
 
 # @app.route('/api/user_status', methods=['GET'])

@@ -1,13 +1,14 @@
 "use strict";
 
 
-class JobDetail extends React.Component {
+class JobModal extends React.Component {
     constructor(props, context) {
         super(props, context);
     
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        // this.displayAlert = this.displayAlert.bind(this);
         this.fetchTags = this.fetchTags.bind(this);
         this.redirectApplication = this.redirectApplication.bind(this);
     
@@ -15,32 +16,19 @@ class JobDetail extends React.Component {
             is_active: false,
             show: false,
             tags: [],
-            save: false,
+            // message: '',
         };
     }
 
-    // componentDidMount() {
-
-    //     console.log('mount!');
-
-    //     fetch('/api/user_status')
-    //         .then(res => res.json())
-    //         .then(data => { 
-    //             this.setState({ is_active: data });
-    //         });
-
-    //     console.log(this.state.is_active)
-    // }
-
-    handleClose(evt) {
+    handleClose = () => {
         this.setState({ show: false });
     }
   
-    handleShow(evt) {
+    handleShow = () => {
         this.setState({ show: true });
     }
 
-    handleSave(evt) {
+    handleSave = (evt) => {
         evt.preventDefault();
 
         const data = new FormData();                                 //formdata object
@@ -49,30 +37,25 @@ class JobDetail extends React.Component {
         fetch('/api/userjobs', {
             method: 'POST',
             body: data,
-            });
-            // .then(() => {
-            //     this.setState({ save: true });
-            // });
-        
-
-            // const Alert = ReactBootstrap.Alert;
-
-            // return (
-            //     <Alert variant='success'>Job saved!</Alert>
-            // )
+            })
     }
 
-    fetchTags (evt) {
+    // displayAlert(evt) {
+    //     const Alert = ReactBootstrap.Alert;
+    //     return <Alert variant='success'>{this.state.message}</Alert>
+    // }
+
+    fetchTags = (evt) => {
         evt.preventDefault();
 
         fetch(`/tags?key=${this.props.job_id}`)
             .then(res => res.json())
             .then(data => { 
                 this.setState({ tags: data });
-            });
+            })
     }
 
-    redirectApplication() {
+    redirectApplication = () => {
         window.open(`${this.props.apply_url}`);
     }
   
@@ -130,37 +113,24 @@ class JobDetail extends React.Component {
 }
 
 
-function JobBriefInfo(props) {
-    const style={margin: '10px',
-                 width: '550px',
-                 borderRadius: '20px',
-                 backgroundColor: '#DFE8D1',
-                };
-
-    return (
-        <div key={props.job_id}>
-            <p>{props.title}</p>
-            <p>{props.company_name} {props.rating}</p>
-        </div>
-    )
-};
-
-
 function JobCard(props) {
 
+    const Card = ReactBootstrap.Card;
+    const Badge = ReactBootstrap.Badge;
+
     return (
-        <div key={props.job_id}>
-            <JobBriefInfo job_id={props.job_id} 
-                    title={props.title} 
-                    company_name={props.company_name} 
-                    rating={props.rating}/>
-            <JobDetail job_id={props.job_id}
-                    title={props.title}
-                    company_name={props.company_name} 
-                    rating={props.rating}
-                    description={props.description} 
-                    apply_url={props.apply_url}/>
-        </div>
+        <Card id={props.job_id} width="80%" height="60%">
+            <Card.Header>{props.title}</Card.Header>
+            <Card.Body>{props.company_name}
+                <Badge pill variant="info">{props.rating}</Badge>
+                <JobModal job_id={props.job_id}
+                        title={props.title}
+                        company_name={props.company_name} 
+                        rating={props.rating}
+                        description={props.description} 
+                        apply_url={props.apply_url}/>
+            </Card.Body>
+        </Card>
     )
 }
 
@@ -191,7 +161,7 @@ class JobSearch extends React.Component {
         this.setState({ mapview: evt.target.checked });
     };
 
-    fetchSearchingResult (evt) {
+    fetchSearchingResult = (evt) => {
         evt.preventDefault();
 
         fetch(`/search?keyword=${this.state.keyword}`)
@@ -202,7 +172,7 @@ class JobSearch extends React.Component {
     }
 
     // where should I call this function?
-    displayResults() {
+    displayResults = () => {
         if (!this.state.mapview) {
             return <div className="jobcards">{job_cards}</div>
         }
@@ -222,8 +192,7 @@ class JobSearch extends React.Component {
                             company_name={job.company_name} 
                             rating={job.rating}
                             description={job.description} 
-                            apply_url={job.apply_url}
-                            tags={["python", "react"]} />
+                            apply_url={job.apply_url} />
                 </div>
             );
         }
@@ -262,25 +231,6 @@ ReactDOM.render(
     <JobSearch results />,
     document.getElementById("root")
 );
-
-
-// document.addEventListener('load', () => {
-    
-
-//     const Alert = ReactBootsta
-// });
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
