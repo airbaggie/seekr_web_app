@@ -31,6 +31,7 @@ def load_user(id):
 
 ################# FLASK-RESTFUL API #################
 
+
 class Search_Result(Resource):
     def get(self):
         """Job searching from database."""
@@ -64,12 +65,6 @@ class Job_Tags(Resource):
 api.add_resource(Job_Tags, '/tags')
 
 
-class User_Jobs(Resource):
-    def post(self):
-        """Add new UserJob instance in user_jobs table."""
-
-
-
 
 ################# WEB ROUTES #################
 
@@ -84,20 +79,15 @@ def index():
 def login():
     """Display login form and handle logging in user."""
 
-    # if current_user.is_authenticated():
-    #     return redirect("/")
-
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
         user = User.query.filter(User.email == email).first()
-        print(user)
 
         if user:
             if user.check_password(password):
                 login_user(user)
-                print('pass')
-                return redirect(f"/user/{user.id}")
+                return redirect(f'/user/{user.id}')
         
         else:
                 return redirect('/signup')
@@ -109,13 +99,9 @@ def login():
 def sign_up():
     """Show form for user signup."""
 
-    # if current_user.is_authenticated:
-    #     return redirect("/")
-
     if request.method == 'POST':
-        email = request.form["email"]
-        password = request.form["password"]
-        # zipcode = request.form["zipcode"]
+        email = request.form['email']
+        password = request.form['password']
         user = User.query.filter(User.email == email).first()
 
         if user:
@@ -127,27 +113,60 @@ def sign_up():
             db.session.commit()
             return redirect('/login')
 
-    return render_template("signup.html")
+    return render_template('signup.html')
 
 
-@app.route("/user/<int:id>", methods=['GET'])
+@app.route('/user/<int:id>', methods=['GET'])
 def user_detail(id):
     """Show info about user."""
 
     user = User.query.get(id)
+    return render_template('user.html', user=user)
 
-    return render_template("user.html", user=user)
+
+@app.route('/api/userjobs', methods=['POST'])
+def save_job():
+    """Update database when user saves a job."""
+
+    # check if user is a login user
+    # only login user can save jobs
+    if current_user.is_active:
+
+        user_id = current_user.get_id()
+        job_id = request.form.get('job_id')
+
+        # check if user has already saved this job
+        # only add unsaved job to database
+        if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
+            return jsonify('You have saved this job already.')
+
+        else:
+            new_user_job = UserJob(user_id, job_id)
+            db.session.add(new_user_job)
+            db.session.commit()
+            return jsonify('Job added!')
+
+    else:
+        return jsonify('Please login to save this job.')
 
 
-@app.route("/myboard")
+# @app.route('/api/user_status', methods=['GET'])
+# def is_active():
+#     """Check whether the user is a login user."""
+
+#     return jsonify(current_user.is_active)
+
+
+
+@app.route('/myjobs', methods=['GET'])
 @login_required
 def view_my_dashboard():
 
-    return render_template("myboard.html")
+    return render_template('myjobs.html')
 
 
 @app.route('/logout')
-# @login_required
+@login_required
 def logout():
     logout_user()
     return redirect("/")

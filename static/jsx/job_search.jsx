@@ -12,12 +12,26 @@ class JobDetail extends React.Component {
         this.redirectApplication = this.redirectApplication.bind(this);
     
         this.state = {
+            is_active: false,
             show: false,
             tags: [],
-            // add user log in(?) boolean
+            save: false,
         };
     }
-  
+
+    // componentDidMount() {
+
+    //     console.log('mount!');
+
+    //     fetch('/api/user_status')
+    //         .then(res => res.json())
+    //         .then(data => { 
+    //             this.setState({ is_active: data });
+    //         });
+
+    //     console.log(this.state.is_active)
+    // }
+
     handleClose(evt) {
         this.setState({ show: false });
     }
@@ -27,8 +41,25 @@ class JobDetail extends React.Component {
     }
 
     handleSave(evt) {
-        // post userid, job_id to UserJob tables
-        // props.user_id (called id in database)
+        evt.preventDefault();
+
+        const data = new FormData();                                 //formdata object
+        data.append('job_id', JSON.stringify(this.props.job_id));    //append the values with key, value pair
+
+        fetch('/api/userjobs', {
+            method: 'POST',
+            body: data,
+            });
+            // .then(() => {
+            //     this.setState({ save: true });
+            // });
+        
+
+            // const Alert = ReactBootstrap.Alert;
+
+            // return (
+            //     <Alert variant='success'>Job saved!</Alert>
+            // )
     }
 
     fetchTags (evt) {
@@ -142,7 +173,7 @@ class JobSearch extends React.Component {
             keyword: "",
             mapview: false,
             results: [],
-            log_in_user: false,
+            // log_in_user: false,
         };
 
         this.handleKeywordChange = this.handleKeywordChange.bind(this);

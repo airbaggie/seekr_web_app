@@ -103,11 +103,7 @@ class User(UserMixin, db.Model):
         """Return true if stored password matches hash of given password."""
 
         return check_password_hash(self.pw_hash, password)
-    
-    # def is_hashed_password(self, password):
-    #     """Return true if stored password matches hash of given password."""
 
-    #     return self.hashed_password == hash(password)
     
 
 class Tag(db.Model):
@@ -171,6 +167,7 @@ class UserTag(db.Model):
         """Provide helpful representation when printed."""
 
         return f"<UserTag email={self.to_user.email} tag_name={self.to_tag.tag_name}>"
+
 
 
 class UserJob(db.Model):
