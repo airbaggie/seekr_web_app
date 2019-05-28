@@ -1,14 +1,6 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="well spaced" style="width:40%;">
-    <h1>Log in</h1>
-    <body>
-      <form method="POST" action="/login">
-        <input type="text" name="email" placeholder="Email" />
-        <input type="password" name="password" placeholder="Password" />
-        <input type="submit" />
-      </form>
-    </body>
-  </div>
+<div id="login"></div>
+<script type="text/jsx" src="/static/jsx/login.jsx"></script>
 {% endblock %}

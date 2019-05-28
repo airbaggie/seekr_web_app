@@ -73,7 +73,6 @@ class MyJobs extends React.Component {
     }
 
     reFresh = () => {
-
         fetch("/userjobs")
             .then(res => res.json())
             .then(data => { 

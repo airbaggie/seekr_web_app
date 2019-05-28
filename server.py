@@ -46,7 +46,7 @@ class Search_Result(Resource):
 
         return jsonify(results)
 
-api.add_resource(Search_Result, '/search')
+api.add_resource(Search_Result, '/searching')
 
 
 class Job_Tags(Resource):
@@ -82,13 +82,21 @@ api.add_resource(User_Jobs, '/userjobs')
 
 
 
+
+
 ################# WEB ROUTES #################
 
 @app.route("/")
 def index():
     """Homepage."""
 
-    return render_template("homepage.html")
+    return render_template("home.html")
+
+@app.route("/search")
+def search():
+    """Search page."""
+
+    return render_template("search.html")
 
 
 @app.route('/login', methods=['GET', 'POST'])

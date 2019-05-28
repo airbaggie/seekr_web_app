@@ -16,7 +16,8 @@ class JobModal extends React.Component {
             is_active: false,
             show: false,
             tags: [],
-            // message: '',
+            saved: false,
+            // message: "",
         };
     }
 
@@ -32,17 +33,19 @@ class JobModal extends React.Component {
         evt.preventDefault();
 
         const data = new FormData();                                 //formdata object
-        data.append('job_id', JSON.stringify(this.props.job_id));    //append the values with key, value pair
+        data.append("job_id", JSON.stringify(this.props.job_id));    //append the values with key, value pair
 
-        fetch('/api/userjobs', {
-            method: 'POST',
+        fetch("/api/userjobs", {
+            method: "POST",
             body: data,
             })
+
+        this.setState({ saved: true });
     }
 
     // displayAlert(evt) {
     //     const Alert = ReactBootstrap.Alert;
-    //     return <Alert variant='success'>{this.state.message}</Alert>
+    //     return <Alert variant="success">{this.state.message}</Alert>
     // }
 
     fetchTags = (evt) => {
@@ -69,6 +72,19 @@ class JobModal extends React.Component {
             job_tags.push(<Badge variant="secondary">{tag}</Badge>);
         }
 
+        const save_button = []
+        if (!this.state.saved) {
+            save_button.push(
+                            <Button variant="primary" onClick={this.handleSave}>
+                                Save
+                            </Button>);
+        } else {
+            save_button.push(
+                            <Button variant="primary" disabled>
+                                Saved
+                            </Button>);
+        }
+
         return (
             <div key={this.props.job_id}>
                 <Button variant="primary" onClick={(evt) => {
@@ -92,16 +108,14 @@ class JobModal extends React.Component {
                     </Modal.Title>
                     </Modal.Header>
                     <div className="jobtag">{job_tags}</div>
-                    <Modal.Body>{this.props.description.split('\n').map((item, key) => {
+                    <Modal.Body>{this.props.description.split("\n").map((item, key) => {
                                 return <span key={key}>{item}<br/></span>})}
                     </Modal.Body>
                     <Modal.Footer>
                     <Button variant="link" onClick={this.redirectApplication}>
                         Apply
                     </Button>
-                    <Button variant="primary" onClick={this.handleSave}>
-                        Save
-                    </Button>
+                    <span>{save_button}</span>
                     <Button variant="secondary" onClick={this.handleClose}>
                         Close
                     </Button>
@@ -119,7 +133,7 @@ function JobCard(props) {
     const Badge = ReactBootstrap.Badge;
 
     return (
-        <Card id={props.job_id} width="80%" height="60%">
+        <Card key={props.job_id} width="80%" height="60%">
             <Card.Header>{props.title}</Card.Header>
             <Card.Body>{props.company_name}
                 <Badge pill variant="info">{props.rating}</Badge>
@@ -164,7 +178,7 @@ class JobSearch extends React.Component {
     fetchSearchingResult = (evt) => {
         evt.preventDefault();
 
-        fetch(`/search?keyword=${this.state.keyword}`)
+        fetch(`/searching?keyword=${this.state.keyword}`)
             .then(res => res.json())
             .then(data => { 
                 this.setState({ results: data });
@@ -176,9 +190,9 @@ class JobSearch extends React.Component {
         if (!this.state.mapview) {
             return <div className="jobcards">{job_cards}</div>
         }
-        else {
-            return <p>Map View is comming soon!</p>
-        }
+        // else {
+        //     
+        // }
     }
 
     render() {
@@ -218,37 +232,18 @@ class JobSearch extends React.Component {
                     type="checkbox"
                     checked={this.state.mapview}
                     onChange={this.handleViewChange}
+                    id="map-view"
                     />
                     Map View
                 </label>
-                <div className="jobcards">{job_cards}</div>
+                <div className="jobcards" id="job-cards">{job_cards}</div>
             </div>
         );
     }
-};
+}
 
 ReactDOM.render(
-    <JobSearch results />,
-    document.getElementById("root")
+    <JobSearch />,
+    document.getElementById("search")
 );
 
-
-
-   // MapView() {
-    //     return (
-    //         let mapOptions = {
-    //                           zoom: 11,
-    //                           center: new google.maps.LatLng(37.6844462, -122.343031)
-    //                          };
-    //         let map = new google.maps.Map(document.getElementById("map-canvas", mapOptions);
-    //         let marker, i;
-        
-    //         for (let id in results) {
-    //             marker = new google.maps.Marker({
-    //                     position: new google.maps.LatLng(results[id]["lat"], results[id]["lng"]),
-    //                     map: map,
-    //                     })
-    //             google.maps.event.addListener(marker, 'click', showInfo(marker, results[id]))
-    //         }
-    //     )
-    // }
