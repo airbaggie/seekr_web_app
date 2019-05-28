@@ -41,8 +41,10 @@ class Signup extends React.Component {
         );
     }
 };
-    
-ReactDOM.render(
-    <Signup />,
-    document.getElementById("signup")
-);
+
+window.addEventListener("load", () => {
+    ReactDOM.render(
+        <Signup />,
+        document.getElementById("signup")
+    );
+})

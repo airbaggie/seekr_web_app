@@ -42,7 +42,12 @@ class Login extends React.Component {
     }
 };
     
-ReactDOM.render(
-    <Login />,
-    document.getElementById("login")
+window.addEventListener(
+    "load", 
+    () => {
+        ReactDOM.render(
+            <Login />,
+            document.getElementById("login")
+        );
+    }
 );

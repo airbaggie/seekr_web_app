@@ -242,6 +242,7 @@ class JobSearch extends React.Component {
     }
 }
 
+
 ReactDOM.render(
     <JobSearch />,
     document.getElementById("search")

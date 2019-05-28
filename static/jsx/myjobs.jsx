@@ -6,25 +6,25 @@ class SavedJob extends React.Component {
         super(props);
 
         this.redirectApplication = this.redirectApplication.bind(this);
-        this.removeJob = this.removeJob.bind(this);
+        // this.removeJob = this.removeJob.bind(this);
     }
 
     redirectApplication = () => {
         window.open(`${this.props.apply_url}`);
     }
 
-    removeJob = () => {
+    // removeJob = () => {
 
-        const data = new FormData();
-        data.append('job_id', JSON.stringify(this.props.job_id));
+    //     const data = new FormData();
+    //     data.append('job_id', JSON.stringify(this.props.job_id));
 
-        fetch('api/remove', {
-            method: 'DELETE',
-            body: data,
-            })
+    //     fetch('api/remove', {
+    //         method: 'DELETE',
+    //         body: data,
+    //         })
 
-        setTimeout(this.props.parentMethod, 66);
-    }
+    //     setTimeout(this.props.parentMethod, 66);
+    // }
     
     render() {
         const Card = ReactBootstrap.Card;
@@ -39,9 +39,7 @@ class SavedJob extends React.Component {
                         <Button variant="link" onClick={this.redirectApplication}>
                             Apply
                         </Button>
-                        <Button variant="primary" onClick={ (evt) => {
-                                                            this.removeJob(evt);
-                                                            }}>
+                        <Button variant="primary" onClick={this.props.removeJobMethod}>
                             Remove
                         </Button>
                         <Button variant="primary">Applied</Button>
@@ -58,18 +56,11 @@ class MyJobs extends React.Component {
         super(props);
 
         this.reFresh = this.reFresh.bind(this);
+        this.removeJob = this.removeJob.bind(this);
 
         this.state = {
             results: [],
         };
-    }
-
-    componentDidMount = () => {
-        fetch("/userjobs")
-            .then(res => res.json())
-            .then(data => { 
-                this.setState({ results: data });
-            });
     }
 
     reFresh = () => {
@@ -78,6 +69,27 @@ class MyJobs extends React.Component {
             .then(data => { 
                 this.setState({ results: data });
             });
+    }
+
+    componentDidMount = () => {
+        this.reFresh();
+    }
+
+    // componentDidUpdate = () => {
+    //     this.reFresh();
+    // }
+
+    removeJob = (job_id) => {
+
+        const data = new FormData();
+        data.append('job_id', JSON.stringify(job_id));
+
+        fetch('api/remove', {
+            method: 'DELETE',
+            body: data,
+            }).then(() => {this.reFresh()})
+
+        // setTimeout(this.props.parentMethod, 66);
     }
 
     render() {
@@ -90,7 +102,8 @@ class MyJobs extends React.Component {
                               title={job.title}
                               description={job.description.slice(0, 500)}
                               apply_url={job.apply_url} 
-                              parentMethod={this.reFresh}/>
+                              parentMethod={this.reFresh}
+                              removeJobMethod={() => this.removeJob(job.job_id)} />
                 </div>
             );
         }
@@ -104,7 +117,9 @@ class MyJobs extends React.Component {
     }
 };
 
-ReactDOM.render(
-    <MyJobs />,
-    document.getElementById("myjobs")
-);
+window.addEventListener("load", () => {
+    ReactDOM.render(
+        <MyJobs />,
+        document.getElementById("myjobs")
+    );
+})
