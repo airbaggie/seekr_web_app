@@ -1,5 +1,30 @@
 "use strict";
 
+// const GoogleApiWrapper = googlemapsreact.GoogleApiWrapper;
+// const Map = googlemapsreact.Map;
+// const InfoWindow = googlemapsreact.InfoWindow;
+// const Marker = googlemapsreact.Marker;
+
+// const mapStyles = {
+//     width: '100%',
+//     height: '100%'
+// };
+
+// class MapContainer extends Component {
+//     render() {
+//         return (
+//             <Map
+//             google={this.props.google}
+//             zoom={14}
+//             style={style}
+//             initialCenter={{ lat: -1.2884, lng: 36.8233 }}
+//             />
+//         );
+//     }
+// }
+
+
+
 
 class JobModal extends React.Component {
     constructor(props, context) {
@@ -157,15 +182,22 @@ class JobSearch extends React.Component {
             keyword: "",
             mapview: false,
             results: [],
-            // log_in_user: false,
+            // is_active: false,
         };
 
         this.handleKeywordChange = this.handleKeywordChange.bind(this);
         this.handleViewChange = this.handleViewChange.bind(this);
         this.fetchSearchingResult = this.fetchSearchingResult.bind(this);
         this.displayResults = this.displayResults.bind(this);
+        // this.quickSearching = this.quickSearching.bind(this);
     }
 
+    // componentDidMount = () => {
+    //     fetch("/userstatus")
+    //         .then(data => { 
+    //             this.setState({ is_active: data });
+    //         });
+    // }
 
     handleKeywordChange = (evt) => {
         this.setState({ keyword: evt.target.value });
@@ -195,20 +227,91 @@ class JobSearch extends React.Component {
         // }
     }
 
-    render() {
-        const job_cards = [];
+    // quickSearching = (evt, keyword) =>{
+    //     evt.preventDefault();
 
+    //     fetch(`/searching?keyword=${keyword}`)
+    //         .then(res => res.json())
+    //         .then(data => { 
+    //             this.setState({ results: data });
+    //         })
+    //     }
+
+    render() {
+        const search_by_language = [];
+        const search_by_framework = [];
+        const search_by_database = [];
+        const search_by_other = [];
+        const language_list = ["Python", "JavaScript", "Java", "HTML", "CSS", "C#", "PHP", "C++", "Ruby", "GO"];
+        const framework_list = ["Angular", "React", "Spring", "Django", "Flask", "TensorFlow", ".NET"];
+        const database_list = ["MySQL", "SQL", "PostgreSQL", "Oracle", "MongoDB", "Redis", "RDS"];
+        const other_list = ["iOS", "Android", "AWS", "Machine Learning", "RESTful"];
+
+        for (const keyword of language_list) {
+            search_by_language.push(
+                <button type="button" className="btn btn-link" onClick={(evt) =>{
+                    evt.preventDefault();
+            
+                    fetch(`/searching?keyword=${keyword}`)
+                        .then(res => res.json())
+                        .then(data => { 
+                            this.setState({ results: data });
+                        })
+                    }}>{keyword}</button>
+            )
+        }
+        for (const keyword of framework_list) {
+            search_by_framework.push(
+                <button type="button" className="btn btn-link" onClick={(evt) =>{
+                    evt.preventDefault();
+            
+                    fetch(`/searching?keyword=${keyword}`)
+                        .then(res => res.json())
+                        .then(data => { 
+                            this.setState({ results: data });
+                        })
+                    }}>{keyword}</button>
+            )
+        }
+        for (const keyword of database_list) {
+            search_by_database.push(
+                <button type="button" className="btn btn-link" onClick={(evt) =>{
+                    evt.preventDefault();
+            
+                    fetch(`/searching?keyword=${keyword}`)
+                        .then(res => res.json())
+                        .then(data => { 
+                            this.setState({ results: data });
+                        })
+                    }}>{keyword}</button>
+            )
+        }
+        for (const keyword of other_list) {
+            search_by_other.push(
+                <button type="button" className="btn btn-link" onClick={(evt) =>{
+                    evt.preventDefault();
+            
+                    fetch(`/searching?keyword=${keyword}`)
+                        .then(res => res.json())
+                        .then(data => { 
+                            this.setState({ results: data });
+                        })
+                    }}>{keyword}</button>
+            )
+        }
+
+        const job_cards = [];
         for (const job of this.state.results) {
             job_cards.push(
-                <div key={job.job_id}>
-                    <JobCard job_id={job.job_id}
-                            title={job.title}
-                            company_name={job.company_name} 
-                            rating={job.rating}
-                            description={job.description} 
-                            apply_url={job.apply_url} />
-                </div>
-            );
+                            <div key={job.job_id}>
+                                <JobCard job_id={job.job_id}
+                                        title={job.title}
+                                        company_name={job.company_name} 
+                                        rating={job.rating}
+                                        description={job.description} 
+                                        apply_url={job.apply_url} />
+                            </div>
+                            );
         }
         return (
             <div className="job-search">
@@ -227,6 +330,10 @@ class JobSearch extends React.Component {
                         type="submit"
                         onClick={this.fetchSearchingResult}>Search</button>
                 </form>
+                <div>Language: {search_by_language}</div>
+                <div>Framework: {search_by_framework}</div>
+                <div>Database: {search_by_database}</div>
+                <div>Other: {search_by_other}</div>
                 <label>
                 <input
                     type="checkbox"
@@ -243,8 +350,9 @@ class JobSearch extends React.Component {
 }
 
 
-ReactDOM.render(
-    <JobSearch />,
-    document.getElementById("search")
-);
-
+window.addEventListener("load", () => {
+    ReactDOM.render(
+        <JobSearch />,
+        document.getElementById("search")
+    );
+})

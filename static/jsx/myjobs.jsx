@@ -6,29 +6,44 @@ class SavedJob extends React.Component {
         super(props);
 
         this.redirectApplication = this.redirectApplication.bind(this);
-        // this.removeJob = this.removeJob.bind(this);
     }
 
     redirectApplication = () => {
         window.open(`${this.props.apply_url}`);
     }
-
-    // removeJob = () => {
-
-    //     const data = new FormData();
-    //     data.append('job_id', JSON.stringify(this.props.job_id));
-
-    //     fetch('api/remove', {
-    //         method: 'DELETE',
-    //         body: data,
-    //         })
-
-    //     setTimeout(this.props.parentMethod, 66);
-    // }
+    
     
     render() {
         const Card = ReactBootstrap.Card;
         const Button = ReactBootstrap.Button;
+
+        const buttons = []
+        if (this.props.status === "Saved") {
+            buttons.push(
+                        <span>
+                            <Button variant="link" onClick={this.redirectApplication}>
+                                Apply on Company Site
+                            </Button>
+                            <Button variant="primary" onClick={this.props.removeJob}>
+                                Remove
+                            </Button>
+                            <span> </span>
+                            <Button variant="primary" onClick={this.props.appliedJob}>
+                                Applied
+                            </Button>
+                        </span>);
+        } else if (this.props.status === "Applied") {
+            buttons.push(
+                        <span>
+                            <Button variant="primary" onClick={this.props.removeJob}>
+                                Remove
+                            </Button>
+                            <span> </span>
+                            <Button variant="primary" disabled>
+                                Pending Review
+                            </Button>
+                        </span>);
+        }
 
         return (
             <div key={this.props.job_id} width="80%" height="60%">
@@ -36,13 +51,7 @@ class SavedJob extends React.Component {
                     <Card.Header>{this.props.title}</Card.Header>
                     <Card.Body>
                         <Card.Text>{this.props.description}</Card.Text>
-                        <Button variant="link" onClick={this.redirectApplication}>
-                            Apply
-                        </Button>
-                        <Button variant="primary" onClick={this.props.removeJobMethod}>
-                            Remove
-                        </Button>
-                        <Button variant="primary">Applied</Button>
+                        <span>{buttons}</span>
                     </Card.Body>
                 </Card>
             </div>
@@ -57,9 +66,18 @@ class MyJobs extends React.Component {
 
         this.reFresh = this.reFresh.bind(this);
         this.removeJob = this.removeJob.bind(this);
+        this.appliedJob = this.appliedJob.bind(this);
 
         this.state = {
-            results: [],
+            results: []
+            // saved: [],
+            // applied: [],
+            // p_sheduled: [],
+            // p_completed: [],
+            // r_scheduled: [],
+            // r_completed: [],
+            // o_scheduled: [],
+            // o_completed: [],
         };
     }
 
@@ -75,10 +93,6 @@ class MyJobs extends React.Component {
         this.reFresh();
     }
 
-    // componentDidUpdate = () => {
-    //     this.reFresh();
-    // }
-
     removeJob = (job_id) => {
 
         const data = new FormData();
@@ -88,8 +102,16 @@ class MyJobs extends React.Component {
             method: 'DELETE',
             body: data,
             }).then(() => {this.reFresh()})
+    }
 
-        // setTimeout(this.props.parentMethod, 66);
+    appliedJob = (job_id) => {
+        const data = new FormData();
+        data.append('job_id', JSON.stringify(job_id));
+
+        fetch('api/applied', {
+            method: 'PUT',
+            body: data,
+            }).then(() => {this.reFresh()})
     }
 
     render() {
@@ -97,20 +119,23 @@ class MyJobs extends React.Component {
 
         for (const job of this.state.results) {
             job_cards.push(
-                <div key={job.job_id}>
-                    <SavedJob job_id={job.job_id}
-                              title={job.title}
-                              description={job.description.slice(0, 500)}
-                              apply_url={job.apply_url} 
-                              parentMethod={this.reFresh}
-                              removeJobMethod={() => this.removeJob(job.job_id)} />
+                <div key={job[0].job_id}>
+                    <SavedJob job_id={job[0].job_id}
+                              title={job[0].title}
+                              description={job[0].description.slice(0, 500)}
+                              apply_url={job[0].apply_url}
+                              removeJob={() => this.removeJob(job[0].job_id)}
+                              appliedJob={() => this.appliedJob(job[0].job_id)}
+                              status={job[1]} />
                 </div>
             );
         }
 
+        const job_count = job_cards.length
+
         return (
             <div className="saved-job">
-                <h3>My saved jobs</h3>
+                <h3>My saved jobs ({job_count})</h3>
                 <div className="jobcards">{job_cards}</div>
             </div>
         );

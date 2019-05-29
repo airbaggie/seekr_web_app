@@ -74,14 +74,20 @@ class User_Jobs(Resource):
         results = []
         
         for user_job in search_result:
-            results.append(user_job.to_job.get_attributes())
+            results.append([user_job.to_job.get_attributes(), user_job.status])
 
         return jsonify(results)
 
 api.add_resource(User_Jobs, '/userjobs')
 
 
+# class User_Status(Resource):
+#     def get(self):
+#         """Check whether the user is a login user."""
 
+#         return (current_user.is_active).ToString()
+
+# api.add_resource(User_Status, '/userstatus')
 
 
 ################# WEB ROUTES #################
@@ -207,6 +213,31 @@ def remove_job():
     
     return message
 
+
+@app.route('/api/applied', methods=['PUT'])
+@login_required
+def update_application_status():
+    """Change the status of a saved job to applied."""
+
+    if current_user.is_active:
+        user_id = current_user.get_id()
+        job_id = request.form.get('job_id')
+
+        if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
+            user_job = UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first()
+
+            user_job.status = "Applied" 
+            db.session.commit()
+            message = 'Job applied.'
+
+        else:
+            print('Job not found')
+
+    else:
+        message = 'Please login first.'
+        print('unlogin')
+    
+    return message
 
 # @app.route('/api/user_status', methods=['GET'])
 # def is_active():

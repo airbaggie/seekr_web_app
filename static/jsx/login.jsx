@@ -41,13 +41,10 @@ class Login extends React.Component {
         ); 
     }
 };
-    
-window.addEventListener(
-    "load", 
-    () => {
-        ReactDOM.render(
-            <Login />,
-            document.getElementById("login")
-        );
-    }
-);
+
+window.addEventListener("load", () => {
+    ReactDOM.render(
+        <Login />,
+        document.getElementById("login")
+    );
+})

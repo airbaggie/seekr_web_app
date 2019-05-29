@@ -26,8 +26,11 @@ class Home extends React.Component {
         );
     }
 };
-    
-ReactDOM.render(
-    <Home />,
-    document.getElementById("home")
-);
+
+
+window.addEventListener("load", () => {
+    ReactDOM.render(
+        <Home />,
+        document.getElementById("home")
+    );
+})
