@@ -100,12 +100,12 @@ class JobModal extends React.Component {
         const save_button = []
         if (!this.state.saved) {
             save_button.push(
-                            <Button variant="primary" onClick={this.handleSave}>
+                            <Button variant="primary" onClick={this.handleSave} key={this.props.job_id}>
                                 Save
                             </Button>);
         } else {
             save_button.push(
-                            <Button variant="primary" disabled>
+                            <Button variant="primary" disabled key={this.props.job_id}>
                                 Saved
                             </Button>);
         }
@@ -123,6 +123,7 @@ class JobModal extends React.Component {
                        onHide={this.handleClose}
                        size="lg"
                        aria-labelledby="contained-modal-title-vcenter"
+                       className="job-detail-modal"
                        centered>
                     <Modal.Header closeButton>
                     <Modal.Title key={this.props.job_id}>
@@ -138,7 +139,7 @@ class JobModal extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                     <Button variant="link" onClick={this.redirectApplication}>
-                        Apply
+                        Apply on Company Site
                     </Button>
                     <span>{save_button}</span>
                     <Button variant="secondary" onClick={this.handleClose}>
@@ -158,18 +159,27 @@ function JobCard(props) {
     const Badge = ReactBootstrap.Badge;
 
     return (
-        <Card key={props.job_id} width="80%" height="60%">
-            <Card.Header>{props.title}</Card.Header>
-            <Card.Body>{props.company_name}
-                <Badge pill variant="info">{props.rating}</Badge>
-                <JobModal job_id={props.job_id}
+        <div key={props.job_id} width="80%" height="60%">
+            <Card border="light">
+                <Card.Body>
+                    <Card.Text>
+                        <span>
+                            <h6>{props.title}</h6>
+                            <span className="right_header">
+                                {props.company_name}
+                                <Badge pill variant="info">{props.rating}</Badge>
+                            </span>
+                        </span>
+                    </Card.Text>
+                    <JobModal job_id={props.job_id}
                         title={props.title}
                         company_name={props.company_name} 
                         rating={props.rating}
                         description={props.description} 
                         apply_url={props.apply_url}/>
-            </Card.Body>
-        </Card>
+                </Card.Body>
+            </Card>
+        </div>
     )
 }
 
@@ -313,36 +323,48 @@ class JobSearch extends React.Component {
                             </div>
                             );
         }
+
+        const results_count = this.state.results.length
+
         return (
             <div className="job-search">
                 <form>
-                    <input
-                        type="text"
-                        id="keyword-field"
-                        name="keyword"
-                        className="form-control mr-sm-2"
-                        value={this.state.keyword}
-                        onChange={this.handleKeywordChange}
-                        placeholder="Search by keywords"
-                        />
-                    <button
-                        className="btn btn-outline-success my-2 my-sm-0"
-                        type="submit"
-                        onClick={this.fetchSearchingResult}>Search</button>
+                    <div className="form-row align-items-center">
+                        <div className="col-auto">
+                            <input type="text"
+                                   id="keyword-field"
+                                   name="keyword"
+                                   className="form-control mb-2"
+                                   value={this.state.keyword}
+                                   onChange={this.handleKeywordChange}
+                                   placeholder="Search by keywords"
+                                   />
+                        </div>
+                        <div className="form-check mb-2">
+                            <input type="checkbox"
+                                   checked={this.state.mapview}
+                                   onChange={this.handleViewChange}
+                                   id="map-view"
+                                  className="form-check-input" />
+                            <label className="form-check-label" >
+                                Mapview
+                            </label>
+                        </div>
+                        <div className="col-auto">
+                            <button type="submit"
+                                    className="btn btn-primary mb-2"
+                                    onClick={this.fetchSearchingResult}
+                                    key="search-button">
+                                Search
+                            </button>
+                        </div>
+                    </div>
                 </form>
                 <div>Language: {search_by_language}</div>
                 <div>Framework: {search_by_framework}</div>
                 <div>Database: {search_by_database}</div>
-                <div>Other: {search_by_other}</div>
-                <label>
-                <input
-                    type="checkbox"
-                    checked={this.state.mapview}
-                    onChange={this.handleViewChange}
-                    id="map-view"
-                    />
-                    Map View
-                </label>
+                <div>Other: {search_by_other}</div><br />
+                <p>Results({results_count})</p>
                 <div className="jobcards" id="job-cards">{job_cards}</div>
             </div>
         );

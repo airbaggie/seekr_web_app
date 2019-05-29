@@ -1,6 +1,35 @@
 "use strict";
 
 
+class DropdownButton extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render () {
+        const Dropdown = ReactBootstrap.Dropdown;
+
+        return (
+            <Dropdown className="dropdown">
+                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                    Change status
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, Applied)}>Applied</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone screen scheduled")}>Phone screen scheduled</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone screen completed")}>Phone screen completed</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Remote coding scheduled")}>Remote coding scheduled</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Remote coding completed")}>Remote coding completed</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "On-site scheduled")}>On-site scheduled</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "On-site completed")}>On-site completed</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Decision made")}>Decision made</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>   
+        );
+    }
+}
+
+
 class SavedJob extends React.Component {
     constructor(props) {
         super(props);
@@ -27,31 +56,39 @@ class SavedJob extends React.Component {
                             <Button variant="primary" onClick={this.props.removeJob}>
                                 Remove
                             </Button>
-                            <span> </span>
-                            <Button variant="primary" onClick={this.props.appliedJob}>
-                                Applied
-                            </Button>
+                            <DropdownButton job_id={this.props.job_id}
+                                            status={this.props.status} 
+                                            changeStatus={this.props.changeStatus}/>
                         </span>);
-        } else if (this.props.status === "Applied") {
+        } else {
             buttons.push(
                         <span>
+                            <span>
                             <Button variant="primary" onClick={this.props.removeJob}>
                                 Remove
                             </Button>
-                            <span> </span>
-                            <Button variant="primary" disabled>
+                            </span>
+                            <span><DropdownButton job_id={this.props.job_id}
+                                            status={this.props.status} 
+                                            changeStatus={this.props.changeStatus}/>
+                            </span>
+                            {/* <Button variant="primary" disabled>
                                 Pending Review
-                            </Button>
+                            </Button> */}
                         </span>);
         }
 
         return (
             <div key={this.props.job_id} width="80%" height="60%">
-                <Card>
-                    <Card.Header>{this.props.title}</Card.Header>
+                <Card border="light">
                     <Card.Body>
-                        <Card.Text>{this.props.description}</Card.Text>
-                        <span>{buttons}</span>
+                        <Card.Text>
+                            <div>
+                                <span>{this.props.title} - {this.props.company}</span>
+                                <span className="right_header">Current status: {this.props.status}</span>
+                            </div>
+                        </Card.Text>
+                        <div>{buttons}</div>
                     </Card.Body>
                 </Card>
             </div>
@@ -66,18 +103,10 @@ class MyJobs extends React.Component {
 
         this.reFresh = this.reFresh.bind(this);
         this.removeJob = this.removeJob.bind(this);
-        this.appliedJob = this.appliedJob.bind(this);
+        this.changeStatus = this.changeStatus.bind(this);
 
         this.state = {
             results: []
-            // saved: [],
-            // applied: [],
-            // p_sheduled: [],
-            // p_completed: [],
-            // r_scheduled: [],
-            // r_completed: [],
-            // o_scheduled: [],
-            // o_completed: [],
         };
     }
 
@@ -94,7 +123,6 @@ class MyJobs extends React.Component {
     }
 
     removeJob = (job_id) => {
-
         const data = new FormData();
         data.append('job_id', JSON.stringify(job_id));
 
@@ -104,12 +132,13 @@ class MyJobs extends React.Component {
             }).then(() => {this.reFresh()})
     }
 
-    appliedJob = (job_id) => {
+    changeStatus = (job_id, new_status) => {
         const data = new FormData();
-        data.append('job_id', JSON.stringify(job_id));
+        data.append('job_id', job_id);
+        data.append('new_status', new_status);
 
-        fetch('api/applied', {
-            method: 'PUT',
+        fetch('api/updatestatus', {
+            method: 'POST',
             body: data,
             }).then(() => {this.reFresh()})
     }
@@ -122,10 +151,11 @@ class MyJobs extends React.Component {
                 <div key={job[0].job_id}>
                     <SavedJob job_id={job[0].job_id}
                               title={job[0].title}
-                              description={job[0].description.slice(0, 500)}
+                              company={job[0].company_name}
+                            //   description={job[0].description.slice(0, 500)}
                               apply_url={job[0].apply_url}
                               removeJob={() => this.removeJob(job[0].job_id)}
-                              appliedJob={() => this.appliedJob(job[0].job_id)}
+                              changeStatus={this.changeStatus}
                               status={job[1]} />
                 </div>
             );

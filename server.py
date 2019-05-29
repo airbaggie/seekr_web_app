@@ -214,30 +214,23 @@ def remove_job():
     return message
 
 
-@app.route('/api/applied', methods=['PUT'])
+@app.route('/api/updatestatus', methods=['POST'])
 @login_required
 def update_application_status():
-    """Change the status of a saved job to applied."""
+    """Change the status of a saved job."""
 
-    if current_user.is_active:
-        user_id = current_user.get_id()
-        job_id = request.form.get('job_id')
+    user_id = current_user.get_id()
+    job_id = request.form.get('job_id')
+    new_status = request.form.get('new_status')
 
-        if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
-            user_job = UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first()
+    if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
+        user_job = UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first()
 
-            user_job.status = "Applied" 
-            db.session.commit()
-            message = 'Job applied.'
+        user_job.status = new_status
+        db.session.commit()
 
-        else:
-            print('Job not found')
+        return 'Status Updated.'
 
-    else:
-        message = 'Please login first.'
-        print('unlogin')
-    
-    return message
 
 # @app.route('/api/user_status', methods=['GET'])
 # def is_active():

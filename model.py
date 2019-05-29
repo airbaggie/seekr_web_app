@@ -178,8 +178,8 @@ class UserJob(db.Model):
     user_job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
-    status = db.Column(db.String, nullable=False, default = "Saved")
-    decision = db.Column(db.String, nullable=False, default = "Unknown")
+    status = db.Column(db.String(50), nullable=False, default = "Saved")
+    decision = db.Column(db.String(50), nullable=False, default = "Unknown")
     calendar_available = db.Column(db.Boolean, nullable=False, default=False)
     save_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
