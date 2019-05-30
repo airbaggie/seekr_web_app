@@ -214,7 +214,7 @@ def remove_job():
     return message
 
 
-@app.route('/api/updatestatus', methods=['POST'])
+@app.route('/api/changestatus', methods=['POST'])
 @login_required
 def update_application_status():
     """Change the status of a saved job."""

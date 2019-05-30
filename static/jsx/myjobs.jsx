@@ -15,13 +15,10 @@ class DropdownButton extends React.Component {
                     Change status
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, Applied)}>Applied</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone screen scheduled")}>Phone screen scheduled</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone screen completed")}>Phone screen completed</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Remote coding scheduled")}>Remote coding scheduled</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Remote coding completed")}>Remote coding completed</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "On-site scheduled")}>On-site scheduled</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "On-site completed")}>On-site completed</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Applied")}>Applied</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Online Assessment")}>Online Assessment</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone Screen")}>Phone Screen</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "On-site")}>On-site</Dropdown.Item>
                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Decision made")}>Decision made</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>   
@@ -137,7 +134,7 @@ class MyJobs extends React.Component {
         data.append('job_id', job_id);
         data.append('new_status', new_status);
 
-        fetch('api/updatestatus', {
+        fetch('api/changestatus', {
             method: 'POST',
             body: data,
             }).then(() => {this.reFresh()})
@@ -165,7 +162,7 @@ class MyJobs extends React.Component {
 
         return (
             <div className="saved-job">
-                <h3>My saved jobs ({job_count})</h3>
+                <p>My saved jobs ({job_count})</p>
                 <div className="jobcards">{job_cards}</div>
             </div>
         );

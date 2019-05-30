@@ -1,30 +1,5 @@
 "use strict";
 
-// const GoogleApiWrapper = googlemapsreact.GoogleApiWrapper;
-// const Map = googlemapsreact.Map;
-// const InfoWindow = googlemapsreact.InfoWindow;
-// const Marker = googlemapsreact.Marker;
-
-// const mapStyles = {
-//     width: '100%',
-//     height: '100%'
-// };
-
-// class MapContainer extends Component {
-//     render() {
-//         return (
-//             <Map
-//             google={this.props.google}
-//             zoom={14}
-//             style={style}
-//             initialCenter={{ lat: -1.2884, lng: 36.8233 }}
-//             />
-//         );
-//     }
-// }
-
-
-
 
 class JobModal extends React.Component {
     constructor(props, context) {
@@ -92,12 +67,12 @@ class JobModal extends React.Component {
         const Button = ReactBootstrap.Button;
         const Badge = ReactBootstrap.Badge;
 
-        const job_tags = []
+        const job_tags = [];
         for (const tag of this.state.tags) {
             job_tags.push(<Badge variant="secondary">{tag}</Badge>);
         }
 
-        const save_button = []
+        const save_button = [];
         if (!this.state.saved) {
             save_button.push(
                             <Button variant="primary" onClick={this.handleSave} key={this.props.job_id}>
@@ -159,26 +134,27 @@ function JobCard(props) {
     const Badge = ReactBootstrap.Badge;
 
     return (
-        <div key={props.job_id} width="80%" height="60%">
-            <Card border="light">
+        <div key={props.job_id} width="80%" height="60%" className="row">
+            <Card border="light" className="col-10">
                 <Card.Body>
                     <Card.Text>
                         <span>
-                            <h6>{props.title}</h6>
+                            <span>{props.title}</span>
                             <span className="right_header">
                                 {props.company_name}
                                 <Badge pill variant="info">{props.rating}</Badge>
                             </span>
                         </span>
                     </Card.Text>
-                    <JobModal job_id={props.job_id}
-                        title={props.title}
-                        company_name={props.company_name} 
-                        rating={props.rating}
-                        description={props.description} 
-                        apply_url={props.apply_url}/>
                 </Card.Body>
             </Card>
+            <JobModal job_id={props.job_id}
+                      title={props.title}
+                      company_name={props.company_name} 
+                      rating={props.rating}
+                      description={props.description} 
+                      apply_url={props.apply_url}
+                      className="col-2"/>
         </div>
     )
 }
@@ -187,27 +163,25 @@ function JobCard(props) {
 class JobSearch extends React.Component {
     constructor(props) {
         super(props);
+        this.mapRef = React.createRef();
 
         this.state = {
             keyword: "",
             mapview: false,
             results: [],
-            // is_active: false,
         };
 
         this.handleKeywordChange = this.handleKeywordChange.bind(this);
         this.handleViewChange = this.handleViewChange.bind(this);
         this.fetchSearchingResult = this.fetchSearchingResult.bind(this);
-        this.displayResults = this.displayResults.bind(this);
-        // this.quickSearching = this.quickSearching.bind(this);
+        this.showMap = this.showMap.bind(this);
     }
 
-    // componentDidMount = () => {
-    //     fetch("/userstatus")
-    //         .then(data => { 
-    //             this.setState({ is_active: data });
-    //         });
-    // }
+    showMap = () => {
+        //tell react component to create google map
+        const mapElement = this.mapRef.current;
+        initMap(this.state.results, mapElement);
+    }
 
     handleKeywordChange = (evt) => {
         this.setState({ keyword: evt.target.value });
@@ -226,26 +200,6 @@ class JobSearch extends React.Component {
                 this.setState({ results: data });
             });
     }
-
-    // where should I call this function?
-    displayResults = () => {
-        if (!this.state.mapview) {
-            return <div className="jobcards">{job_cards}</div>
-        }
-        // else {
-        //     
-        // }
-    }
-
-    // quickSearching = (evt, keyword) =>{
-    //     evt.preventDefault();
-
-    //     fetch(`/searching?keyword=${keyword}`)
-    //         .then(res => res.json())
-    //         .then(data => { 
-    //             this.setState({ results: data });
-    //         })
-    //     }
 
     render() {
         const search_by_language = [];
@@ -324,7 +278,14 @@ class JobSearch extends React.Component {
                             );
         }
 
-        const results_count = this.state.results.length
+        const results_count = this.state.results.length;
+
+        const results_display = [];
+        if (!this.state.mapview) {
+            results_display.push(<div className="jobcards" id="job-cards">{job_cards}</div>);
+        } else {
+            this.showMap();
+        }
 
         return (
             <div className="job-search">
@@ -365,12 +326,12 @@ class JobSearch extends React.Component {
                 <div>Database: {search_by_database}</div>
                 <div>Other: {search_by_other}</div><br />
                 <p>Results({results_count})</p>
-                <div className="jobcards" id="job-cards">{job_cards}</div>
+                <div>{results_display}</div>
+                <div className="google-map" id="google-map" ref={this.mapRef}></div>
             </div>
         );
     }
 }
-
 
 window.addEventListener("load", () => {
     ReactDOM.render(
@@ -378,3 +339,4 @@ window.addEventListener("load", () => {
         document.getElementById("search")
     );
 })
+

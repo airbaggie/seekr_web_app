@@ -1,5 +1,5 @@
-#map {
-    min-width: 1000px;
+.google-map {
+    min-width: 1050px;
     width: 60%;
     min-height: 700px;
     height: 40%;
