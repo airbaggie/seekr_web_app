@@ -242,9 +242,16 @@ def update_application_status():
 
 @app.route('/myjobs', methods=['GET'])
 @login_required
-def view_my_dashboard():
+def view_my_saved_jobs():
 
     return render_template('myjobs.html')
+
+
+@app.route('/myboard', methods=['GET'])
+@login_required
+def view_my_dashboard():
+
+    return render_template('myboard.html')
 
 
 @app.route('/logout')

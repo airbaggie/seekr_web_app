@@ -6,7 +6,7 @@ class DropdownButton extends React.Component {
         super(props);
     }
 
-    render () {
+    render() {
         const Dropdown = ReactBootstrap.Dropdown;
 
         return (
@@ -34,7 +34,7 @@ class SavedJob extends React.Component {
         this.redirectApplication = this.redirectApplication.bind(this);
     }
 
-    redirectApplication = () => {
+    redirectApplication() {
         window.open(`${this.props.apply_url}`);
     }
     
@@ -107,7 +107,7 @@ class MyJobs extends React.Component {
         };
     }
 
-    reFresh = () => {
+    reFresh() {
         fetch("/userjobs")
             .then(res => res.json())
             .then(data => { 
@@ -115,11 +115,11 @@ class MyJobs extends React.Component {
             });
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         this.reFresh();
     }
 
-    removeJob = (job_id) => {
+    removeJob(job_id) {
         const data = new FormData();
         data.append('job_id', JSON.stringify(job_id));
 
@@ -129,7 +129,7 @@ class MyJobs extends React.Component {
             }).then(() => {this.reFresh()})
     }
 
-    changeStatus = (job_id, new_status) => {
+    changeStatus(job_id, new_status) {
         const data = new FormData();
         data.append('job_id', job_id);
         data.append('new_status', new_status);
