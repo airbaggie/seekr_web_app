@@ -646,5 +646,194 @@
         "lat":"37.4867039",
         "lng":"-122.2307412",
         "rating":"2.8"
+    },
+    {
+        "company_id":"81",
+        "company_name":"Slync.io",
+        "location":"San Francisco, CA 94102",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"82",
+        "company_name":"Madiba Inc.",
+        "location":"San Francisco, CA",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"92",
+        "company_name":"NZXT",
+        "location":"San Francisco, CA 94103",
+        "address":"None",
+        "lat":"None",
+        "lng":"None",
+        "rating":"None"
+    },
+    {
+        "company_id":"76",
+        "company_name":"Slack",
+        "location":"San Francisco, CA",
+        "address":"500 Howard St, San Francisco, CA 94105, USA",
+        "lat":"37.788514",
+        "lng":"-122.3966309",
+        "rating":"4.7"
+    },
+    {
+        "company_id":"77",
+        "company_name":"Bracket",
+        "location":"San Francisco, CA 94105",
+        "address":"303 2nd St Suite 700S, San Francisco, CA 94107, USA",
+        "lat":"37.7853835",
+        "lng":"-122.3956336",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"78",
+        "company_name":"Quizlet",
+        "location":"San Francisco, CA",
+        "address":"501 2nd St #500, San Francisco, CA 94107, USA",
+        "lat":"37.7832979",
+        "lng":"-122.3929164",
+        "rating":"4.7"
+    },
+    {
+        "company_id":"79",
+        "company_name":"BlackRock",
+        "location":"San Francisco, CA 94105",
+        "address":"400 Howard St, San Francisco, CA 94105, USA",
+        "lat":"37.7890067",
+        "lng":"-122.3961388",
+        "rating":"3.5"
+    },
+    {
+        "company_id":"80",
+        "company_name":"Hero Digital",
+        "location":"San Francisco, CA",
+        "address":"150 Spear St Suite 600, San Francisco, CA 94105, USA",
+        "lat":"37.791766",
+        "lng":"-122.3936",
+        "rating":"5.0"
+    },
+    {
+        "company_id":"83",
+        "company_name":"SS&C Advent",
+        "location":"San Francisco, CA",
+        "address":"600 Townsend St, San Francisco, CA 94103, USA",
+        "lat":"37.7716461",
+        "lng":"-122.4026385",
+        "rating":"3.8"
+    },
+    {
+        "company_id":"84",
+        "company_name":"Ripple",
+        "location":"San Francisco, CA",
+        "address":"315 Montgomery St, San Francisco, CA 94104, USA",
+        "lat":"37.7921154",
+        "lng":"-122.4030045",
+        "rating":"4.5"
+    },
+    {
+        "company_id":"85",
+        "company_name":"Sonoma, Inc.",
+        "location":"San Francisco, CA 94133",
+        "address":"100 North Point St, San Francisco, CA 94133, USA",
+        "lat":"37.8071594",
+        "lng":"-122.4094075",
+        "rating":"4.7"
+    },
+    {
+        "company_id":"86",
+        "company_name":"Verizon",
+        "location":"Walnut Creek, CA 94598",
+        "address":"1141 Locust St, Walnut Creek, CA 94596, USA",
+        "lat":"37.8951811",
+        "lng":"-122.0613804",
+        "rating":"3.4"
+    },
+    {
+        "company_id":"87",
+        "company_name":"Algolia",
+        "location":"San Francisco, CA",
+        "address":"301 Howard St, San Francisco, CA 94105, USA",
+        "lat":"37.7895463",
+        "lng":"-122.3943738",
+        "rating":"4.9"
+    },
+    {
+        "company_id":"88",
+        "company_name":"IMEG Corp",
+        "location":"San Francisco, CA",
+        "address":"701 Bryant St, San Francisco, CA 94107, USA",
+        "lat":"37.777434",
+        "lng":"-122.4003253",
+        "rating":"4.8"
+    },
+    {
+        "company_id":"89",
+        "company_name":"Dropbox",
+        "location":"San Francisco, CA 94102",
+        "address":"333 Brannan St, San Francisco, CA 94107, USA",
+        "lat":"37.7810569",
+        "lng":"-122.3926982",
+        "rating":"3.2"
+    },
+    {
+        "company_id":"90",
+        "company_name":"Johnson & Johnson Family of Companies",
+        "location":"Redwood City, CA",
+        "address":"6500 Paseo Padre Pkwy, Fremont, CA 94555, USA",
+        "lat":"37.5544928",
+        "lng":"-122.0665008",
+        "rating":"4.0"
+    },
+    {
+        "company_id":"91",
+        "company_name":"AppDynamics",
+        "location":"San Francisco, CA 94107",
+        "address":"303 2nd St, San Francisco, CA 94107, USA",
+        "lat":"37.7856757",
+        "lng":"-122.3958433",
+        "rating":"4.9"
+    },
+    {
+        "company_id":"93",
+        "company_name":"Hive",
+        "location":"San Francisco, CA 94109",
+        "address":"255 California St Ste 800, San Francisco, CA 94111, USA",
+        "lat":"37.7929883",
+        "lng":"-122.3996585",
+        "rating":"0.0"
+    },
+    {
+        "company_id":"94",
+        "company_name":"Viz.ai (Open Listings)",
+        "location":"San Francisco, CA",
+        "address":"1355 Market St #200, San Francisco, CA 94103, USA",
+        "lat":"37.7765065",
+        "lng":"-122.4170602",
+        "rating":"4.3"
+    },
+    {
+        "company_id":"95",
+        "company_name":"Viz.ai",
+        "location":"San Francisco, CA",
+        "address":"1355 Market St #200, San Francisco, CA 94103, USA",
+        "lat":"37.7765065",
+        "lng":"-122.4170602",
+        "rating":"4.3"
+    },
+    {
+        "company_id":"96",
+        "company_name":"Stellar Development Foundation",
+        "location":"San Francisco, CA",
+        "address":"160 Capp St, San Francisco, CA 94110, USA",
+        "lat":"37.7642762",
+        "lng":"-122.4188646",
+        "rating":"0.0"
     }
 ]

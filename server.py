@@ -54,6 +54,16 @@ class Job_Tags(Resource):
         """Job tags from database."""
 
         key = request.args.get('key')
+        # TODO: SQL injection 
+        # user_input = request.get('whatever')
+        # sql_statement = "select * from wwhere FIELD == INPUT"
+        #
+        # Bad user }:)
+        # user_input = "ios; drop table user; --"
+        # TODO: @tess follow up with this and send an article :)
+        #
+        # sql_statement.prepare(user_input)
+        # auto wrap the user stuff to make your query safe :)
         search_result = JobTag.query.filter(JobTag.job_id == f'{key}').all()
         results = []
         
@@ -161,26 +171,33 @@ def save_job():
 
     # check if user is a login user
     # only login user can save jobs
-    if current_user.is_active:
+    
+    # include guard? Guarding statements? Todo Tess find google blog post about this
 
-        user_id = current_user.get_id()
-        job_id = request.form.get('job_id')
+    # other methods: if current_user is valid/is able to modify this
+    # if not return
+    # 
+    # now I'm here user is AOK to go
 
-        # check if user has already saved this job
-        # only add unsaved job to database
-        if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
-            message = 'You have saved this job already.'
+    if not current_user.is_active:
+        return 'Please login to save this job.'
 
-        else:
-            new_user_job = UserJob(user_id, job_id)
-            db.session.add(new_user_job)
-            db.session.commit()
-            message = 'Job added succesfully'
+
+    user_id = current_user.get_id()
+    job_id = request.form.get('job_id')
+
+    # check if user has already saved this job
+    # only add unsaved job to database
+    if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
+        message = 'You have saved this job already.'
 
     else:
-        message = 'Please login to save this job.'
+        new_user_job = UserJob(user_id, job_id)
+        db.session.add(new_user_job)
+        db.session.commit()
+        message = 'Job added succesfully'
 
-    return message
+   
 
 
 @app.route('/api/remove', methods=['DELETE'])

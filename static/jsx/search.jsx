@@ -327,6 +327,8 @@ class JobSearch extends React.Component {
                     <span>Other: </span>
                     <button type="button" className="btn btn-link" value="ios" onClick={(evt) => {this.quickSearching(evt)}}>iOS</button>
                     <button type="button" className="btn btn-link" value="android" onClick={(evt) => {this.quickSearching(evt)}}>Android</button>
+                    <button type="button" className="btn btn-link" value="azure" onClick={(evt) => {this.quickSearching(evt)}}>Azure</button>
+                    <button type="button" className="btn btn-link" value="linux" onClick={(evt) => {this.quickSearching(evt)}}>Linux</button>
                     <button type="button" className="btn btn-link" value="aws" onClick={(evt) => {this.quickSearching(evt)}}>AWS</button>
                     <button type="button" className="btn btn-link" value="machine learning" onClick={(evt) => {this.quickSearching(evt)}}>Machine Learning</button>
                     <button type="button" className="btn btn-link" value="restful" onClick={(evt) => {this.quickSearching(evt)}}>RESTful</button>
