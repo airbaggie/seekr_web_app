@@ -2,14 +2,14 @@
     border: 1px solid grey;
     padding: 3px;
     margin: 4px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .status-column {
     border: 1px solid lightslategrey;
     padding: 3px;
     margin: 4px;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .column-header {
@@ -27,4 +27,23 @@
     margin: 2px;
     padding: 2px;
     color: dimgray;
+}
+
+.log-history {
+    margin: 10px;
+    padding: 5px;
+}
+
+.log-time {
+    color: grey;
+    text-size-adjust: 80%;
+}
+
+.add-log {
+    margin: 10px;
+    padding: 5px;
+}
+
+.log-input {
+    height: 150px;
 }

@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, abort, make_response, request, flash, redirect, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, Job, User, Tag, JobTag, UserTag, UserJob, Comment, Company, Avatar
+from model import connect_to_db, db, Job, User, Tag, JobTag, UserTag, UserJob, Log, Company
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask_restful import Resource, Api
 from flask_cors import CORS
@@ -124,6 +124,23 @@ class Tracking_Board(Resource):
 api.add_resource(Tracking_Board, '/tracking')
 
 
+class Logs(Resource):
+    def get(self):
+        """User jobs from database."""
+
+        user_job_id = request.args.get('user_job_id')
+
+        search_result = Log.query.filter(Log.user_job_id == f'{user_job_id}').all()
+        results = []
+        
+        for log in search_result:
+            results.append(log.get_log_attributes())
+
+        return jsonify(results)
+
+api.add_resource(Logs, '/logs')
+
+
 # class User_Status(Resource):
 #     def get(self):
 #         """Check whether the user is a login user."""
@@ -241,6 +258,24 @@ def save_job():
     return 'Job Saved.'
 
    
+@app.route('/api/log', methods=['POST'])
+@login_required
+def save_log():
+    """Update database when application status has changed or a log has been added."""
+
+    if not current_user.is_active:
+        return 'Please login first.'
+
+    user_job_id = request.form.get('user_job_id')
+    log = request.form.get('log')
+
+    new_log = Log(user_job_id, log)
+
+    db.session.add(new_log)
+    db.session.commit()
+    message = 'Log added succesfully'
+    
+    return 'Log Added.'
 
 
 @app.route('/api/remove', methods=['DELETE'])

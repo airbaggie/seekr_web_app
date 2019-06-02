@@ -24,7 +24,7 @@ class Job(db.Model):
     to_user = db.relationship("User", secondary="user_jobs")
     to_tag = db.relationship("JobTag")
     to_userjob = db.relationship("UserJob")
-    to_comment = db.relationship("Comment", secondary="user_jobs")
+    to_log = db.relationship("Log", secondary="user_jobs")
     to_company = db.relationship("Company")
 
     def __repr__(self):
@@ -79,7 +79,7 @@ class User(UserMixin, db.Model):
     to_tag = db.relationship("UserTag")
     to_job = db.relationship("Job", secondary="user_jobs")
     to_userjob = db.relationship("UserJob")
-    to_comment = db.relationship("Comment", secondary="user_jobs")
+    to_log = db.relationship("Log", secondary="user_jobs")
     to_avatar = db.relationship("Avatar")
 
 
@@ -185,7 +185,7 @@ class UserJob(db.Model):
     # Define relationships
     to_user = db.relationship("User")
     to_job = db.relationship("Job")
-    to_comment = db.relationship("Comment")
+    to_log = db.relationship("Log")
 
     # Status: 
     #   Saved / Applied / Online assessment / Phone screen / On-site / Decision made
@@ -202,27 +202,44 @@ class UserJob(db.Model):
         """Return a dictionary representation of a job."""
 
         return {
-                "job_id": self.to_job.job_id,
+                "user_job_id": self.user_job_id,
+                "job_id": self.job_id,
                 "title": self.to_job.title,
                 "company_name": self.to_job.to_company.company_name,
                 "status": self.status,
+                "decision": self.decision,
                 }
 
 
-class Comment(db.Model):
-    """Comment of a job application."""
+class Log(db.Model):
+    """Log of a job application."""
 
-    __tablename__ = "comments"
+    __tablename__ = "logs"
 
-    comment_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    log_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_job_id = db.Column(db.Integer, db.ForeignKey('user_jobs.user_job_id'), nullable=False)
-    comment = db.Column(db.String(20000), nullable=False)
-    comment_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    log = db.Column(db.String(20000), nullable=False)
+    log_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
     # Define relationships
     to_userjob = db.relationship("UserJob")
     to_user = db.relationship("User", secondary="user_jobs")
     to_job = db.relationship("Job", secondary="user_jobs")
+
+    def __init__(self, user_job_id, log):
+        """Instantiate a UserJob."""
+
+        self.user_job_id = user_job_id
+        self.log = log
+
+    def get_log_attributes(self):
+        """Return a dictionary representation of a job."""
+
+        return {
+                "log_id": self.log_id,
+                "log": self.log,
+                "log_date": self.log_date,
+                }
 
 
 class Company(db.Model):

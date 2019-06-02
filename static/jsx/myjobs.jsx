@@ -139,7 +139,6 @@ class MyJobs extends React.Component {
                     <SavedJob job_id={job[0].job_id}
                               title={job[0].title}
                               company_name={job[0].company_name}
-                            //   description={job[0].description.slice(0, 500)}
                               apply_url={job[0].apply_url}
                               removeJob={() => this.removeJob(job[0].job_id)}
                               changeStatus={this.changeStatus}

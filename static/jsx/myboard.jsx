@@ -1,17 +1,32 @@
 "use strict";
 
 
-class NoteModal extends React.Component {
+class LogModal extends React.Component {
     constructor(props, context) {
         super(props, context);
     
+        this.fetchLogs = this.fetchLogs.bind(this);
+        this.handleLogInput = this.handleLogInput.bind(this);
+        this.postLog = this.postLog.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.generateLogHistory = this.generateLogHistory.bind(this);
     
         this.state = {
             show: false,
-            notes: ["hello", "This is the first job that i have applied!"],
+            log: "",
+            logs: [],
         };
+    }
+
+    fetchLogs(evt) {
+        evt.preventDefault();
+    
+        fetch(`/logs?user_job_id=${this.props.user_job_id}`)
+            .then(res => res.json())
+            .then(data => { 
+                this.setState({ logs: data });
+            })
     }
 
     handleClose() {
@@ -22,49 +37,46 @@ class NoteModal extends React.Component {
         this.setState({ show: true });
     }
 
-    // TODO: update status and add notes
-    // fetchNotes(evt) {
-    //     evt.preventDefault();
+    handleLogInput(evt) {
+        this.setState({ log: evt.target.value });
+    }
 
-    //     fetch(`/notes?key=${this.props.job_id}`)
-    //         .then(res => res.json())
-    //         .then(data => { 
-    //             this.setState({ notes: data });
-    //         })
-    // }
+    postLog(user_job_id, log) {
 
+        const data = new FormData();
+        data.append('user_job_id', user_job_id);
+        data.append('log', log);
 
-    // TODO: change status. Use dropdown button
-    // handleSave(evt) {
-    //     evt.preventDefault();
+        fetch('api/log', {
+            method: 'POST',
+            body: data,
+            }).then((evt) => {this.fetchLogs(evt)});
+    }
 
-    //     const data = new FormData();                                 //formdata object
-    //     data.append("job_id", JSON.stringify(this.props.job_id));    //append the values with key, value pair
-
-    //     fetch("/api/userjobs", {
-    //         method: "POST",
-    //         body: data,
-    //         })
-
-    //     this.setState({ saved: true });
-    // }
+    generateLogHistory() {
+        const logs = [];
+        for (const log of this.state.logs) {
+            logs.push(
+                    <div className="log-history">
+                        <span className="mb-1">{log.log}</span>
+                        <span className="right_header log-time italic">{log.log_date}</span>
+                    </div>
+                    )
+        }
+        return logs;
+    }
 
     render() {
         const Modal = ReactBootstrap.Modal;
         const Button = ReactBootstrap.Button;
 
-        const notes = [];
-        for (const note of this.state.notes) {
-            notes.push(<p>{note}</p>)
-        }
-
         return (
             <div>
                 <Button variant="primary" onClick={(evt) => {
                                                     this.handleShow(evt);
-                                                    // this.fetchNotes(evt);
+                                                    this.fetchLogs(evt);
                                                     }}>
-                    Add notes
+                    add log
                 </Button>
         
                 <Modal show={this.state.show}
@@ -76,16 +88,29 @@ class NoteModal extends React.Component {
                     <Modal.Header closeButton>
                     <Modal.Title>
                         <div>
-                            <h3>{this.props.title}</h3>
-                            <h5>{this.props.company_name}</h5>
+                            <h5>{this.props.title}</h5>
+                            <p>{this.props.company_name}</p>
                         </div>
                     </Modal.Title>
                     </Modal.Header>
-                    <div>{notes}</div>
+                    <div>{this.generateLogHistory()}</div>
+                    <form>
+                        <div className="form-group add-log">
+                            <label htmlFor="message-text" className="col-form-label">Add log:</label>
+                            <textarea className="form-control log-input" id="message-text" name="log" onChange={this.handleLogInput}></textarea>
+                        </div>
+                    </form>
                     <Modal.Footer>
                     <Button variant="secondary" onClick={this.handleClose}>
                         Close
                     </Button>
+                    <button type="button"
+                            className="btn btn-primary"
+                            onClick={() => {
+                                        this.postLog(`${this.props.user_job_id}`, `${this.state.log}`);
+                                    }}>
+                        Submit
+                    </button>
                     </Modal.Footer>
                 </Modal>
             </div>
@@ -101,11 +126,12 @@ class TrackingCard extends React.Component {
 
     render() {
         return (
-            <div key={this.props.job_id} className="tracking-card">
+            <div key={this.props.user_job_id} className="tracking-card">
                 <p className="card-title">{this.props.title}</p>
                 <p className="card-company">{this.props.company_name}</p>
-                <NoteModal title={this.props.title}
-                           company_name={this.props.company_name} />
+                <LogModal user_job_id={this.props.user_job_id}
+                          title={this.props.title}
+                          company_name={this.props.company_name} />
             </div>
         );
     }
@@ -140,7 +166,8 @@ class StatusColumn extends React.Component {
         const tracking_cards = []
 
         for (const job of this.state.results) {
-            tracking_cards.push(<TrackingCard job_id={job.job_id}
+            tracking_cards.push(<TrackingCard user_job_id={job.user_job_id}
+                                              job_id={job.job_id}
                                               title={job.title}
                                               company_name={job.company_name}
                                               status={job.status} />)

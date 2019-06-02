@@ -256,11 +256,11 @@ class JobSearch extends React.Component {
             job_cards.push(
                             <div key={job.job_id}>
                                 <JobCard job_id={job.job_id}
-                                        title={job.title}
-                                        company_name={job.company_name} 
-                                        rating={job.rating}
-                                        description={job.description} 
-                                        apply_url={job.apply_url} />
+                                         title={job.title}
+                                         company_name={job.company_name} 
+                                         rating={job.rating}
+                                         description={job.description} 
+                                         apply_url={job.apply_url} />
                             </div>
                             );
         }
