@@ -150,6 +150,7 @@ class JobTag(db.Model):
 
         return self.to_tag.tag_name
 
+
 class UserTag(db.Model):
     """Associate table which connects users and tags tables. Tag/keyword of a user."""
 
@@ -169,7 +170,6 @@ class UserTag(db.Model):
         return f"<UserTag email={self.to_user.email} tag_name={self.to_tag.tag_name}>"
 
 
-
 class UserJob(db.Model):
     """Tracking info of jobs that saved by a user."""
 
@@ -180,7 +180,6 @@ class UserJob(db.Model):
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
     status = db.Column(db.String(50), nullable=False, default = "Saved")
     decision = db.Column(db.String(50), nullable=False, default = "Unknown")
-    calendar_available = db.Column(db.Boolean, nullable=False, default=False)
     save_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
     # Define relationships
@@ -189,8 +188,7 @@ class UserJob(db.Model):
     to_comment = db.relationship("Comment")
 
     # Status: 
-    #   Saved / Applied/ Phone-screen Scheduled / Phone-screen Completed /
-    #   On-site Scheduled / On-site Completed / Decision Made
+    #   Saved / Applied / Online assessment / Phone screen / On-site / Decision made
     # Decisions: 
     #   Unknown / Closed / Withdrawn / Offered / Unselected
 
@@ -199,6 +197,16 @@ class UserJob(db.Model):
 
         self.user_id = user_id
         self.job_id = job_id
+
+    def get_card_attributes(self):
+        """Return a dictionary representation of a job."""
+
+        return {
+                "job_id": self.to_job.job_id,
+                "title": self.to_job.title,
+                "company_name": self.to_job.to_company.company_name,
+                "status": self.status,
+                }
 
 
 class Comment(db.Model):

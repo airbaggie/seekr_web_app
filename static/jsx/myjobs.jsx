@@ -16,8 +16,8 @@ class DropdownButton extends React.Component {
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Applied")}>Applied</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Online Assessment")}>Online Assessment</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone Screen")}>Phone Screen</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Online assessment")}>Online assessment</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone screen")}>Phone screen</Dropdown.Item>
                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "On-site")}>On-site</Dropdown.Item>
                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Decision made")}>Decision made</Dropdown.Item>
                 </Dropdown.Menu>
@@ -38,21 +38,17 @@ class SavedJob extends React.Component {
         window.open(`${this.props.apply_url}`);
     }
     
-    
     render() {
-        const Card = ReactBootstrap.Card;
-        const Button = ReactBootstrap.Button;
-
         const buttons = []
         if (this.props.status === "Saved") {
             buttons.push(
                         <span>
-                            <Button variant="link" onClick={this.redirectApplication}>
+                            <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
                                 Apply on Company Site
-                            </Button>
-                            <Button variant="primary" onClick={this.props.removeJob}>
+                            </button>
+                            <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
                                 Remove
-                            </Button>
+                            </button>
                             <DropdownButton job_id={this.props.job_id}
                                             status={this.props.status} 
                                             changeStatus={this.props.changeStatus}/>
@@ -61,33 +57,27 @@ class SavedJob extends React.Component {
             buttons.push(
                         <span>
                             <span>
-                            <Button variant="primary" onClick={this.props.removeJob}>
+                            <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
                                 Remove
-                            </Button>
+                            </button>
                             </span>
                             <span><DropdownButton job_id={this.props.job_id}
                                             status={this.props.status} 
                                             changeStatus={this.props.changeStatus}/>
                             </span>
-                            {/* <Button variant="primary" disabled>
-                                Pending Review
-                            </Button> */}
                         </span>);
         }
 
         return (
-            <div key={this.props.job_id} width="80%" height="60%">
-                <Card border="light">
-                    <Card.Body>
-                        <Card.Text>
-                            <div>
-                                <span>{this.props.title} - {this.props.company}</span>
-                                <span className="right_header">Current status: {this.props.status}</span>
-                            </div>
-                        </Card.Text>
-                        <div>{buttons}</div>
-                    </Card.Body>
-                </Card>
+            <div key={this.props.job_id} width="80%" height="60%" className="row">
+                <a href="#" className="list-group-item list-group-item-action">
+                    <div className="d-flex w-100 justify-content-between">
+                        <h5 className="mb-1">{this.props.title}</h5>
+                        <span className="right_header">Current status: {this.props.status}</span>
+                    </div>
+                    <p className="mb-1">{this.props.company_name}</p>
+                    <small className="text-muted">{buttons}</small>
+                </a>
             </div>
         );
     }
@@ -148,7 +138,7 @@ class MyJobs extends React.Component {
                 <div key={job[0].job_id}>
                     <SavedJob job_id={job[0].job_id}
                               title={job[0].title}
-                              company={job[0].company_name}
+                              company_name={job[0].company_name}
                             //   description={job[0].description.slice(0, 500)}
                               apply_url={job[0].apply_url}
                               removeJob={() => this.removeJob(job[0].job_id)}

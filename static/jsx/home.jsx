@@ -7,21 +7,16 @@ class Home extends React.Component {
     }
 
     render() {
-        const Button = ReactBootstrap.Button;
-        const Jumbotron = ReactBootstrap.Jumbotron;
-
         return (
-            <div>
-                <Jumbotron>
-                    <h1>Hello, world!</h1>
-                    <p>
-                        This is a simple hero unit, a simple jumbotron-style component for calling
-                        extra attention to featured content or information.
-                    </p>
-                    <p>
-                        <Button variant="primary">Start</Button>
-                    </p>
-                </Jumbotron>
+            <div className="jumbotron">
+                <h1>Hello, world!</h1>
+                <p>
+                    This is a simple hero unit, a simple jumbotron-style component for calling
+                    extra attention to featured content or information.
+                </p>
+                <p>
+                <button type="button" className="btn btn-primary">Start</button>
+                </p>
             </div>
         );
     }

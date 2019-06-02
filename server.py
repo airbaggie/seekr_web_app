@@ -49,6 +49,21 @@ class Search_Result(Resource):
 api.add_resource(Search_Result, '/searching')
 
 
+class Show_Detail(Resource):
+    def get(self):
+        """Job searching from database."""
+
+        key = request.args.get('key')
+        single_job = Job.query.filter(Job.job_id == f'{key}').one()
+        results = []
+        
+        results.append(single_job.get_attributes())
+
+        return jsonify(results)
+
+api.add_resource(Show_Detail, '/jobdetail')
+
+
 class Job_Tags(Resource):
     def get(self):
         """Job tags from database."""
@@ -89,6 +104,24 @@ class User_Jobs(Resource):
         return jsonify(results)
 
 api.add_resource(User_Jobs, '/userjobs')
+
+
+class Tracking_Board(Resource):
+    def get(self):
+        """User jobs from database."""
+
+        key = current_user.get_id()
+        status = request.args.get('status')
+
+        search_result = UserJob.query.filter((UserJob.user_id == f'{key}') & (UserJob.status == status)).all()
+        results = []
+        
+        for user_job in search_result:
+            results.append(user_job.get_card_attributes())
+
+        return jsonify(results)
+
+api.add_resource(Tracking_Board, '/tracking')
 
 
 # class User_Status(Resource):
@@ -164,6 +197,14 @@ def user_detail(id):
     return render_template('user.html', user=user)
 
 
+# @app.route('/job/<int:job_id>', methods=['GET'])
+# def job_detail(job_id):
+#     """Show info about job."""
+
+#     job = Job.query.get(job_id)
+#     return render_template('jobdetail.html')
+
+
 @app.route('/api/userjobs', methods=['POST'])
 @login_required
 def save_job():
@@ -196,6 +237,8 @@ def save_job():
         db.session.add(new_user_job)
         db.session.commit()
         message = 'Job added succesfully'
+    
+    return 'Job Saved.'
 
    
 

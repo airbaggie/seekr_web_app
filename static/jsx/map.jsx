@@ -2,16 +2,7 @@
 
 let map;
 
-function showInfo(marker, job) {
-    let infowindow = new google.maps.InfoWindow({});
-    return () => {
-        let job_card = "<h5 class='card-title'>"+job["title"]+"</h5><p class='card-text'>"+job["company_name"]+"</p>"; 
-        infowindow.setContent(job_card);
-        infowindow.open(map, marker);
-    }
-}
-
-function initMap(results, mapElement) {
+function initMap(results, mapElement, renderJobCard) {
     let mapOptions = {
                       zoom: 11,
                       center: new google.maps.LatLng(37.6844462, -122.343031)
@@ -24,7 +15,6 @@ function initMap(results, mapElement) {
                  position: new google.maps.LatLng(job["lat"], job["lng"]),
                  map: map,
                 })
-        google.maps.event.addListener(marker, 'click', showInfo(marker, job))
+        google.maps.event.addListener(marker, 'click', renderJobCard(job))
     }
 }
-

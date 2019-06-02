@@ -1,0 +1,30 @@
+.tracking-card {
+    border: 1px solid grey;
+    padding: 3px;
+    margin: 4px;
+    border-radius: 5px;
+}
+
+.status-column {
+    border: 1px solid lightslategrey;
+    padding: 3px;
+    margin: 4px;
+    border-radius: 5px;
+}
+
+.column-header {
+    text-align: left;
+    margin: 4px;
+    padding: 2px;
+}
+
+.card-title {
+    margin: 2px;
+    padding: 2px;
+}
+
+.card-company {
+    margin: 2px;
+    padding: 2px;
+    color: dimgray;
+}

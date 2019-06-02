@@ -7,37 +7,26 @@ class Login extends React.Component {
     }
 
     render() {
-        const Form = ReactBootstrap.Form;
-        const Row = ReactBootstrap.Row;
-        const Col = ReactBootstrap.Col;
-        const Button = ReactBootstrap.Button;
-
         return (
-            <div>
-                <Form key="login" method="POST" action="/login" sm={4}>
-                    <Form.Group as={Row} controlId="login-email">
-                        <Form.Label column sm={1}>
-                        Email
-                        </Form.Label>
-                        <Col sm={3}>
-                        <Form.Control name="email" type="email" placeholder="Email" />
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row} controlId="login-password">
-                        <Form.Label column sm={1}>
-                        Password
-                        </Form.Label>
-                        <Col sm={3}>
-                        <Form.Control name="password" type="password" placeholder="Password" />
-                        </Col>
-                    </Form.Group>
-                    <Form.Group as={Row}>
-                        <Col sm={{ span: 10, offset: 1 }}>
-                        <Button type="submit">Log in</Button>
-                        </Col>
-                    </Form.Group>
-                </Form>
-            </div>
+            <form key="login" method="POST" action="/login">
+                <div className="form-group row">
+                    <label htmlFor="inputEmail3" className="col-sm-1 col-form-label">Email</label>
+                    <div className="col-sm-3">
+                        <input type="email" className="form-control" name="email" id="inputEmail3" placeholder="Email" />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <label htmlFor="inputPassword3" className="col-sm-1 col-form-label">Password</label>
+                    <div className="col-sm-3">
+                        <input type="password" className="form-control" name="password" id="inputPassword3" placeholder="Password" />
+                    </div>
+                </div>
+                <div className="form-group row">
+                    <div className="col-sm-10">
+                        <button type="submit" className="btn btn-primary">Log in</button>
+                    </div>
+                </div>
+            </form>
         ); 
     }
 };
