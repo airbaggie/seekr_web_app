@@ -1,7 +1,7 @@
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, abort, make_response, request, flash, redirect, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
-from model import connect_to_db, db, Job, User, Tag, JobTag, UserTag, UserJob, Log, Company
+from model import connect_to_db, db, Job, User, Tag, JobTag, UserJob, Log, Company
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask_restful import Resource, Api
 from flask_cors import CORS
@@ -97,9 +97,9 @@ class User_Jobs(Resource):
         key = current_user.get_id()
         search_result = UserJob.query.filter(UserJob.user_id == f'{key}').all()
         results = []
-        
+
         for user_job in search_result:
-            results.append([user_job.to_job.get_attributes(), user_job.status])
+            results.append([user_job.to_job.get_attributes(), user_job.status, user_job.user_job_id])
 
         return jsonify(results)
 
@@ -269,6 +269,10 @@ def save_log():
     user_job_id = request.form.get('user_job_id')
     log = request.form.get('log')
 
+    print("")
+    print(log)
+    print("")
+
     new_log = Log(user_job_id, log)
 
     db.session.add(new_log)
@@ -314,17 +318,75 @@ def remove_job():
 def update_application_status():
     """Change the status of a saved job."""
 
-    user_id = current_user.get_id()
-    job_id = request.form.get('job_id')
+    user_job_id = request.form.get('user_job_id')
     new_status = request.form.get('new_status')
 
-    if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 
-        user_job = UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first()
+    if UserJob.query.filter(UserJob.user_job_id == user_job_id).first(): 
+        user_job = UserJob.query.filter(UserJob.user_job_id == user_job_id).first()
 
         user_job.status = new_status
         db.session.commit()
 
-        return 'Status Updated.'
+    return 'Status Updated.'
+
+
+@app.route('/api/addjob', methods=['POST'])
+@login_required
+def add_job():
+    """Add job."""
+
+    if request.method == 'POST':
+        title = request.form['title']
+        company_name = request.form['company-name']
+        description = request.form['description']
+        apply_url = request.form['url']
+
+        print("")
+        print(title)
+        print(company_name)
+        print(apply_url)
+        print("")
+        
+        if company_name:
+
+            if Company.query.filter(Company.company_name == company_name).first():
+                company = Company.query.filter(Company.company_name == company_name).first()
+                company_id = company.company_id
+        
+            else:
+                new_company = Company(company_name, is_private='t')
+                db.session.add(new_company)
+                db.session.commit()
+
+                print("")
+                print("company added")
+                print("")
+        
+                company = Company.query.filter(Company.company_name == company_name).one()
+                company_id = company.company_id
+
+                print(company_id)
+                print("")
+
+        new_job = Job(title, company_id, description, apply_url, is_private='t')
+        db.session.add(new_job)
+        db.session.commit()
+
+        the_job = Job.query.filter((Job.title == title) & (Job.is_private == 't')).one()
+        job_id = the_job.job_id
+
+        user_id = current_user.get_id()
+        status = "Applied"
+        new_user_job = UserJob(user_id, job_id, status)
+        db.session.add(new_user_job)
+        db.session.commit()
+
+        print("")
+        print(new_user_job)
+        print("")
+
+        return "User Job Added."
+
 
 
 # @app.route('/api/user_status', methods=['GET'])

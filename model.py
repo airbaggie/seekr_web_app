@@ -19,6 +19,7 @@ class Job(db.Model):
     description = db.Column(db.String(20000), nullable=True)
     indeed_url = db.Column(db.String(200), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    is_private = db.Column(db.String(1), nullable=False, default='f')
 
     # Define relationships
     to_user = db.relationship("User", secondary="user_jobs")
@@ -32,16 +33,18 @@ class Job(db.Model):
 
         return f"<Job job_id={self.job_id} title={self.title} company={self.to_company.company}>"
 
-    def __init__(self, title, company_id=None, unique_key=None, apply_url=None, description=None, indeed_url=None):
+    def __init__(self, title, company_id=None, unique_key=None, apply_url=None, description=None, indeed_url=None, is_private='f'):
         """Instantiate a Job."""
         # Instantiate a job instance when user is manully adding a job info on his/her tracking board.
 
         self.unique_key = unique_key
         self.title = title
         self.company_id = company_id
-        self.apply_url = apply_url
         self.description = description
-        self.indeed_url = indeed_url
+        self.apply_url = apply_url
+        self.is_private = is_private
+
+
     
     def get_attributes(self):
         """Return a dictionary representation of a job."""
@@ -73,14 +76,11 @@ class User(UserMixin, db.Model):
     pw_hash = db.Column(db.String(256), nullable=False)
     zipcode = db.Column(db.String(50), nullable=True)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
-    avatar_id = db.Column(db.Integer, db.ForeignKey('avatars.avatar_id'), nullable=True)
     
     # Define relationships
-    to_tag = db.relationship("UserTag")
     to_job = db.relationship("Job", secondary="user_jobs")
     to_userjob = db.relationship("UserJob")
     to_log = db.relationship("Log", secondary="user_jobs")
-    to_avatar = db.relationship("Avatar")
 
 
     def __repr__(self):
@@ -117,7 +117,6 @@ class Tag(db.Model):
 
     # Define relationships
     to_job = db.relationship("Job", secondary="job_tags")
-    to_user = db.relationship("User", secondary="user_tags")
 
     ### options of tag_type ###
     # "language", "framework", "database", "platform"
@@ -151,25 +150,6 @@ class JobTag(db.Model):
         return self.to_tag.tag_name
 
 
-class UserTag(db.Model):
-    """Associate table which connects users and tags tables. Tag/keyword of a user."""
-
-    __tablename__ = "user_tags"
-
-    user_tag_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tags.tag_id'), nullable=False)
-
-    # Define relationships
-    to_user = db.relationship("User")
-    to_tag = db.relationship("Tag")
-
-    def __repr__(self):
-        """Provide helpful representation when printed."""
-
-        return f"<UserTag email={self.to_user.email} tag_name={self.to_tag.tag_name}>"
-
-
 class UserJob(db.Model):
     """Tracking info of jobs that saved by a user."""
 
@@ -192,11 +172,12 @@ class UserJob(db.Model):
     # Decisions: 
     #   Unknown / Closed / Withdrawn / Offered / Unselected
 
-    def __init__(self, user_id, job_id):
+    def __init__(self, user_id, job_id, status="Saved"):
         """Instantiate a UserJob."""
 
         self.user_id = user_id
         self.job_id = job_id
+        self.status = status
 
     def get_card_attributes(self):
         """Return a dictionary representation of a job."""
@@ -250,6 +231,7 @@ class Company(db.Model):
     company_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     company_name = db.Column(db.String(100), nullable=False)
     location = db.Column(db.String(100), nullable=True)
+    is_private = db.Column(db.String(1), nullable=False, default='f')
 
     # Use Google Places API to get below info
     address = db.Column(db.String(200), nullable=True)
@@ -260,14 +242,17 @@ class Company(db.Model):
     # Define relationships
     to_jobs = db.relationship("Job")
 
+    def __init__(self, company_name, company_id=None, location=None, address=None, lat=None, lng=None, rating=None, is_private='f'):
+        """Instantiate a Company."""
 
-class Avatar(db.Model):
-    """Image url of a user avatar."""
-
-    __tablename__ = "avatars"
-
-    avatar_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    avatar = db.Column(db.String(200), nullable=False)
+        self.company_id = company_id
+        self.company_name = company_name
+        self.location = location
+        self.address = address
+        self.lat = lat
+        self.lng = lng
+        self.rating = rating
+        self.is_private = is_private
 
 
 ##############################################################################

@@ -15,11 +15,11 @@ class DropdownButton extends React.Component {
                     Change status
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Applied")}>Applied</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Online assessment")}>Online assessment</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Phone screen")}>Phone screen</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "On-site")}>On-site</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.job_id}`, "Decision made")}>Decision made</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Applied")}>Applied</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Online assessment")}>Online assessment</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Phone screen")}>Phone screen</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "On-site")}>On-site</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Decision made")}>Decision made</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>   
         );
@@ -49,7 +49,7 @@ class SavedJob extends React.Component {
                             <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
                                 Remove
                             </button>
-                            <DropdownButton job_id={this.props.job_id}
+                            <DropdownButton user_job_id={this.props.user_job_id}
                                             status={this.props.status} 
                                             changeStatus={this.props.changeStatus}/>
                         </span>);
@@ -61,9 +61,9 @@ class SavedJob extends React.Component {
                                 Remove
                             </button>
                             </span>
-                            <span><DropdownButton job_id={this.props.job_id}
-                                            status={this.props.status} 
-                                            changeStatus={this.props.changeStatus}/>
+                            <span><DropdownButton user_job_id={this.props.user_job_id}
+                                                  status={this.props.status} 
+                                                  changeStatus={this.props.changeStatus}/>
                             </span>
                         </span>);
         }
@@ -119,9 +119,9 @@ class MyJobs extends React.Component {
             }).then(() => {this.reFresh()})
     }
 
-    changeStatus(job_id, new_status) {
+    changeStatus(user_job_id, new_status) {
         const data = new FormData();
-        data.append('job_id', job_id);
+        data.append('user_job_id', user_job_id);
         data.append('new_status', new_status);
 
         fetch('api/changestatus', {
@@ -137,6 +137,7 @@ class MyJobs extends React.Component {
             job_cards.push(
                 <div key={job[0].job_id}>
                     <SavedJob job_id={job[0].job_id}
+                              user_job_id={job[2]}
                               title={job[0].title}
                               company_name={job[0].company_name}
                               apply_url={job[0].apply_url}
