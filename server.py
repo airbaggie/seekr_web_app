@@ -269,10 +269,6 @@ def save_log():
     user_job_id = request.form.get('user_job_id')
     log = request.form.get('log')
 
-    print("")
-    print(log)
-    print("")
-
     new_log = Log(user_job_id, log)
 
     db.session.add(new_log)
@@ -336,10 +332,10 @@ def add_job():
     """Add job."""
 
     if request.method == 'POST':
-        title = request.form['title']
-        company_name = request.form['company-name']
-        description = request.form['description']
-        apply_url = request.form['url']
+        title = request.form.get('title')
+        company_name = request.form.get('company_name')
+        description = request.form.get('description')
+        apply_url = request.form.get('apply_url')
 
         print("")
         print(title)
@@ -380,10 +376,6 @@ def add_job():
         new_user_job = UserJob(user_id, job_id, status)
         db.session.add(new_user_job)
         db.session.commit()
-
-        print("")
-        print(new_user_job)
-        print("")
 
         return "User Job Added."
 

@@ -24,6 +24,7 @@
 }
 
 .card-company {
+    /* text-size-adjust: 150%; */
     margin: 2px;
     padding: 2px;
     color: dimgray;
@@ -31,7 +32,7 @@
 
 .log-history {
     margin: 10px;
-    padding: 5px;
+    padding: 8px;
 }
 
 .log-time {
@@ -41,9 +42,24 @@
 
 .add-log {
     margin: 10px;
-    padding: 5px;
+    padding: 8px;
 }
 
 .log-input {
+    padding: 3px;
+    height: 150px;
+}
+
+.add-row {
+    padding: 3px;
+}
+
+.add-job {
+    margin: 10px;
+    padding: 8px;
+}
+
+.job-input {
+    padding: 3px;
     height: 150px;
 }

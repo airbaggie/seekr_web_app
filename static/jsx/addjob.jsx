@@ -6,9 +6,17 @@ class AddJob extends React.Component {
     
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleTitleInput = this.handleTitleInput.bind(this);
+        this.handleCompanyInput = this.handleCompanyInput.bind(this);
+        this.handleDescriptionInput = this.handleDescriptionInput.bind(this);
+        this.handleUrlInput = this.handleUrlInput.bind(this);
 
         this.state = {
             show: false,
+            title: "",
+            company_name: "",
+            description: "",
+            apply_url: "",
         };
     }
 
@@ -20,16 +28,31 @@ class AddJob extends React.Component {
         this.setState({ show: true });
     }
 
-    postJob(title, company_name) {
-
+    postJob(title, company_name, description, apply_url) {
         const data = new FormData();
         data.append("title", title);
         data.append("company_name", company_name);
+        data.append("description", description);
+        data.append("apply_url", apply_url);
     
         fetch("api/addjob", {
             method: "POST",
             body: data,
-            });
+            }).then(this.handleClose())
+            .then(this.props.reFresh());
+    }
+
+    handleTitleInput(evt) {
+        this.setState({ title: evt.target.value });
+    }
+    handleCompanyInput(evt) {
+        this.setState({ company_name: evt.target.value });
+    }
+    handleDescriptionInput(evt) {
+        this.setState({ description: evt.target.value });
+    }
+    handleUrlInput(evt) {
+        this.setState({ apply_url: evt.target.value });
     }
 
     render() {
@@ -48,30 +71,40 @@ class AddJob extends React.Component {
                        onHide={this.handleClose}
                        size="lg"
                        aria-labelledby="contained-modal-title-vcenter"
-                       className="add-jobmodal"
+                       className="job-detail-modal"
                        centered>
-                        <form key="add-job" method="POST" action="/api/addjob">
-                            <div className="form-group add-job">
-
-                                <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Title</label>
-                                <input type="title" className="form-control col-sm-4" name="title" id="inputtitle" placeholder="Job Title"/>
-
-                                <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Company Name</label>
-                                <input type="company-name" className="form-control col-sm-4" name="company-name" id="inputcompany-name" placeholder="Company Name"/>
-
-                                <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">Description(Optional)</label>
-                                <textarea className="form-control" name="description" id="inputdescription" placeholder="Description(Optional)"></textarea>
-                                
-                                <label htmlFor="inputEmail3" className="col-sm-2 col-form-label">URL(Optional)</label>
-                                <input type="url" className="form-control col-sm-6" name="url" id="inputurl" placeholder="URL(Optional)"/>
-                            </div>
-                            
-                            <div className="form-group row">
-                                <div className="col-sm-10">
-                                    <button type="submit" className="btn btn-primary">Add job</button>
-                                </div>
-                            </div>
+                    <Modal.Header closeButton>
+                    <Modal.Title>
+                        <div>
+                            <p>Add a job:</p>
+                        </div>
+                    </Modal.Title>
+                    </Modal.Header>
+                    <form>
+                        <div className="form-group add-job">
+                            <label htmlFor="messageText" className="col-form-label">Job title:</label>
+                            <input className="form-control add-row" id="messageText" name="title" onChange={this.handleTitleInput} />
+                            <label htmlFor="messageText" className="col-form-label">Company name:</label>
+                            <input className="form-control add-row" id="messageText" name="company_name" onChange={this.handleCompanyInput} />
+                            <label htmlFor="messageText" className="col-form-label">Description(optional):</label>
+                            <textarea className="form-control job-input" id="messageText" name="description" onChange={this.handleDescriptionInput}></textarea>
+                            <label htmlFor="messageText" className="col-form-label">Apply URL(optional):</label>
+                            <input className="form-control add-row" id="messageText" name="apply_url" onChange={this.handleUrlInput} />
+                        </div>
                     </form>
+                    <Modal.Footer>
+                    <Button variant="secondary" onClick={this.handleClose}>
+                        Close
+                    </Button>
+                    <button type="submit"
+                            className="btn btn-primary"
+                            onClick={() => {
+                                    this.postJob(`${this.state.title}`, `${this.state.company_name}`, `${this.state.description}`, `${this.state.apply_url}`);
+                                    this.props.reFresh();
+                                    }}>
+                        Submit
+                    </button>
+                    </Modal.Footer>
                 </Modal>
             </div>
         );
