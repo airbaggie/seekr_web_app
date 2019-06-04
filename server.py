@@ -59,6 +59,10 @@ class Show_Detail(Resource):
         
         results.append(single_job.get_attributes())
 
+        print("")
+        print(results)
+        print("")
+
         return jsonify(results)
 
 api.add_resource(Show_Detail, '/jobdetail')
@@ -214,12 +218,12 @@ def user_detail(id):
     return render_template('user.html', user=user)
 
 
-# @app.route('/job/<int:job_id>', methods=['GET'])
+# @app.route('/viewjob/<int:job_id>', methods=['GET'])
 # def job_detail(job_id):
 #     """Show info about job."""
 
 #     job = Job.query.get(job_id)
-#     return render_template('jobdetail.html')
+#     return render_template('viewjob.html', job_id=job_id)
 
 
 @app.route('/api/userjobs', methods=['POST'])

@@ -1,41 +1,64 @@
 "use strict";
 
 
-class DropdownButton extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+// class DropdownButton extends React.Component {
+//     constructor(props) {
+//         super(props);
+//     }
 
-    render() {
-        const Dropdown = ReactBootstrap.Dropdown;
+//     render() {
+//         const Dropdown = ReactBootstrap.Dropdown;
 
-        return (
-            <Dropdown className="dropdown">
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    Change status
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Applied")}>Applied</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Online assessment")}>Online assessment</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Phone screen")}>Phone screen</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "On-site")}>On-site</Dropdown.Item>
-                    <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Decision made")}>Decision made</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>   
-        );
-    }
-}
+//         return (
+//             <Dropdown className="dropdown">
+//                 <Dropdown.Toggle variant="success" id="dropdown-basic">
+//                     Change status
+//                 </Dropdown.Toggle>
+//                 <Dropdown.Menu className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Applied")}>Applied</Dropdown.Item>
+//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Online assessment")}>Online assessment</Dropdown.Item>
+//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Phone screen")}>Phone screen</Dropdown.Item>
+//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "On-site")}>On-site</Dropdown.Item>
+//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Decision made")}>Decision made</Dropdown.Item>
+//                 </Dropdown.Menu>
+//             </Dropdown>   
+//         );
+//     }
+// }
 
 
 class SavedJob extends React.Component {
     constructor(props) {
         super(props);
 
+        // this.handleApply = this.handleApply.bind(this);
+        this.handleApplyButton = this.handleApplyButton.bind(this);
         this.redirectApplication = this.redirectApplication.bind(this);
+    
+        this.state = {
+            applied: false,
+        };
     }
+
+    // this.props.changeStatus(`${this.props.user_job_id}`, "Applied")}
 
     redirectApplication() {
         window.open(`${this.props.apply_url}`);
+    }
+
+    handleApplyButton() {
+        const apply_button = [];
+        if (!this.state.saved) {
+            save_button.push(
+                            <button type="button" className="btn btn-primary" onClick={this.handleSave} key={this.props.job_id}>
+                                Save
+                            </button>);
+        } else {
+            save_button.push(
+                            <button type="button" className="btn btn-primary" disabled key={this.props.job_id}>
+                                Saved
+                            </button>);
+        }
     }
     
     render() {
@@ -49,6 +72,7 @@ class SavedJob extends React.Component {
                             <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
                                 Remove
                             </button>
+                            {this.applyButton}
                             <DropdownButton user_job_id={this.props.user_job_id}
                                             status={this.props.status} 
                                             changeStatus={this.props.changeStatus}/>

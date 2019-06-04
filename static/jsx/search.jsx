@@ -1,85 +1,11 @@
 "use strict";
 
 
-class JobDetail extends React.Component {
-    constructor(props) {
-        super(props);
-    
-        this.handleSave = this.handleSave.bind(this);
-        this.redirectApplication = this.redirectApplication.bind(this);
-    
-        this.state = {
-            // is_active: false,
-            saved: false,
-        };
-    }
-
-    handleSave(evt) {
-        evt.preventDefault();
-
-        const data = new FormData();                                 //formdata object
-        data.append("job_id", JSON.stringify(this.props.job_id));    //append the values with key, value pair
-
-        fetch("/api/userjobs", {
-            method: "POST",
-            body: data,
-            })
-
-        this.setState({ saved: true });
-    }
-
-    redirectApplication() {
-        window.open(`${this.props.apply_url}`);
-    }
-  
-    render() {
-
-        const save_button = [];
-        if (!this.state.saved) {
-            save_button.push(
-                            <button type="button" className="btn btn-primary" onClick={this.handleSave} key={this.props.job_id}>
-                                Save
-                            </button>);
-        } else {
-            save_button.push(
-                            <button type="button" className="btn btn-primary" disabled key={this.props.job_id}>
-                                Saved
-                            </button>);
-        }
-
-        return (
-            <div key={this.props.job_id}>
-                <div>
-                    <div key={this.props.job_id}>
-                        <div>
-                            <h3>{this.props.title}</h3>
-                            <h5>{this.props.company_name}{this.props.rating}</h5>
-                        </div>
-                    </div>
-                    <div>{this.props.description.split("\n").map((item, key) => {
-                                return <span key={key}>{item}<br/></span>})}
-                    </div>
-                    <div>
-                    <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
-                        Apply on Company Site
-                    </button>
-                    <span>{save_button}</span>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
-
-
 class JobCard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { showdetail: false,
-                       tags: [] }
 
-        this.handleDetialView = this.handleDetialView.bind(this);
-        this.showDetail = this.showDetail.bind(this);
+        this.state = { tags: [] }
     }
 
     componentDidMount() {
@@ -90,21 +16,6 @@ class JobCard extends React.Component {
             });
     }
 
-    handleDetialView() {
-        this.setState({ showdetail: true });
-    }
-
-    showDetail() {
-        if (this.state.showdetail) {
-            return (<JobDetail job_id={this.props.job_id}
-                              title={this.props.title}
-                              company_name={this.props.company_name} 
-                              rating={this.props.rating}
-                              description={this.props.description} 
-                              apply_url={this.props.apply_url}/>
-        )}
-    }
-
     render() {
         const job_tags = [];
         for (const tag of this.state.tags) {
@@ -113,14 +24,13 @@ class JobCard extends React.Component {
 
         return (
             <div key={this.props.job_id} width="80%" height="60%" className="row">
-                <a href="#" className="list-group-item list-group-item-action" onClick={() => {this.handleDetialView()}}>
                     <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.props.title}</h5>
+                        <button type="button" className="btn btn-link" onClick={() => {
+                                                                                   this.props.fetchDetailInfo(`${this.props.job_id}`);
+                                                                                   }}>{this.props.title}</button>
                         <small className="text-muted">{job_tags}</small>
                     </div>
                     <p className="mb-1">{this.props.company_name} {this.props.rating}</p>
-                </a>
-                <div>{this.showDetail()}</div>
             </div>
         );
     }
@@ -149,6 +59,7 @@ class JobSearch extends React.Component {
         this.showMap = this.showMap.bind(this);
         this.generateJobCard = this.generateJobCard.bind(this);
         this.displayResults = this.displayResults.bind(this);
+        this.countResults = this.countResults.bind(this);
 
     }
 
@@ -185,7 +96,11 @@ class JobSearch extends React.Component {
     renderJobCard(job){
         return () => {
             ReactDOM.render(
-                <JobCard job_id={job["job_id"]} title={job["title"]} company_name={job["company_name"]} rating={job["rating"]} description={job["description"]} apply_url={job["apply_url"]} />,
+                <JobCard job_id={job["job_id"]}
+                         title={job["title"]}
+                         company_name={job["company_name"]}
+                         rating={job["rating"]}
+                         fetchDetailInfo={this.props.fetchDetailInfo} />,
                 document.getElementById("job-div")
             )
         };
@@ -239,7 +154,6 @@ class JobSearch extends React.Component {
     }
 
     showMap() {
-        //tell react component to create google map
         const mapElement = this.mapRef.current;
         initMap(this.state.results, mapElement, this.renderJobCard);
     }
@@ -248,6 +162,11 @@ class JobSearch extends React.Component {
         if (this.state.mapview) {
             this.showMap();
         }
+    }
+
+    countResults() {
+        const results_count = this.state.results.length;
+        return results_count;
     }
 
     generateJobCard() {
@@ -259,8 +178,7 @@ class JobSearch extends React.Component {
                                          title={job.title}
                                          company_name={job.company_name} 
                                          rating={job.rating}
-                                         description={job.description} 
-                                         apply_url={job.apply_url} />
+                                         fetchDetailInfo={this.props.fetchDetailInfo} />
                             </div>
                             );
         }
@@ -268,17 +186,14 @@ class JobSearch extends React.Component {
     }
 
     displayResults() {
-        if (!this.state.mapview) {
+        if ((!this.state.mapview) & (!this.state.detail)) {
             return <div className="jobcards" id="job-cards">{this.generateJobCard()}</div>;
-        } else {
+        } else if ((this.state.mapview) & (!this.state.detail)) {
             return [<div className="google-map" id="google-map" ref={this.mapRef}></div>, <span id="job-div"></span>];
         }
     }
 
     render() {
-
-        const results_count = this.state.results.length;
-
         return (
             <div className="job-search">
                 <form>
@@ -314,8 +229,57 @@ class JobSearch extends React.Component {
                     </div>
                 </form>
                 {this.generateQuickSearchLinks()}
-                <p>Results({results_count})</p>
+                <p>Results({this.countResults()})</p>
                 <div>{this.displayResults()}</div>
+            </div>
+        );
+    }
+}
+
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            detail: false,
+            detail_info: [],
+        };
+
+        this.handleListView = this.handleListView.bind(this);
+        this.handlePage = this.handlePage.bind(this);
+        this.fetchDetailInfo = this.fetchDetailInfo.bind(this);
+    }
+
+    fetchDetailInfo(job_id) {
+
+        fetch(`/jobdetail?key=${job_id}`)
+            .then(res => res.json())
+            .then(data => { 
+                this.setState({ detail_info: data });
+                this.setState({ detail: true });
+            })
+    }
+
+    handleListView() {
+        this.setState({ detail: false });
+    };
+
+    handlePage() {
+        if (!this.state.detail) {
+            return <JobSearch handleDetailView={this.handleDetailView}
+                              fetchDetailInfo={this.fetchDetailInfo} />
+        } else {
+            console.log(`${this.state.detail}, ${this.state.detail_info}`)
+            return <ViewJob detail_info={this.state.detail_info} 
+                            handleListView={this.handleListView} />;
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                {this.handlePage()}
             </div>
         );
     }
@@ -323,8 +287,8 @@ class JobSearch extends React.Component {
 
 window.addEventListener("load", () => {
     ReactDOM.render(
-        <JobSearch />,
-        document.getElementById("search")
+        <App />,
+        document.getElementById("app")
     );
 })
 
