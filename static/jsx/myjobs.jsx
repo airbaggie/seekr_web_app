@@ -1,114 +1,82 @@
 "use strict";
 
 
-// class DropdownButton extends React.Component {
-//     constructor(props) {
-//         super(props);
-//     }
-
-//     render() {
-//         const Dropdown = ReactBootstrap.Dropdown;
-
-//         return (
-//             <Dropdown className="dropdown">
-//                 <Dropdown.Toggle variant="success" id="dropdown-basic">
-//                     Change status
-//                 </Dropdown.Toggle>
-//                 <Dropdown.Menu className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Applied")}>Applied</Dropdown.Item>
-//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Online assessment")}>Online assessment</Dropdown.Item>
-//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Phone screen")}>Phone screen</Dropdown.Item>
-//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "On-site")}>On-site</Dropdown.Item>
-//                     <Dropdown.Item className="dropdown-item" onClick={() => this.props.changeStatus(`${this.props.user_job_id}`, "Decision made")}>Decision made</Dropdown.Item>
-//                 </Dropdown.Menu>
-//             </Dropdown>   
-//         );
-//     }
-// }
-
-
 class SavedJob extends React.Component {
     constructor(props) {
         super(props);
 
-        // this.handleApply = this.handleApply.bind(this);
-        this.handleApplyButton = this.handleApplyButton.bind(this);
+        // this.applyButton = this.applyButton.bind(this);
+        this.showButton = this.showButton.bind(this);
+        this.postAppliedLog = this.postAppliedLog.bind(this);
         this.redirectApplication = this.redirectApplication.bind(this);
     
-        this.state = {
-            applied: false,
-        };
+        // this.state = {
+        //     applied: false,
+        // };
     }
-
-    // this.props.changeStatus(`${this.props.user_job_id}`, "Applied")}
 
     redirectApplication() {
         window.open(`${this.props.apply_url}`);
     }
 
-    handleApplyButton() {
-        const apply_button = [];
-        if (!this.state.saved) {
-            save_button.push(
-                            <button type="button" className="btn btn-primary" onClick={this.handleSave} key={this.props.job_id}>
-                                Save
-                            </button>);
-        } else {
-            save_button.push(
-                            <button type="button" className="btn btn-primary" disabled key={this.props.job_id}>
-                                Saved
-                            </button>);
-        }
+    postAppliedLog(user_job_id) {
+        const data = new FormData();
+        data.append("user_job_id", user_job_id);
+        data.append("log", "Status changed: Applied");
+
+        fetch("api/log", {
+            method: "POST",
+            body: data,
+            }); 
     }
-    
-    render() {
+
+    showButton() {
         const buttons = []
         if (this.props.status === "Saved") {
-            buttons.push(
-                        <span>
-                            <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
-                                Apply on Company Site
-                            </button>
-                            <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
-                                Remove
-                            </button>
-                            {this.applyButton}
-                            <DropdownButton user_job_id={this.props.user_job_id}
-                                            status={this.props.status} 
-                                            changeStatus={this.props.changeStatus}/>
-                        </span>);
-        } else {
-            buttons.push(
-                        <span>
-                            <span>
-                            <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
-                                Remove
-                            </button>
-                            </span>
-                            <span><DropdownButton user_job_id={this.props.user_job_id}
-                                                  status={this.props.status} 
-                                                  changeStatus={this.props.changeStatus}/>
-                            </span>
-                        </span>);
-        }
 
+            buttons.push(
+                        <span>
+                            <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
+                                Remove
+                            </button>
+                            <button type="button" className="btn btn-primary" onClick={() => {
+                                                                                              this.props.changeStatus(this.props.user_job_id, "Applied");
+                                                                                              this.postAppliedLog(this.props.user_job_id)}} >
+                                Applied
+                            </button>;
+                        </span>);
+        // } else {
+        //     buttons.push(
+        //                 <span>
+        //                     <span>
+        //                     <button type="button" className="btn btn-primary" onClick={this.props.removeJob}>
+        //                         Remove
+        //                     </button>
+        //                     </span>
+        //                 </span>);
+        }
+        return buttons;
+    }
+
+    
+    render() {
         return (
             <div key={this.props.job_id} width="80%" height="60%" className="row">
-                <a href="#" className="list-group-item list-group-item-action">
-                    <div className="d-flex w-100 justify-content-between">
-                        <h5 className="mb-1">{this.props.title}</h5>
-                        <span className="right_header">Current status: {this.props.status}</span>
-                    </div>
-                    <p className="mb-1">{this.props.company_name}</p>
-                    <small className="text-muted">{buttons}</small>
-                </a>
+                <div className="d-flex w-100 justify-content-between">
+                    <button type="button" className="btn btn-link" onClick={() => {
+                                                                                    this.props.fetchDetailInfo(`${this.props.job_id}`);
+                                                                                    }}>{this.props.title}</button>
+                    <span className="right_header">Current status: {this.props.status}</span>
+                </div>
+                <p className="mb-1">{this.props.company_name}</p>
+                <small className="text-muted">{this.showButton()}</small>
             </div>
         );
     }
 }
 
 
-class MyJobs extends React.Component {
+class JobIndex extends React.Component {
     constructor(props) {
         super(props);
 
@@ -136,6 +104,8 @@ class MyJobs extends React.Component {
     removeJob(job_id) {
         const data = new FormData();
         data.append('job_id', JSON.stringify(job_id));
+
+        console.log("in remove")
 
         fetch('api/remove', {
             method: 'DELETE',
@@ -167,7 +137,8 @@ class MyJobs extends React.Component {
                               apply_url={job[0].apply_url}
                               removeJob={() => this.removeJob(job[0].job_id)}
                               changeStatus={this.changeStatus}
-                              status={job[1]} />
+                              status={job[1]}
+                              fetchDetailInfo={this.props.fetchDetailInfo} />
                 </div>
             );
         }
@@ -176,12 +147,60 @@ class MyJobs extends React.Component {
 
         return (
             <div className="saved-job">
-                <p>My saved jobs ({job_count})</p>
+                <p>My jobs ({job_count})</p>
                 <div className="jobcards">{job_cards}</div>
             </div>
         );
     }
 };
+
+
+class MyJobs extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            detail: false,
+            detail_info: [],
+        };
+
+        this.handleIndexView = this.handleIndexView.bind(this);
+        this.handlePage = this.handlePage.bind(this);
+        this.fetchDetailInfo = this.fetchDetailInfo.bind(this);
+    }
+
+    fetchDetailInfo(job_id) {
+
+        fetch(`/jobdetail?key=${job_id}`)
+            .then(res => res.json())
+            .then(data => { 
+                this.setState({ detail_info: data });
+                this.setState({ detail: true });
+            })
+    }
+
+    handleIndexView() {
+        this.setState({ detail: false });
+    };
+
+    handlePage() {
+        if (!this.state.detail) {
+            return <JobIndex fetchDetailInfo={this.fetchDetailInfo} />
+        } else {
+            console.log(`${this.state.detail}, ${this.state.detail_info}`)
+            return <ViewSavedJob detail_info={this.state.detail_info} 
+                            handleIndexView={this.handleIndexView} />;
+        }
+    }
+
+    render() {
+        return (
+            <div>
+                {this.handlePage()}
+            </div>
+        );
+    }
+}
 
 window.addEventListener("load", () => {
     ReactDOM.render(

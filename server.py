@@ -294,6 +294,10 @@ def remove_job():
         user_id = current_user.get_id()
         job_id = request.form.get('job_id')
 
+        print("")
+        print("removing")
+        print("")
+
         # check if user has already saved this job
         # only add unsaved job to database
         if UserJob.query.filter((UserJob.user_id == user_id)&(UserJob.job_id == job_id)).first(): 

@@ -123,7 +123,7 @@ class LogModal extends React.Component {
                                                     this.handleShow(evt);
                                                     this.fetchLogs(evt);
                                                     }}>
-                    add log
+                    add note
                 </Button>
         
                 <Modal show={this.state.show}
@@ -148,7 +148,7 @@ class LogModal extends React.Component {
                     <div>{this.generateLogHistory()}</div>
                     <form>
                         <div className="form-group add-log">
-                            <label htmlFor="messageText" className="col-form-label">Add log:</label>
+                            <label htmlFor="messageText" className="col-form-label">Add note:</label>
                             <textarea className="form-control log-input" id="messageText" name="log" onChange={this.handleLogInput}></textarea>
                         </div>
                     </form>

@@ -267,10 +267,9 @@ class App extends React.Component {
 
     handlePage() {
         if (!this.state.detail) {
-            return <JobSearch handleDetailView={this.handleDetailView}
-                              fetchDetailInfo={this.fetchDetailInfo} />
+            return <JobSearch fetchDetailInfo={this.fetchDetailInfo} />
         } else {
-            console.log(`${this.state.detail}, ${this.state.detail_info}`)
+            // console.log(`${this.state.detail}, ${this.state.detail_info}`)
             return <ViewJob detail_info={this.state.detail_info} 
                             handleListView={this.handleListView} />;
         }

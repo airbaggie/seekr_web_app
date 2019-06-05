@@ -14,9 +14,9 @@ class Job(db.Model):
     job_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     unique_key = db.Column(db.String(20), nullable=True)
     title = db.Column(db.String(120), nullable=False)
-    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=True)
+    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=False)
     apply_url = db.Column(db.String(200), nullable=True)
-    description = db.Column(db.String(20000), nullable=True)
+    description = db.Column(db.String(20000), nullable=False)
     indeed_url = db.Column(db.String(200), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     is_private = db.Column(db.String(1), nullable=False, default='f')
@@ -33,7 +33,7 @@ class Job(db.Model):
 
         return f"<Job job_id={self.job_id} title={self.title} company={self.to_company.company}>"
 
-    def __init__(self, title, company_id=None, unique_key=None, apply_url=None, description=None, indeed_url=None, is_private='f'):
+    def __init__(self, title, company_id, description, unique_key=None, apply_url=None, indeed_url=None, is_private='f'):
         """Instantiate a Job."""
         # Instantiate a job instance when user is manully adding a job info on his/her tracking board.
 
@@ -44,8 +44,6 @@ class Job(db.Model):
         self.apply_url = apply_url
         self.is_private = is_private
 
-
-    
     def get_attributes(self):
         """Return a dictionary representation of a job."""
 
@@ -58,6 +56,7 @@ class Job(db.Model):
                 "rating": self.to_company.rating,
                 "lat": self.to_company.lat,
                 "lng": self.to_company.lng,
+                "is_private": self.is_private,
                 }
     
     def get_job_tags(self):

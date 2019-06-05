@@ -86,7 +86,7 @@ class AddJob extends React.Component {
                             <input className="form-control add-row" id="messageText" name="title" onChange={this.handleTitleInput} />
                             <label htmlFor="messageText" className="col-form-label">Company name:</label>
                             <input className="form-control add-row" id="messageText" name="company_name" onChange={this.handleCompanyInput} />
-                            <label htmlFor="messageText" className="col-form-label">Description(optional):</label>
+                            <label htmlFor="messageText" className="col-form-label">Description:</label>
                             <textarea className="form-control job-input" id="messageText" name="description" onChange={this.handleDescriptionInput}></textarea>
                             <label htmlFor="messageText" className="col-form-label">Apply URL(optional):</label>
                             <input className="form-control add-row" id="messageText" name="apply_url" onChange={this.handleUrlInput} />

@@ -30,11 +30,14 @@ class ViewJob extends React.Component {
     redirectApplication() {
         window.open(`${this.props.detail_info[0].apply_url}`);
     }
+
+    handlePrivateJobInfo() {
+        if ((!this.props.detail_info[0].description) & (!this.props.detail_info[0].description)) {
+
+        }
+    }
   
     render() {
-
-        console.log(`${this.props.detail_info[0].job_id}`)
-        console.log(`${this.props.detail_info}`)
 
         const save_button = [];
         if (!this.state.saved) {
@@ -52,21 +55,21 @@ class ViewJob extends React.Component {
         return (
             <div key={this.props.detail_info[0].job_id}>
                 <div>
-                    <button type="button" onClick={this.props.handleListView}>Back</button>
+                    <button type="button" onClick={this.props.handleListView}>Back to search</button>
                     <div key={this.props.detail_info[0].job_id}>
                         <div>
                             <h3>{this.props.detail_info[0].title}</h3>
-                            <h5>{this.props.detail_info[0].company_name}{this.props.detail_info[0].rating}</h5>
+                            <h5>{this.props.detail_info[0].company_name}</h5>
                         </div>
+                    </div>
+                    <div>
+                        <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
+                            Apply on Company Site
+                        </button>
+                        <span>{save_button}</span>
                     </div>
                     <div>{this.props.detail_info[0].description.split("\n").map((item, key) => {
                                 return <span key={key}>{item}<br/></span>})}
-                    </div>
-                    <div>
-                    <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
-                        Apply on Company Site
-                    </button>
-                    <span>{save_button}</span>
                     </div>
                 </div>
             </div>
