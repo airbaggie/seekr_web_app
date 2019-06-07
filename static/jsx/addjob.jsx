@@ -1,3 +1,4 @@
+"use strict";
 
 
 class AddJob extends React.Component {

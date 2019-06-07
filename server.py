@@ -109,6 +109,41 @@ class User_Jobs(Resource):
 
 api.add_resource(User_Jobs, '/userjobs')
 
+# class User_Job_Id(Resource):
+#     def get(self):
+#         """User jobs from database."""
+
+#         key = current_user.get_id()
+#         job_id = request.args.get('job_id')
+#         # user_job = UserJob.query.filter((UserJob.user_id == f'{key}') & (UserJob.job_id == f'{job_id}')).one()
+#         # result = [user_job.get_user_job_id()]
+        
+#         search_result = UserJob.query.filter((UserJob.user_id == f'{key}') & (UserJob.job_id == f'{job_id}')).all()
+#         results = []
+        
+#         for user_job in search_result:
+#             results.append(user_job.get_card_attributes())
+
+#         return jsonify(results)
+
+# api.add_resource(User_Job_Id, '/userjobid')
+
+
+class User_Notes(Resource):
+    def get(self):
+        """User jobs from database."""
+
+        user_job_id = request.args.get('key')
+        search_result = Log.query.filter(Log.user_job_id == f'{user_job_id}').all()
+        results = []
+
+        for user_note in search_result:
+            results.append([user_note.log, user_note.log_date])
+
+        return jsonify(results)
+
+api.add_resource(User_Notes, '/usernotes')
+
 
 class Tracking_Board(Resource):
     def get(self):
@@ -167,6 +202,12 @@ def search():
     """Search page."""
 
     return render_template("search.html")
+
+
+@app.route("/trydnd")
+def trydnd():
+
+    return render_template("trydnd.html")
 
 
 @app.route('/login', methods=['GET', 'POST'])

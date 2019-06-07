@@ -120,11 +120,11 @@ class JobSearch extends React.Component {
         const search_by_language = [];
         const search_by_framework = [];
         const search_by_database = [];
-        const search_by_other = [];
+        // const search_by_other = [];
         const language_list = ["Python", "JavaScript", "Java", "HTML", "CSS", "C#", "PHP", "C++", "Ruby", "GO"];
         const framework_list = ["Angular", "React", "Spring", "Django", "Flask", "TensorFlow", ".NET"];
         const database_list = ["MySQL", "SQL", "PostgreSQL", "Oracle", "MongoDB", "Redis", "RDS"];
-        const other_list = ["iOS", "Android", "AWS", "Machine Learning", "RESTful"];
+        // const other_list = ["iOS", "Android", "AWS", "Machine Learning", "RESTful"];
 
         for (const item of language_list) {
             search_by_language.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
@@ -135,9 +135,9 @@ class JobSearch extends React.Component {
         for (const item of database_list) {
             search_by_database.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
         }
-        for (const item of other_list) {
-            search_by_other.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
-        }
+        // for (const item of other_list) {
+        //     search_by_other.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
+        // }
 
         return (
             <div>
@@ -147,8 +147,8 @@ class JobSearch extends React.Component {
                 {search_by_framework}<br />
                 <span>Database: </span>
                 {search_by_database}<br />
-                <span>Other: </span>
-                {search_by_other}<br />
+                {/* <span>Other: </span>
+                {search_by_other}<br /> */}
             </div>
         )
     }

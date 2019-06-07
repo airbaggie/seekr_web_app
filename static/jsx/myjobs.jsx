@@ -57,13 +57,13 @@ class SavedJob extends React.Component {
         }
         return buttons;
     }
-
     
     render() {
         return (
             <div key={this.props.job_id} width="80%" height="60%" className="row">
                 <div className="d-flex w-100 justify-content-between">
                     <button type="button" className="btn btn-link" onClick={() => {
+                                                                                    // this.props.fetchUserJobId(`${this.props.job_id}`);
                                                                                     this.props.fetchDetailInfo(`${this.props.job_id}`);
                                                                                     }}>{this.props.title}</button>
                     <span className="right_header">Current status: {this.props.status}</span>
@@ -124,9 +124,8 @@ class JobIndex extends React.Component {
             }).then(() => {this.reFresh()})
     }
 
-    render() {
+    generateJobCard() {
         const job_cards = [];
-
         for (const job of this.state.results) {
             job_cards.push(
                 <div key={job[0].job_id}>
@@ -138,17 +137,40 @@ class JobIndex extends React.Component {
                               removeJob={() => this.removeJob(job[0].job_id)}
                               changeStatus={this.changeStatus}
                               status={job[1]}
-                              fetchDetailInfo={this.props.fetchDetailInfo} />
+                              fetchDetailInfo={this.props.fetchDetailInfo}
+                            //   fetchUserJobId={this.props.fetchUserJobId} 
+                              />
                 </div>
             );
         }
+        return job_cards;
+    }
 
+    render() {
+        const job_cards = [];
+        for (const job of this.state.results) {
+            job_cards.push(
+                <div key={job[0].job_id}>
+                    <SavedJob job_id={job[0].job_id}
+                              user_job_id={job[2]}
+                              title={job[0].title}
+                              company_name={job[0].company_name}
+                              apply_url={job[0].apply_url}
+                              removeJob={() => this.removeJob(job[0].job_id)}
+                              changeStatus={this.changeStatus}
+                              status={job[1]}
+                              fetchDetailInfo={this.props.fetchDetailInfo}
+                            //   fetchUserJobId={this.props.fetchUserJobId} 
+                              />
+                </div>
+            );
+        }
         const job_count = job_cards.length
 
         return (
             <div className="saved-job">
                 <p>My jobs ({job_count})</p>
-                <div className="jobcards">{job_cards}</div>
+                <div className="jobcards">{this.generateJobCard()}</div>
             </div>
         );
     }
@@ -170,7 +192,6 @@ class MyJobs extends React.Component {
     }
 
     fetchDetailInfo(job_id) {
-
         fetch(`/jobdetail?key=${job_id}`)
             .then(res => res.json())
             .then(data => { 
@@ -185,11 +206,14 @@ class MyJobs extends React.Component {
 
     handlePage() {
         if (!this.state.detail) {
-            return <JobIndex fetchDetailInfo={this.fetchDetailInfo} />
+            return <JobIndex fetchDetailInfo={this.fetchDetailInfo}
+                             />
         } else {
-            console.log(`${this.state.detail}, ${this.state.detail_info}`)
+        // need to get user_job_id and pass to viewSavedJob
             return <ViewSavedJob detail_info={this.state.detail_info} 
-                            handleIndexView={this.handleIndexView} />;
+                                 handleIndexView={this.handleIndexView}
+                                //  user_job_id={this.state.user_job_id}
+                                  />;
         }
     }
 

@@ -59,6 +59,19 @@ class Job(db.Model):
                 "is_private": self.is_private,
                 }
     
+    def get_user_job_info(self):
+        """Return a dictionary representation of a user job."""
+
+        return {
+                "job_id": self.job_id,
+                "title": self.title,
+                "company_name": self.to_company.company_name,
+                "apply_url": self.apply_url,
+                "description": self.description,
+                "user_job_id": self.to_userjob.user_job_id,
+                }
+    
+    
     def get_job_tags(self):
         # need to add tag list query
         pass
@@ -188,6 +201,13 @@ class UserJob(db.Model):
                 "company_name": self.to_job.to_company.company_name,
                 "status": self.status,
                 "decision": self.decision,
+                }
+
+    def get_user_job_id(self):
+        # """Return a dictionary representation of a job."""
+
+        return {
+                "user_job_id": self.user_job_id,
                 }
 
 
