@@ -3,7 +3,6 @@
 
 const DragDropContext = ReactDnD.DragDropContext;
 const HTML5Backend = ReactDnDHTML5Backend.default;
-// const rowStyle = { overflow: 'hidden', clear: 'both' }
 
 class MyBoard extends React.Component {
     constructor(props) {
@@ -67,7 +66,7 @@ class MyBoard extends React.Component {
             <div>
                 <AddJob reFresh={this.reFresh}/>
                     <div className="container">
-                        <div className="row">
+                        <div className="row status-columns">
                             {this.generateStatusColumns()}
                         </div>
                     </div>

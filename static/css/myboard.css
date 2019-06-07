@@ -10,8 +10,12 @@
     padding: 3px;
     margin: 4px;
     border-radius: 3px;
-    width: auto;
-    /* grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); */
+    width: 19%;
+}
+
+.status-columns {
+    margin: auto;
+    /* align-content: center; */
 }
 
 .column-header {
@@ -20,13 +24,17 @@
     padding: 2px;
 }
 
+.column-body {
+    height: calc(100% - 35px);
+    padding-top: 1px;
+}
+
 .card-title {
     margin: 2px;
     padding: 2px;
 }
 
 .card-company {
-    /* text-size-adjust: 150%; */
     margin: 2px;
     padding: 2px;
     color: dimgray;

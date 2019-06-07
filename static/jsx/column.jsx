@@ -2,7 +2,6 @@
 
 
 const DropTarget = ReactDnD.DropTarget;
-// const rowStyle = { overflow: 'hidden', clear: 'both' };
 const ItemTypes = { CARD: 'card' };
 
 // original undroppable column component
@@ -65,20 +64,19 @@ class RawStatusColumn extends React.Component {
         const isOver = this.props.isOver;
         const isActive = canDrop && isOver;
 
-        // let backgroundColor = '#222'
-        // if (isActive) {
-        //     backgroundColor = 'darkgreen'
-        // } else if (canDrop) {
-        //     backgroundColor = 'darkkhaki'
-        // }
+        let backgroundColor = ''
+        if (isActive) {
+            backgroundColor = 'lightgrey'
+        } else if (canDrop) {
+            backgroundColor = 'darkgrey'
+        }
 
         return (
-            <div className="col-md-2 status-column" key={this.props.status}>
+            <div className="status-column" key={this.props.status}>
                 <p className="column-header">{this.props.status} ({this.countCard()})</p>
-                <div ref={connectDropTarget}>
-                    <div>
-                         {/* style={{ backgroundColor }} */}
-                        {isActive ? 'Release to change status' : 'Drag card to change status'}
+                <div className="column-body" ref={connectDropTarget} style={{ backgroundColor }}>
+                    <div className="column-body">
+                        {/* {isActive ? 'Release to change status' : 'Drag card to change status'} */}
                         {this.generateTrackingCards()}
                     </div>
                 </div>
