@@ -3,17 +3,18 @@
   <head>
     <title>LandinSoft</title>
     <link rel="shortcut icon" href="/static/favicon.ico">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/map.css">
-    <link rel="stylesheet" href="/static/css/myboard.css">
-    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/components/search/map.css">
+    <link rel="stylesheet" href="/static/components/myboard/myboard.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script
           src="http://code.jquery.com/jquery-3.4.1.js"
           integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
           crossorigin="anonymous"></script>
-    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
 
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script async defer crossorigin src="https://unpkg.com/react-bootstrap@1.0.0-beta.8/dist/react-bootstrap.js"></script>
 
@@ -34,7 +35,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="/search">Search <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/jobs">Search <span class="sr-only">(current)</span></a>
             </li>
           </ul>
             
@@ -52,9 +53,6 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/myboard">My Board</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/user/{{ current_user.id }}">My Profile</a>            
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/logout">Log out</a>

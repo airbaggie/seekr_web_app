@@ -25,13 +25,13 @@ class Job(db.Model):
     to_user = db.relationship("User", secondary="user_jobs")
     to_tag = db.relationship("JobTag")
     to_userjob = db.relationship("UserJob")
-    to_log = db.relationship("Log", secondary="user_jobs")
+    to_note = db.relationship("Note", secondary="user_jobs")
     to_company = db.relationship("Company")
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<Job job_id={self.job_id} title={self.title} company={self.to_company.company}>"
+        return f"<Job job_id={self.job_id} title={self.title} company={self.to_company.company_name}>"
 
     def __init__(self, title, company_id, description, unique_key=None, apply_url=None, indeed_url=None, is_private='f'):
         """Instantiate a Job."""
@@ -44,6 +44,18 @@ class Job(db.Model):
         self.apply_url = apply_url
         self.is_private = is_private
 
+    def get_detail_info(self):
+        """Return a dictionary representation of a job detail."""
+
+        return {
+                "job_id": self.job_id,
+                "title": self.title,
+                "company_name": self.to_company.company_name,
+                "apply_url": self.apply_url,
+                "description": self.description,
+                "is_private": self.is_private,
+                }
+
     def get_attributes(self):
         """Return a dictionary representation of a job."""
 
@@ -51,31 +63,11 @@ class Job(db.Model):
                 "job_id": self.job_id,
                 "title": self.title,
                 "company_name": self.to_company.company_name,
-                "apply_url": self.apply_url,
-                "description": self.description,
                 "rating": self.to_company.rating,
                 "lat": self.to_company.lat,
                 "lng": self.to_company.lng,
-                "is_private": self.is_private,
                 }
-    
-    def get_user_job_info(self):
-        """Return a dictionary representation of a user job."""
-
-        return {
-                "job_id": self.job_id,
-                "title": self.title,
-                "company_name": self.to_company.company_name,
-                "apply_url": self.apply_url,
-                "description": self.description,
-                "user_job_id": self.to_userjob.user_job_id,
-                }
-    
-    
-    def get_job_tags(self):
-        # need to add tag list query
-        pass
-        
+  
         
 class User(UserMixin, db.Model):
     """User of the website."""
@@ -86,19 +78,16 @@ class User(UserMixin, db.Model):
     user_name = db.Column(db.String(50), nullable=True)
     email = db.Column(db.String(50), nullable=False)
     pw_hash = db.Column(db.String(256), nullable=False)
-    zipcode = db.Column(db.String(50), nullable=True)
     create_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
     
     # Define relationships
     to_job = db.relationship("Job", secondary="user_jobs")
     to_userjob = db.relationship("UserJob")
-    to_log = db.relationship("Log", secondary="user_jobs")
-
 
     def __repr__(self):
         """Provide helpful representation when printed."""
 
-        return f"<User id={self.id} email={self.email} zipcode={self.zipcode}>"
+        return f"<User id={self.id} email={self.email}>"
 
     def __init__(self, email, password):
         """Instantiate a User."""
@@ -115,7 +104,6 @@ class User(UserMixin, db.Model):
         """Return true if stored password matches hash of given password."""
 
         return check_password_hash(self.pw_hash, password)
-
     
 
 class Tag(db.Model):
@@ -171,18 +159,15 @@ class UserJob(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     job_id = db.Column(db.Integer, db.ForeignKey('jobs.job_id'), nullable=False)
     status = db.Column(db.String(50), nullable=False, default = "Saved")
-    decision = db.Column(db.String(50), nullable=False, default = "Unknown")
     save_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
     # Define relationships
     to_user = db.relationship("User")
     to_job = db.relationship("Job")
-    to_log = db.relationship("Log")
+    to_note = db.relationship("Note")
 
     # Status: 
-    #   Saved / Applied / Online assessment / Phone screen / On-site / Decision made
-    # Decisions: 
-    #   Unknown / Closed / Withdrawn / Offered / Unselected
+    #   Saved / Applied / Online assessment / Phone screen / On-site / Offer
 
     def __init__(self, user_id, job_id, status="Saved"):
         """Instantiate a UserJob."""
@@ -191,7 +176,7 @@ class UserJob(db.Model):
         self.job_id = job_id
         self.status = status
 
-    def get_card_attributes(self):
+    def get_saved_job_attributes(self):
         """Return a dictionary representation of a job."""
 
         return {
@@ -200,45 +185,35 @@ class UserJob(db.Model):
                 "title": self.to_job.title,
                 "company_name": self.to_job.to_company.company_name,
                 "status": self.status,
-                "decision": self.decision,
-                }
-
-    def get_user_job_id(self):
-        # """Return a dictionary representation of a job."""
-
-        return {
-                "user_job_id": self.user_job_id,
                 }
 
 
-class Log(db.Model):
-    """Log of a job application."""
+class Note(db.Model):
+    """Note of a job application."""
 
-    __tablename__ = "logs"
+    __tablename__ = "notes"
 
-    log_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    note_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_job_id = db.Column(db.Integer, db.ForeignKey('user_jobs.user_job_id'), nullable=False)
-    log = db.Column(db.String(20000), nullable=False)
-    log_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
+    note = db.Column(db.String(20000), nullable=False)
+    note_date = db.Column(db.DateTime, nullable=False, default=datetime.datetime.utcnow)
 
     # Define relationships
     to_userjob = db.relationship("UserJob")
-    to_user = db.relationship("User", secondary="user_jobs")
-    to_job = db.relationship("Job", secondary="user_jobs")
 
-    def __init__(self, user_job_id, log):
+    def __init__(self, user_job_id, note):
         """Instantiate a UserJob."""
 
         self.user_job_id = user_job_id
-        self.log = log
+        self.note = note
 
-    def get_log_attributes(self):
+    def get_note_attributes(self):
         """Return a dictionary representation of a job."""
 
         return {
-                "log_id": self.log_id,
-                "log": self.log,
-                "log_date": self.log_date,
+                "note_id": self.note_id,
+                "note": self.note,
+                "note_date": self.note_date,
                 }
 
 

@@ -2,7 +2,7 @@
 
 
 const DropTarget = ReactDnD.DropTarget;
-const ItemTypes = { CARD: 'card' };
+const ItemTypes = { CARD: "card" };
 
 // original undroppable column component
 class RawStatusColumn extends React.Component {
@@ -12,15 +12,15 @@ class RawStatusColumn extends React.Component {
         this.countCard = this.countCard.bind(this);
         this.generateTrackingCards = this.generateTrackingCards.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
-        this.postStatusLog = this.postStatusLog.bind(this);
+        this.postStatusNote = this.postStatusNote.bind(this);
     }
 
-    postStatusLog(user_job_id, log) {
+    postStatusNote(user_job_id, note) {
         const data = new FormData();
-        data.append("user_job_id", user_job_id);
-        data.append("log", log);
+        data.append("key1", user_job_id);
+        data.append("key2", note);
 
-        fetch("api/log", {
+        fetch("/api/notes", {
             method: "POST",
             body: data,
             });
@@ -28,15 +28,15 @@ class RawStatusColumn extends React.Component {
 
     changeStatus(user_job_id, new_status) {
         const data = new FormData();
-        data.append('user_job_id', user_job_id);
-        data.append('new_status', new_status);
+        data.append("key1", user_job_id);
+        data.append("key2", new_status);
 
-        fetch('api/changestatus', {
-            method: 'POST',
+        fetch("/api/userjobdetail", {
+            method: "POST",
             body: data,
             }).then(() => {this.props.reFresh()})
         
-        this.postStatusLog(user_job_id, `Status changed: ${new_status}`)
+        this.postStatusNote(user_job_id, `Status changed: ${new_status}`)
     }
 
     countCard() {
@@ -64,11 +64,11 @@ class RawStatusColumn extends React.Component {
         const isOver = this.props.isOver;
         const isActive = canDrop && isOver;
 
-        let backgroundColor = ''
+        let backgroundColor = ""
         if (isActive) {
-            backgroundColor = 'lightgrey'
+            backgroundColor = "lightgrey"
         } else if (canDrop) {
-            backgroundColor = 'darkgrey'
+            backgroundColor = "darkgrey"
         }
 
         return (

@@ -40,22 +40,22 @@
     color: dimgray;
 }
 
-.log-history {
+.note-history {
     margin: 10px;
     padding: 8px;
 }
 
-.log-time {
+.note-time {
     color: grey;
     text-size-adjust: 80%;
 }
 
-.add-log {
+.add-note {
     margin: 10px;
     padding: 8px;
 }
 
-.log-input {
+.note-input {
     padding: 3px;
     height: 150px;
 }

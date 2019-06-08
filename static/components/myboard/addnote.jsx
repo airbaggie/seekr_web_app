@@ -32,9 +32,9 @@ class DropdownButton extends React.Component {
                                                                         this.props.reFresh();
                                                                         }}>On-site</Dropdown.Item>
                     <Dropdown.Item className="dropdown-item" onClick={() => {
-                                                                        this.props.changeStatus(`${this.props.user_job_id}`, "Decision made");
+                                                                        this.props.changeStatus(`${this.props.user_job_id}`, "Offer");
                                                                         this.props.reFresh();
-                                                                        }}>Decision made</Dropdown.Item>
+                                                                        }}>Offer</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>   
         );
@@ -42,32 +42,32 @@ class DropdownButton extends React.Component {
 }
 
 
-class LogModal extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+class NoteModal extends React.Component {
+    constructor(props) {
+        super(props);
     
-        this.fetchLogs = this.fetchLogs.bind(this);
-        this.handleLogInput = this.handleLogInput.bind(this);
-        this.postLog = this.postLog.bind(this);
+        this.fetchNotes = this.fetchNotes.bind(this);
+        this.handleNoteInput = this.handleNoteInput.bind(this);
+        this.postNote = this.postNote.bind(this);
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.generateLogHistory = this.generateLogHistory.bind(this);
+        this.generateNoteHistory = this.generateNoteHistory.bind(this);
     
         this.state = {
             show: false,
-            log: "",
-            logs: [],
+            note: "",
+            notes: [],
         };
     }
 
-    fetchLogs(evt) {
+    fetchNotes(evt) {
         evt.preventDefault();
     
-        fetch(`/logs?user_job_id=${this.props.user_job_id}`)
+        fetch(`/api/notes?key=${this.props.user_job_id}`)
             .then(res => res.json())
             .then(data => { 
-                this.setState({ logs: data });
-            }).then(this.setState({ log: ""}));
+                this.setState({ notes: data });
+            }).then(this.setState({ note: ""}));
     }
 
     handleClose() {
@@ -78,39 +78,39 @@ class LogModal extends React.Component {
         this.setState({ show: true });
     }
 
-    handleLogInput(evt) {
-        this.setState({ log: evt.target.value });
+    handleNoteInput(evt) {
+        this.setState({ note: evt.target.value });
     }
 
-    postLog(user_job_id, log) {
+    postNote(user_job_id, note) {
 
-        if (log) {
+        if (note) {
             const data = new FormData();
             data.append("user_job_id", user_job_id);
-            data.append("log", log);
-    
-            fetch("api/log", {
+            data.append("note", note);
+
+            fetch("/api/notes", {
                 method: "POST",
                 body: data,
-                }).then((evt) => {this.fetchLogs(evt)})
+                }).then((evt) => {this.fetchNotes(evt)})
                 .then(this.handleClose())
                 // .then(this.props.reFresh())
         }
-        this.setState({ log: "" });
+        this.setState({ note: "" });
         
     }
 
-    generateLogHistory() {
-        const logs = [];
-        for (const log of this.state.logs) {
-            logs.push(
-                    <div className="log-history">
-                        <span className="mb-1">{log.log}</span>
-                        <span className="right_header log-time italic">{log.log_date}</span>
+    generateNoteHistory() {
+        const notes = [];
+        for (const note of this.state.notes) {
+            notes.push(
+                    <div className="note-history">
+                        <span className="mb-1">{note.note}</span>
+                        <span className="right_header note-time italic">{note.note_date}</span>
                     </div>
                     )
         }
-        return logs;
+        return notes;
     }
 
     render() {
@@ -121,7 +121,7 @@ class LogModal extends React.Component {
             <div>
                 <Button variant="primary" onClick={(evt) => {
                                                     this.handleShow(evt);
-                                                    this.fetchLogs(evt);
+                                                    this.fetchNotes(evt);
                                                     }}>
                     add note
                 </Button>
@@ -145,11 +145,11 @@ class LogModal extends React.Component {
                                         />
                     </Modal.Title>
                     </Modal.Header>
-                    <div>{this.generateLogHistory()}</div>
+                    <div>{this.generateNoteHistory()}</div>
                     <form>
-                        <div className="form-group add-log">
+                        <div className="form-group add-note">
                             <label htmlFor="messageText" className="col-form-label">Add note:</label>
-                            <textarea className="form-control log-input" id="messageText" name="log" onChange={this.handleLogInput}></textarea>
+                            <textarea className="form-control note-input" id="messageText" name="note" onChange={this.handleNoteInput}></textarea>
                         </div>
                     </form>
                     <Modal.Footer>
@@ -159,8 +159,7 @@ class LogModal extends React.Component {
                     <button type="button"
                             className="btn btn-primary"
                             onClick={() => {
-                                this.postLog(`${this.props.user_job_id}`, `${this.state.log}`);
-                                // this.props.reFresh();
+                                this.postNote(`${this.props.user_job_id}`, `${this.state.note}`);
                                 }}>
                         Submit
                     </button>

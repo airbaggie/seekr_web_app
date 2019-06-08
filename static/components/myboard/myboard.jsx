@@ -4,7 +4,7 @@
 const DragDropContext = ReactDnD.DragDropContext;
 const HTML5Backend = ReactDnDHTML5Backend.default;
 
-class MyBoard extends React.Component {
+class Board extends React.Component {
     constructor(props) {
         super(props);
 
@@ -15,35 +15,35 @@ class MyBoard extends React.Component {
                        Online_assessment: [],
                        Phone_screen: [],
                        Onsite: [],
-                       Decision_made: [],
+                       Offer: [],
                      };
     }
 
     reFresh() {
-        fetch("/tracking?status=Applied")
+        fetch("/api/track?key=Applied")
             .then(res => res.json())
             .then(data => {
                 this.setState({ Applied: data });
             });
-        fetch("/tracking?status=Online assessment")
+        fetch("/api/track?key=Online assessment")
             .then(res => res.json())
             .then(data => {
                 this.setState({ Online_assessment: data });
             });
-        fetch("/tracking?status=Phone screen")
+        fetch("/api/track?key=Phone screen")
             .then(res => res.json())
             .then(data => {
                 this.setState({ Phone_screen: data });
             });
-        fetch("/tracking?status=On-site")
+        fetch("/api/track?key=On-site")
             .then(res => res.json())
             .then(data => {
                 this.setState({ Onsite: data });
             });
-        fetch("/tracking?status=Decision made")
+        fetch("/api/track?key=Offer")
             .then(res => res.json())
             .then(data => {
-                this.setState({ Decision_made: data });
+                this.setState({ Offer: data });
             });
     }
     
@@ -57,7 +57,7 @@ class MyBoard extends React.Component {
         status_column.push(<StatusColumn status="Online assessment" results={this.state.Online_assessment} reFresh={this.reFresh} />)
         status_column.push(<StatusColumn status="Phone screen" results={this.state.Phone_screen} reFresh={this.reFresh} />)
         status_column.push(<StatusColumn status="On-site" results={this.state.Onsite} reFresh={this.reFresh} />)
-        status_column.push(<StatusColumn status="Decision made" results={this.state.Decision_made} reFresh={this.reFresh} />)
+        status_column.push(<StatusColumn status="Offer" results={this.state.Offer} reFresh={this.reFresh} />)
         return status_column;
     }
 
@@ -76,9 +76,9 @@ class MyBoard extends React.Component {
 }
 
 
-const TrackingBoard = DragDropContext(HTML5Backend)(MyBoard);
- 
-class Tracker extends React.Component {
+const TrackingBoard = DragDropContext(HTML5Backend)(Board);
+
+class MyBoard extends React.Component {
     render() {
         return <TrackingBoard />;
    }
@@ -87,7 +87,7 @@ class Tracker extends React.Component {
 
 window.addEventListener("load", () => {
     ReactDOM.render(
-        <Tracker />,
+        <MyBoard />,
         document.getElementById("myboard")
     );
 })

@@ -9,7 +9,7 @@ class JobCard extends React.Component {
     }
 
     componentDidMount() {
-        fetch(`/tags?key=${this.props.job_id}`)
+        fetch(`/api/tags?key=${this.props.job_id}`)
             .then(res => res.json())
             .then(data => { 
                 this.setState({ tags: data });
@@ -64,7 +64,7 @@ class JobSearch extends React.Component {
     }
 
     reFresh() {
-        fetch("/searching?keyword=")
+        fetch("/api/search?key=")
             .then(res => res.json())
             .then(data => { 
                 this.setState({ results: data });
@@ -86,7 +86,7 @@ class JobSearch extends React.Component {
     fetchSearchingResult(evt) {
         evt.preventDefault();
 
-        fetch(`/searching?keyword=${this.state.keyword}`)
+        fetch(`/api/search?key=${this.state.keyword}`)
             .then(res => res.json())
             .then(data => { 
                 this.setState({ results: data });
@@ -109,7 +109,7 @@ class JobSearch extends React.Component {
     quickSearching(evt) {
         evt.preventDefault();
 
-        fetch(`/searching?keyword=${evt.target.value}`)
+        fetch(`/api/search?key=${evt.target.value}`)
             .then(res => res.json())
             .then(data => { 
                 this.setState({ results: data });
@@ -120,11 +120,9 @@ class JobSearch extends React.Component {
         const search_by_language = [];
         const search_by_framework = [];
         const search_by_database = [];
-        // const search_by_other = [];
         const language_list = ["Python", "JavaScript", "Java", "HTML", "CSS", "C#", "PHP", "C++", "Ruby", "GO"];
         const framework_list = ["Angular", "React", "Spring", "Django", "Flask", "TensorFlow", ".NET"];
         const database_list = ["MySQL", "SQL", "PostgreSQL", "Oracle", "MongoDB", "Redis", "RDS"];
-        // const other_list = ["iOS", "Android", "AWS", "Machine Learning", "RESTful"];
 
         for (const item of language_list) {
             search_by_language.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
@@ -135,9 +133,6 @@ class JobSearch extends React.Component {
         for (const item of database_list) {
             search_by_database.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
         }
-        // for (const item of other_list) {
-        //     search_by_other.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
-        // }
 
         return (
             <div>
@@ -147,8 +142,6 @@ class JobSearch extends React.Component {
                 {search_by_framework}<br />
                 <span>Database: </span>
                 {search_by_database}<br />
-                {/* <span>Other: </span>
-                {search_by_other}<br /> */}
             </div>
         )
     }
@@ -237,7 +230,7 @@ class JobSearch extends React.Component {
 }
 
 
-class App extends React.Component {
+class JobSearchApp extends React.Component {
     constructor(props) {
         super(props);
 
@@ -252,8 +245,7 @@ class App extends React.Component {
     }
 
     fetchDetailInfo(job_id) {
-
-        fetch(`/jobdetail?key=${job_id}`)
+        fetch(`/api/jobdetail?key=${job_id}`)
             .then(res => res.json())
             .then(data => { 
                 this.setState({ detail_info: data });
@@ -269,7 +261,6 @@ class App extends React.Component {
         if (!this.state.detail) {
             return <JobSearch fetchDetailInfo={this.fetchDetailInfo} />
         } else {
-            // console.log(`${this.state.detail}, ${this.state.detail_info}`)
             return <ViewJob detail_info={this.state.detail_info} 
                             handleListView={this.handleListView} />;
         }
@@ -286,7 +277,7 @@ class App extends React.Component {
 
 window.addEventListener("load", () => {
     ReactDOM.render(
-        <App />,
+        <JobSearchApp />,
         document.getElementById("app")
     );
 })

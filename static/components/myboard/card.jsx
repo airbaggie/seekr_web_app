@@ -19,7 +19,7 @@ class RawTrackingCard extends React.Component {
                  ref={connectDragSource} style={{ opacity }}>
                 <p className="card-title">{this.props.title}</p>
                 <p className="card-company">{this.props.company_name}</p>
-                <LogModal user_job_id={this.props.user_job_id}
+                <NoteModal user_job_id={this.props.user_job_id}
                           title={this.props.title}
                           company_name={this.props.company_name}
                           changeStatus={this.props.changeStatus}

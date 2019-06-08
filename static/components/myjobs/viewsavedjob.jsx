@@ -4,8 +4,8 @@
 class NoteCard extends React.Component {
     constructor(props) {
         super(props);
-
     }
+    
     render() {
         return (
             <div>
@@ -17,50 +17,30 @@ class NoteCard extends React.Component {
 }
 
 
-
 class ViewSavedJob extends React.Component {
     constructor(props) {
         super(props);
     
-        // this.handleApply = this.handleApply.bind(this);
         this.redirectApplication = this.redirectApplication.bind(this);
         this.generateNoteCard = this.generateNoteCard.bind(this);
     
         this.state = {
             applied: false,
-            notes: [],
         };
     }
-
-    // componentDidMount() {
-    //     fetch(`/logs?user_job_id=${this.props.user_job_id}`)
-    //         .then(res => res.json())
-    //         .then(data => { 
-    //             this.setState({ notes: data });
-    //         })
-
-    //     console.log(this.state.notes);
-    //     console.log(this.props.user_job_id);
-    // }
 
     redirectApplication() {
         window.open(`${this.props.detail_info[0].apply_url}`);
     }
 
-    // handlePrivateJobInfo() {
-    //     if ((!this.props.detail_info[0].description) & (!this.props.detail_info[0].description)) {
-            
-    //     }
-    // }
-
     generateNoteCard() {
         const note_cards = [];
-        for (const note of this.state.notes) {
-            note_cards.push(<NoteCard user_job_id={note.user_job_id} note={note.log} timestamp={note.log_date} />)
+        for (const note of this.props.notes) {
+            note_cards.push(<NoteCard note={note.note} timestamp={note.note_date} />)
         }
         return note_cards;
     }
-  
+
     render() {
         return (
             <div key={this.props.detail_info[0].job_id}>
@@ -85,7 +65,7 @@ class ViewSavedJob extends React.Component {
                                 </div>
                             </div>
                             <div class="col-6 col-md-4">
-                                <p>Add notes/history here.</p>
+                                <p>History</p>
                                 {this.generateNoteCard()}
                             </div>
                         </div>

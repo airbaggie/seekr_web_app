@@ -17,7 +17,7 @@ class ViewJob extends React.Component {
         evt.preventDefault();
 
         const data = new FormData();                                 
-        data.append("job_id", JSON.stringify(this.props.detail_info[0].job_id));
+        data.append("key", JSON.stringify(this.props.detail_info[0].job_id));
 
         fetch("/api/userjobs", {
             method: "POST",

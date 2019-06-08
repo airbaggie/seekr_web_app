@@ -5,26 +5,21 @@ class SavedJob extends React.Component {
     constructor(props) {
         super(props);
 
-        // this.applyButton = this.applyButton.bind(this);
         this.showButton = this.showButton.bind(this);
-        this.postAppliedLog = this.postAppliedLog.bind(this);
+        this.postAppliedNote = this.postAppliedNote.bind(this);
         this.redirectApplication = this.redirectApplication.bind(this);
-    
-        // this.state = {
-        //     applied: false,
-        // };
     }
 
     redirectApplication() {
         window.open(`${this.props.apply_url}`);
     }
 
-    postAppliedLog(user_job_id) {
+    postAppliedNote(user_job_id) {
         const data = new FormData();
         data.append("user_job_id", user_job_id);
-        data.append("log", "Status changed: Applied");
+        data.append("note", "Status changed: Applied");
 
-        fetch("api/log", {
+        fetch("/api/notes", { 
             method: "POST",
             body: data,
             }); 
@@ -41,7 +36,7 @@ class SavedJob extends React.Component {
                             </button>
                             <button type="button" className="btn btn-primary" onClick={() => {
                                                                                               this.props.changeStatus(this.props.user_job_id, "Applied");
-                                                                                              this.postAppliedLog(this.props.user_job_id)}} >
+                                                                                              this.postAppliedNote(this.props.user_job_id)}} >
                                 Applied
                             </button>;
                         </span>);
@@ -62,10 +57,10 @@ class SavedJob extends React.Component {
         return (
             <div key={this.props.job_id} width="80%" height="60%" className="row">
                 <div className="d-flex w-100 justify-content-between">
-                    <button type="button" className="btn btn-link" onClick={() => {
-                                                                                    // this.props.fetchUserJobId(`${this.props.job_id}`);
-                                                                                    this.props.fetchDetailInfo(`${this.props.job_id}`);
-                                                                                    }}>{this.props.title}</button>
+                    <button type="button" className="btn btn-link" 
+                            onClick={() => {this.props.fetchDetailInfo(`${this.props.user_job_id}`);}}>
+                            {this.props.title}
+                    </button>
                     <span className="right_header">Current status: {this.props.status}</span>
                 </div>
                 <p className="mb-1">{this.props.company_name}</p>
@@ -90,7 +85,7 @@ class JobIndex extends React.Component {
     }
 
     reFresh() {
-        fetch("/userjobs")
+        fetch("/api/userjobs")
             .then(res => res.json())
             .then(data => { 
                 this.setState({ results: data });
@@ -103,11 +98,9 @@ class JobIndex extends React.Component {
 
     removeJob(job_id) {
         const data = new FormData();
-        data.append('job_id', JSON.stringify(job_id));
+        data.append("key", JSON.stringify(job_id));
 
-        console.log("in remove")
-
-        fetch('api/remove', {
+        fetch("/api/userjobs", {
             method: 'DELETE',
             body: data,
             }).then(() => {this.reFresh()})
@@ -115,10 +108,10 @@ class JobIndex extends React.Component {
 
     changeStatus(user_job_id, new_status) {
         const data = new FormData();
-        data.append('user_job_id', user_job_id);
-        data.append('new_status', new_status);
+        data.append("key1", user_job_id);
+        data.append("key2", new_status);
 
-        fetch('api/changestatus', {
+        fetch("/api/userjobdetail", {
             method: 'POST',
             body: data,
             }).then(() => {this.reFresh()})
@@ -128,17 +121,15 @@ class JobIndex extends React.Component {
         const job_cards = [];
         for (const job of this.state.results) {
             job_cards.push(
-                <div key={job[0].job_id}>
-                    <SavedJob job_id={job[0].job_id}
-                              user_job_id={job[2]}
-                              title={job[0].title}
-                              company_name={job[0].company_name}
-                              apply_url={job[0].apply_url}
-                              removeJob={() => this.removeJob(job[0].job_id)}
+                <div key={job.user_job_id}>
+                    <SavedJob job_id={job.job_id}
+                              user_job_id={job.user_job_id}
+                              title={job.title}
+                              company_name={job.company_name}
+                              removeJob={() => this.removeJob(job.job_id)}
                               changeStatus={this.changeStatus}
-                              status={job[1]}
+                              status={job.status}
                               fetchDetailInfo={this.props.fetchDetailInfo}
-                            //   fetchUserJobId={this.props.fetchUserJobId} 
                               />
                 </div>
             );
@@ -146,30 +137,14 @@ class JobIndex extends React.Component {
         return job_cards;
     }
 
-    render() {
-        const job_cards = [];
-        for (const job of this.state.results) {
-            job_cards.push(
-                <div key={job[0].job_id}>
-                    <SavedJob job_id={job[0].job_id}
-                              user_job_id={job[2]}
-                              title={job[0].title}
-                              company_name={job[0].company_name}
-                              apply_url={job[0].apply_url}
-                              removeJob={() => this.removeJob(job[0].job_id)}
-                              changeStatus={this.changeStatus}
-                              status={job[1]}
-                              fetchDetailInfo={this.props.fetchDetailInfo}
-                            //   fetchUserJobId={this.props.fetchUserJobId} 
-                              />
-                </div>
-            );
-        }
-        const job_count = job_cards.length
+    countJobCard() {
+        return this.state.results.length
+    }
 
+    render() {
         return (
             <div className="saved-job">
-                <p>My jobs ({job_count})</p>
+                <p>My jobs ({this.countJobCard()})</p>
                 <div className="jobcards">{this.generateJobCard()}</div>
             </div>
         );
@@ -184,6 +159,7 @@ class MyJobs extends React.Component {
         this.state = {
             detail: false,
             detail_info: [],
+            notes: [],
         };
 
         this.handleIndexView = this.handleIndexView.bind(this);
@@ -191,12 +167,17 @@ class MyJobs extends React.Component {
         this.fetchDetailInfo = this.fetchDetailInfo.bind(this);
     }
 
-    fetchDetailInfo(job_id) {
-        fetch(`/jobdetail?key=${job_id}`)
+    fetchDetailInfo(user_job_id) {
+        fetch(`/api/userjobdetail?key=${user_job_id}`)
             .then(res => res.json())
             .then(data => { 
                 this.setState({ detail_info: data });
                 this.setState({ detail: true });
+            })
+        fetch(`/api/notes?key=${user_job_id}`)
+            .then(res => res.json())
+            .then(data => { 
+                this.setState({ notes: data });
             })
     }
 
@@ -206,14 +187,11 @@ class MyJobs extends React.Component {
 
     handlePage() {
         if (!this.state.detail) {
-            return <JobIndex fetchDetailInfo={this.fetchDetailInfo}
-                             />
+            return <JobIndex fetchDetailInfo={this.fetchDetailInfo} />
         } else {
-        // need to get user_job_id and pass to viewSavedJob
-            return <ViewSavedJob detail_info={this.state.detail_info} 
-                                 handleIndexView={this.handleIndexView}
-                                //  user_job_id={this.state.user_job_id}
-                                  />;
+            return <ViewSavedJob detail_info={this.state.detail_info}
+                                 notes={this.state.notes}
+                                 handleIndexView={this.handleIndexView} />;
         }
     }
 

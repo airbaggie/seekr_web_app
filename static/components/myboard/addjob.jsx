@@ -2,8 +2,8 @@
 
 
 class AddJob extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+    constructor(props) {
+        super(props);
     
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
@@ -31,12 +31,12 @@ class AddJob extends React.Component {
 
     postJob(title, company_name, description, apply_url) {
         const data = new FormData();
-        data.append("title", title);
-        data.append("company_name", company_name);
-        data.append("description", description);
-        data.append("apply_url", apply_url);
+        data.append("key1", title);
+        data.append("key2", company_name);
+        data.append("key3", description);
+        data.append("key4", apply_url);
     
-        fetch("api/addjob", {
+        fetch("/api/privatejob", {
             method: "POST",
             body: data,
             }).then(this.handleClose())
