@@ -295,7 +295,7 @@ def search_job():
 
     return render_template('search.html')
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     """Display login form and handle logging in user."""
 
@@ -315,7 +315,7 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
     """Show form for user signup."""
 
