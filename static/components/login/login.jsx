@@ -23,7 +23,7 @@ class Login extends React.Component {
                 </div>
                 <div className="form-group row">
                     <div className="col-sm-10">
-                        <button type="submit" className="btn btn-primary">Log in</button>
+                        <button type="submit" className="btn btn btn-secondary">Log in</button>
                     </div>
                 </div>
             </form>

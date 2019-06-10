@@ -80,33 +80,36 @@ class NoteModal extends React.Component {
 
     handleNoteInput(evt) {
         this.setState({ note: evt.target.value });
+        console.log(this.state.note);
     }
 
     postNote(user_job_id, note) {
 
         if (note) {
             const data = new FormData();
-            data.append("user_job_id", user_job_id);
-            data.append("note", note);
+            data.append("key1", user_job_id);
+            data.append("key2", note);
 
             fetch("/api/notes", {
                 method: "POST",
                 body: data,
                 }).then((evt) => {this.fetchNotes(evt)})
                 .then(this.handleClose())
-                // .then(this.props.reFresh())
         }
         this.setState({ note: "" });
-        
     }
 
     generateNoteHistory() {
         const notes = [];
         for (const note of this.state.notes) {
             notes.push(
-                    <div className="note-history">
-                        <span className="mb-1">{note.note}</span>
-                        <span className="right_header note-time italic">{note.note_date}</span>
+                    <div className="note-history row">
+                        <div className="col note-in-modal">
+                            <span className="mb-1">{note.note}</span>
+                        </div>
+                        <div className="col notetime-in-modal">
+                            <span className="right_header note-time italic">{note.note_date}</span>
+                        </div>
                     </div>
                     )
         }
@@ -119,11 +122,11 @@ class NoteModal extends React.Component {
 
         return (
             <div>
-                <Button variant="primary" onClick={(evt) => {
+                <Button className="add-note-button" variant="light" size="sm" onClick={(evt) => {
                                                     this.handleShow(evt);
                                                     this.fetchNotes(evt);
                                                     }}>
-                    add note
+                    + note
                 </Button>
         
                 <Modal show={this.state.show}

@@ -23,7 +23,7 @@ class Signup extends React.Component {
                 </div>
                 <div className="form-group row">
                     <div className="col-sm-10">
-                        <button type="submit" className="btn btn-primary">Sign Up</button>
+                        <button type="submit" className="btn btn btn-secondary">Sign Up</button>
                     </div>
                 </div>
             </form>

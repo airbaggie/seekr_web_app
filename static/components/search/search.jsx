@@ -23,16 +23,54 @@ class JobCard extends React.Component {
         }
 
         return (
-            <div key={this.props.job_id} width="80%" height="60%" className="row">
-                    <div className="d-flex w-100 justify-content-between">
-                        <button type="button" className="btn btn-link" onClick={() => {
-                                                                                   this.props.fetchDetailInfo(`${this.props.job_id}`);
-                                                                                   }}>{this.props.title}</button>
-                        <small className="text-muted">{job_tags}</small>
-                    </div>
-                    <p className="mb-1">{this.props.company_name} {this.props.rating}</p>
+            <div className="card">
+                <div className="card-body">
+                    <p className="card-title d-inline-block" onClick={() => {
+                                                                            this.props.fetchDetailInfo(`${this.props.job_id}`);
+                                                                            }}>{this.props.title}</p>
+                    <br />
+                    <span className="card-text">{this.props.company_name}</span>
+                    <span className="badge badge-pill badge-info">{this.props.rating}</span>
+                    <p className="card-text"><small className="text-muted">{job_tags}</small></p>
+                </div>
             </div>
         );
+    }
+}
+
+class MapViewJobCard extends React.Component {
+    constructor(props) {
+        super(props);
+    
+        this.state = { tags: [] }
+    }
+
+    componentDidMount() {
+        fetch(`/api/tags?key=${this.props.job_id}`)
+            .then(res => res.json())
+            .then(data => { 
+                this.setState({ tags: data });
+            });
+    }
+
+    render() {
+        const job_tags = [];
+        for (const tag of this.state.tags) {
+            job_tags.push(<span className="badge badge-pill badge-light">{tag}</span>);
+        }
+
+        return(
+            <div className="card" style={{width: 30+"rem"}}>
+                <div className="card-body">
+                    <p className="card-title" onClick={() => {
+                                                                this.props.fetchDetailInfo(`${this.props.job_id}`);
+                                                                }}>{this.props.title}</p>
+                    <span className="card-text">{this.props.company_name}</span>
+                    <span className="badge badge-pill badge-info">{this.props.rating}</span>
+                    <p className="card-text"><small class="text-muted">{job_tags}</small></p>
+                </div>
+            </div>
+        )
     }
 }
 
@@ -71,9 +109,9 @@ class JobSearch extends React.Component {
             });
     }
 
-    componentDidMount() {
-        this.reFresh();
-    }
+    // componentDidMount() {
+    //     this.reFresh();
+    // }
 
     handleKeywordChange(evt) {
         this.setState({ keyword: evt.target.value });
@@ -96,11 +134,11 @@ class JobSearch extends React.Component {
     renderJobCard(job){
         return () => {
             ReactDOM.render(
-                <JobCard job_id={job["job_id"]}
-                         title={job["title"]}
-                         company_name={job["company_name"]}
-                         rating={job["rating"]}
-                         fetchDetailInfo={this.props.fetchDetailInfo} />,
+                <MapViewJobCard job_id={job["job_id"]}
+                                title={job["title"]}
+                                company_name={job["company_name"]}
+                                rating={job["rating"]}
+                                fetchDetailInfo={this.props.fetchDetailInfo} />,
                 document.getElementById("job-div")
             )
         };
@@ -166,13 +204,12 @@ class JobSearch extends React.Component {
         const job_cards = [];
         for (const job of this.state.results) {
             job_cards.push(
-                            <div key={job.job_id}>
-                                <JobCard job_id={job.job_id}
-                                         title={job.title}
-                                         company_name={job.company_name} 
-                                         rating={job.rating}
-                                         fetchDetailInfo={this.props.fetchDetailInfo} />
-                            </div>
+                            <JobCard key={job.job_id}
+                                        job_id={job.job_id}
+                                        title={job.title}
+                                        company_name={job.company_name} 
+                                        rating={job.rating}
+                                        fetchDetailInfo={this.props.fetchDetailInfo} />
                             );
         }
         return job_cards;
@@ -180,48 +217,52 @@ class JobSearch extends React.Component {
 
     displayResults() {
         if ((!this.state.mapview) & (!this.state.detail)) {
-            return <div className="jobcards" id="job-cards">{this.generateJobCard()}</div>;
+            return <div className="jobcards card-columns" id="job-cards">{this.generateJobCard()}</div>;
         } else if ((this.state.mapview) & (!this.state.detail)) {
-            return [<div className="google-map" id="google-map" ref={this.mapRef}></div>, <span id="job-div"></span>];
+            return [<div className="google-map" id="google-map" ref={this.mapRef}></div>, <span className="job-div" id="job-div"></span>];
         }
     }
 
     render() {
         return (
             <div className="job-search">
-                <form>
-                    <div className="form-row align-items-center">
-                        <div className="col-auto">
-                            <input type="text"
-                                   id="keyword-field"
-                                   name="keyword"
-                                   className="form-control mb-2"
-                                   value={this.state.keyword}
-                                   onChange={this.handleKeywordChange}
-                                   placeholder="Search by keywords"
-                                   />
+                <div className="jumbotron">
+                    <form>
+                        <div className="form-row align-items-center">
+                            <div className="col-auto">
+                                <input type="text"
+                                    id="keyword-field"
+                                    name="keyword"
+                                    className="form-control mb-2"
+                                    value={this.state.keyword}
+                                    onChange={this.handleKeywordChange}
+                                    placeholder="Search by keywords"
+                                    />
+                            </div>
+                            <div className="form-check mb-2">
+                                <input type="checkbox"
+                                    checked={this.state.mapview}
+                                    onChange={this.handleViewChange}
+                                    id="map-view"
+                                    className="form-check-input" />
+                                <label className="form-check-label" >
+                                    Mapview
+                                </label>
+                            </div>
+                            <div className="col-auto">
+                                <button type="submit"
+                                        className="btn btn-secondary mb-2"
+                                        onClick={this.fetchSearchingResult}
+                                        key="search-button">
+                                    Search
+                                </button>
+                            </div>
                         </div>
-                        <div className="form-check mb-2">
-                            <input type="checkbox"
-                                   checked={this.state.mapview}
-                                   onChange={this.handleViewChange}
-                                   id="map-view"
-                                  className="form-check-input" />
-                            <label className="form-check-label" >
-                                Mapview
-                            </label>
-                        </div>
-                        <div className="col-auto">
-                            <button type="submit"
-                                    className="btn btn-primary mb-2"
-                                    onClick={this.fetchSearchingResult}
-                                    key="search-button">
-                                Search
-                            </button>
-                        </div>
+                    </form>
+                    <div className="quick-search">
+                        {this.generateQuickSearchLinks()}
                     </div>
-                </form>
-                {this.generateQuickSearchLinks()}
+                </div>
                 <p>Results({this.countResults()})</p>
                 <div>{this.displayResults()}</div>
             </div>

@@ -65,8 +65,8 @@ class Board extends React.Component {
         return (
             <div>
                 <AddJob reFresh={this.reFresh}/>
-                    <div className="container">
-                        <div className="row status-columns">
+                    <div>
+                        <div className="row status-columns justify-content-center">
                             {this.generateStatusColumns()}
                         </div>
                     </div>

@@ -53,25 +53,28 @@ class ViewJob extends React.Component {
         }
 
         return (
-            <div key={this.props.detail_info[0].job_id}>
-                <div>
-                    <button type="button" onClick={this.props.handleListView}>Back to search</button>
-                    <div key={this.props.detail_info[0].job_id}>
+            <div key={this.props.detail_info[0].job_id} className="row">
+                <div className="col-1"></div>
+                <div className="col-10">
+                    <button type="button" className="bt btn btn-secondary" onClick={this.props.handleListView}>Back</button>
+                    <span>{save_button}</span>
+                    <br />
+                    <div key={this.props.detail_info[0].job_id} className="job-detail">
                         <div>
                             <h3>{this.props.detail_info[0].title}</h3>
                             <h5>{this.props.detail_info[0].company_name}</h5>
                         </div>
-                    </div>
-                    <div>
-                        <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
-                            Apply on Company Site
-                        </button>
-                        <span>{save_button}</span>
-                    </div>
-                    <div>{this.props.detail_info[0].description.split("\n").map((item, key) => {
+                        <div className="url">
+                            <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
+                                Apply on Company Site
+                            </button>
+                        </div>
+                        <div className="jd">{this.props.detail_info[0].description.split("\n").map((item, key) => {
                                 return <span key={key}>{item}<br/></span>})}
+                        </div>
                     </div>
                 </div>
+                <div className="col-1"></div>
             </div>
         );
     }

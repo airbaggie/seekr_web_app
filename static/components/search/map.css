@@ -4,5 +4,14 @@
     min-height: 700px;
     height: 40%;
     border: 1px solid grey;
+    z-index: auto;
 }
 
+.job-div {
+    z-index: 1;
+    position: relative;
+    top: -130px;
+    left: 283px;
+    /* height:200px;
+    width:200px; */
+}

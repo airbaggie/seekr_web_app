@@ -1,0 +1,27 @@
+tr {
+    width: 100%;
+}
+
+.td-title {
+    width: 30%;
+}
+
+.td-company {
+    width: 30%;
+}
+
+.td-status {
+    width: 20%;
+}
+
+.td-action {
+    width: 20%;
+}
+
+.jd {
+    text-align: justify;
+}
+
+.url {
+    text-align: right;
+}

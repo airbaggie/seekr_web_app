@@ -66,14 +66,14 @@ class RawStatusColumn extends React.Component {
 
         let backgroundColor = ""
         if (isActive) {
-            backgroundColor = "lightgrey"
+            backgroundColor = "#e8f4f9"
         } else if (canDrop) {
-            backgroundColor = "darkgrey"
+            backgroundColor = "#f1f7d9"
         }
 
         return (
             <div className="status-column" key={this.props.status}>
-                <p className="column-header">{this.props.status} ({this.countCard()})</p>
+                <p className="column-header">{this.props.status} <span class="badge badge-light">{this.countCard()}</span></p>
                 <div className="column-body" ref={connectDropTarget} style={{ backgroundColor }}>
                     <div className="column-body">
                         {/* {isActive ? 'Release to change status' : 'Drag card to change status'} */}

@@ -20,10 +20,10 @@ class RawTrackingCard extends React.Component {
                 <p className="card-title">{this.props.title}</p>
                 <p className="card-company">{this.props.company_name}</p>
                 <NoteModal user_job_id={this.props.user_job_id}
-                          title={this.props.title}
-                          company_name={this.props.company_name}
-                          changeStatus={this.props.changeStatus}
-                          reFresh={this.props.reFresh}
+                           title={this.props.title}
+                           company_name={this.props.company_name}
+                           changeStatus={this.props.changeStatus}
+                           reFresh={this.props.reFresh}
                            />
             </div>
         );

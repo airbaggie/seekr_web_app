@@ -1,21 +1,25 @@
 .tracking-card {
-    border: 1px solid grey;
-    padding: 3px;
-    margin: 4px;
+    /* border: 1px solid grey; */
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 8px;
+    margin: 5px;
     border-radius: 3px;
+    background-color: whitesmoke;
 }
 
 .status-column {
-    border: 1px solid lightslategrey;
+    /* border: 1px solid lightslategrey; */
     padding: 3px;
     margin: 4px;
     border-radius: 3px;
     width: 19%;
+    background-color: #EBE9E8;
 }
 
 .status-columns {
     margin: auto;
-    /* align-content: center; */
 }
 
 .column-header {
@@ -72,4 +76,12 @@
 .job-input {
     padding: 3px;
     height: 150px;
+}
+
+.add-note-button {
+    border-radius: 3px;
+}
+
+.notetime-in-modal {
+    text-align: right;
 }

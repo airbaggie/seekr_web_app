@@ -5,7 +5,10 @@
     <link rel="shortcut icon" href="/static/favicon.ico">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/components/home.css">
     <link rel="stylesheet" href="/static/components/search/map.css">
+    <link rel="stylesheet" href="/static/components/search/search.css">
+    <link rel="stylesheet" href="/static/components/myjobs/myjobs.css">
     <link rel="stylesheet" href="/static/components/myboard/myboard.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -23,10 +26,9 @@
 
     <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
   </head>
-  <body>
-    <div class="container">
-
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <body style="background-color:#f7f7f7">
+    <div>
+      <nav class="navbar navbar-expand-md navbar-light fixed-top">
         <a class="navbar-brand" href="/">LandinSoft</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -37,27 +39,27 @@
             <li class="nav-item active">
               <a class="nav-link" href="/jobs">Search <span class="sr-only">(current)</span></a>
             </li>
-          </ul>
             
-          <ul class="nav justify-content-end">
-            {% if current_user.is_anonymous %}
-            <li class="nav-item">
-              <a class="nav-link" href="/signup">Sign up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Log in</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a class="nav-link" href="/myjobs">My Jobs</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/myboard">My Board</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/logout">Log out</a>
-            </li>
-            {% endif %}
+            <ul class="nav justify-content-end">
+              {% if current_user.is_anonymous %}
+              <li class="nav-item">
+                <a class="nav-link" href="/signup">Sign up</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/login">Log in</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/myjobs">My Jobs</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/myboard">My Board</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Log out</a>
+              </li>
+              {% endif %}
+            </ul>
           </ul>
 
         </div>
