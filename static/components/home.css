@@ -50,6 +50,7 @@ span {
     margin: 10px 0;        /* apply the needed vertical margins */
 }
 
-button {
+.btn {
     margin: 3px;
+    border-radius: 2rem;
 }

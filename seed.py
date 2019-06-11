@@ -160,8 +160,8 @@ if __name__ == "__main__":
 
     # Import different types of data
 
-    load_companies()
-    load_tags()
+    # load_companies()
+    # load_tags()
     add_companies()
     load_jobs()
     load_job_tags()

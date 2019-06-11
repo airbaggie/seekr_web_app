@@ -1,5 +1,5 @@
 .tracking-card {
-    /* border: 1px solid grey; */
+    border: 1px solid white;
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
@@ -7,6 +7,8 @@
     margin: 5px;
     border-radius: 3px;
     background-color: whitesmoke;
+    border-left-color: #f0ad4e;
+    border-left-width: 3px;
 }
 
 .status-column {
@@ -73,13 +75,19 @@
     padding: 8px;
 }
 
+.add-job-button {
+    text-align: right;
+    border-radius: 2rem;
+    margin-left: 15px;
+}
+
 .job-input {
     padding: 3px;
     height: 150px;
 }
 
 .add-note-button {
-    border-radius: 3px;
+    border-radius: 2rem;
 }
 
 .notetime-in-modal {

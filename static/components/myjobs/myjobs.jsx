@@ -49,13 +49,13 @@ class SavedJob extends React.Component {
         return (
                 <tr>
                     <td className="td-title">
-                        <button type="button" className="btn btn-link" onClick={() => {this.props.fetchDetailInfo(`${this.props.user_job_id}`);}}>
+                        <button type="button" className="btn btn-link align-middle" onClick={() => {this.props.fetchDetailInfo(`${this.props.user_job_id}`);}}>
                             {this.props.title}
                         </button>
                     </td>
-                    <td className="td-company">{this.props.company_name}</td>
-                    <td className="td-status">{this.props.status}</td>
-                    <td className="td-action">{this.showButton()}</td>
+                    <td className="td-company align-middle">{this.props.company_name}</td>
+                    <td className="td-status align-middle">{this.props.status}</td>
+                    <td className="td-action align-middle">{this.showButton()}</td>
                 </tr>
         );
     }
@@ -245,23 +245,23 @@ class JobIndex extends React.Component {
     render() {
         return (
             <div className="myjobs row">
-                <div class="col-2">
-                    <button type="button" className="btn btn-link" value="Saved" onClick={(evt) => {this.switchStatus(evt)}}>Saved</button><br />
-                    <button type="button" className="btn btn-link" value="Applied" onClick={(evt) => {this.switchStatus(evt)}}>Applied</button><br />
-                    <button type="button" className="btn btn-link" value="Online assessment" onClick={(evt) => {this.switchStatus(evt)}}>Online assessment</button><br />
-                    <button type="button" className="btn btn-link" value="Phone screen" onClick={(evt) => {this.switchStatus(evt)}}>Phone screen</button><br />
-                    <button type="button" className="btn btn-link" value="On-site" onClick={(evt) => {this.switchStatus(evt)}}>On-site</button><br />
-                    <button type="button" className="btn btn-link" value="Offer" onClick={(evt) => {this.switchStatus(evt)}}>Offer</button><br />
+                <div className="col-2 status-index">
+                    <button type="button" className="btn btn-link" data-toggle="pill" value="Saved" onClick={(evt) => {this.switchStatus(evt)}}>Saved</button><br />
+                    <button type="button" className="btn btn-link" data-toggle="pill" value="Applied" onClick={(evt) => {this.switchStatus(evt)}}>Applied</button><br />
+                    <button type="button" className="btn btn-link" data-toggle="pill" value="Online assessment" onClick={(evt) => {this.switchStatus(evt)}}>Online assessment</button><br />
+                    <button type="button" className="btn btn-link" data-toggle="pill" value="Phone screen" onClick={(evt) => {this.switchStatus(evt)}}>Phone screen</button><br />
+                    <button type="button" className="btn btn-link" data-toggle="pill" value="On-site" onClick={(evt) => {this.switchStatus(evt)}}>On-site</button><br />
+                    <button type="button" className="btn btn-link" data-toggle="pill" value="Offer" onClick={(evt) => {this.switchStatus(evt)}}>Offer</button><br />
                 </div>
                 <div className="col-10">
-                    <table class="table">
+                    <table className="table">
                         <caption></caption>
                         <thead>
                             <tr>
-                                <th scope="col" className="td-title">Title</th>
-                                <th scope="col" className="td-company">Company</th>
-                                <th scope="col" className="td-status">Status</th>
-                                <th scope="col" className="td-action">Action</th>
+                                <th scope="col" className="field td-title">title</th>
+                                <th scope="col" className="field td-company">company</th>
+                                <th scope="col" className="field td-status">status</th>
+                                <th scope="col" className="field td-action">action</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -4,7 +4,7 @@
 }
 
 .card-columns {
-    column-count: 4;
+    column-count: 3;
 }
 
 .job-detail {
@@ -15,6 +15,23 @@
     text-align: justify;
 }
 
-.url {
-    text-align: right;
+.job-card {
+    border: 1px solid white;
+    border-bottom-color: #C5D6E8;
+    border-bottom-width: 3px;
+}
+
+.job-card:hover {
+    border: 1px solid #C5D6E8;
+    /* border-left-width: 25px; */
+    cursor: pointer;
+}
+
+.card-title {
+    font-weight: bold;
+}
+
+.tag {
+    font-weight: normal;
+    font-size: small;
 }

@@ -37,14 +37,6 @@ const spec = { beginDrag: props => ({ name: props.title,
                                       changeStatus: props.changeStatus,
                                       user_job_id: props.user_job_id,
                                      }),
-            //    endDrag(props, monitor) {
-            //         const item = monitor.getItem();
-            //         const dropResult = monitor.getDropResult();
-                    // if (dropResult) {
-                    //     alert(`Status of ${item.name} has been changed to ${dropResult.name}!`)
-                    // }
-                    // this.props.changeStatus(this.props.user_job_id, dropResult.name);
-                // },
             };
 
 function collect(connect, monitor) {

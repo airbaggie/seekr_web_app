@@ -62,7 +62,7 @@ class AddJob extends React.Component {
 
         return (
             <div>
-                <Button variant="secondary" onClick={(evt) => {
+                <Button className="add-job-button" variant="secondary" onClick={(evt) => {
                                                     this.handleShow(evt);
                                                     }}>
                     + add job

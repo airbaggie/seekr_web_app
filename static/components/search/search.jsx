@@ -19,18 +19,19 @@ class JobCard extends React.Component {
     render() {
         const job_tags = [];
         for (const tag of this.state.tags) {
-            job_tags.push(<span className="badge badge-pill badge-light">{tag}</span>);
+            job_tags.push(<span className="badge badge-pill badge-light tag">{tag}</span>);
         }
 
         return (
-            <div className="card">
+            <div className="card job-card" onClick={() => {
+                    this.props.fetchDetailInfo(`${this.props.job_id}`);
+                    }}>
                 <div className="card-body">
-                    <p className="card-title d-inline-block" onClick={() => {
-                                                                            this.props.fetchDetailInfo(`${this.props.job_id}`);
-                                                                            }}>{this.props.title}</p>
-                    <br />
-                    <span className="card-text">{this.props.company_name}</span>
-                    <span className="badge badge-pill badge-info">{this.props.rating}</span>
+                    <p className="card-title d-inline-block">{this.props.title}</p>
+                    <p>
+                        <span className="card-text">{this.props.company_name}</span>
+                        <span className="badge badge-pill badge-info">{this.props.rating}</span>
+                    </p>    
                     <p className="card-text"><small className="text-muted">{job_tags}</small></p>
                 </div>
             </div>
@@ -56,7 +57,7 @@ class MapViewJobCard extends React.Component {
     render() {
         const job_tags = [];
         for (const tag of this.state.tags) {
-            job_tags.push(<span className="badge badge-pill badge-light">{tag}</span>);
+            job_tags.push(<span className="badge badge-pill badge-light tag">{tag}</span>);
         }
 
         return(
@@ -67,7 +68,7 @@ class MapViewJobCard extends React.Component {
                                                                 }}>{this.props.title}</p>
                     <span className="card-text">{this.props.company_name}</span>
                     <span className="badge badge-pill badge-info">{this.props.rating}</span>
-                    <p className="card-text"><small class="text-muted">{job_tags}</small></p>
+                    <p className="card-text"><small className="text-muted">{job_tags}</small></p>
                 </div>
             </div>
         )

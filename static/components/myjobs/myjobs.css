@@ -1,21 +1,35 @@
+.status-index {
+    text-align: right;
+}
+
+.note-card {
+    border: 1px solid white;
+    border-left-color:#C5E8E8;
+    border-left-width: 3px;
+}
+    
 tr {
     width: 100%;
 }
 
 .td-title {
     width: 30%;
+    text-align: center;
 }
 
 .td-company {
     width: 30%;
+    text-align: center;
 }
 
 .td-status {
     width: 20%;
+    text-align: center;
 }
 
 .td-action {
     width: 20%;
+    text-align: center;
 }
 
 .jd {
@@ -24,4 +38,26 @@ tr {
 
 .url {
     text-align: right;
+}
+
+.field {
+    text-size-adjust: 70%;
+    text-align: center;
+}
+
+.saved-job-detail {
+    margin-top: 15px;
+}
+
+.table {
+    padding: .25rem;
+    vertical-align: middle;
+    border-top: 0px;
+}
+
+.history-tag {
+    font-weight: normal;
+    font-size: medium;
+    background-color: #C5E8E8;
+    font-weight: bolder;
 }

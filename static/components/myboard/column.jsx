@@ -73,7 +73,7 @@ class RawStatusColumn extends React.Component {
 
         return (
             <div className="status-column" key={this.props.status}>
-                <p className="column-header">{this.props.status} <span class="badge badge-light">{this.countCard()}</span></p>
+                <p className="column-header">{this.props.status} <span className="badge badge-light">{this.countCard()}</span></p>
                 <div className="column-body" ref={connectDropTarget} style={{ backgroundColor }}>
                     <div className="column-body">
                         {/* {isActive ? 'Release to change status' : 'Drag card to change status'} */}

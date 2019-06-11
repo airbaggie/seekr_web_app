@@ -5,11 +5,11 @@
     <link rel="shortcut icon" href="/static/favicon.ico">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/components/home.css">
     <link rel="stylesheet" href="/static/components/search/map.css">
     <link rel="stylesheet" href="/static/components/search/search.css">
     <link rel="stylesheet" href="/static/components/myjobs/myjobs.css">
     <link rel="stylesheet" href="/static/components/myboard/myboard.css">
+    <link rel="stylesheet" href="/static/components/home.css">
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script
@@ -42,30 +42,31 @@
             
             <ul class="nav justify-content-end">
               {% if current_user.is_anonymous %}
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="/signup">Sign up</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="/login">Log in</a>
               </li>
               {% else %}
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="/myjobs">My Jobs</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="/myboard">My Board</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item active">
                 <a class="nav-link" href="/logout">Log out</a>
               </li>
               {% endif %}
             </ul>
           </ul>
-
         </div>
       </nav>
     {% block body %}
     {% endblock %}
     </div>
+    <footer>
+    </footer>
   </body>
 </html>

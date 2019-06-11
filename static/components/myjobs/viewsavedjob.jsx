@@ -8,10 +8,10 @@ class NoteCard extends React.Component {
     
     render() {
         return (
-            <div class="card mb-3">
-                <div class="card-body">
-                    <p class="card-text">{this.props.note}</p>
-                    <p class="card-text"><small class="text-muted">{this.props.timestamp}</small></p>
+            <div className="card mb-3">
+                <div className="card-body note-card">
+                    <p className="card-text">{this.props.note}</p>
+                    <p className="card-text"><small className="text-muted">{this.props.timestamp}</small></p>
                 </div>
             </div>
         )
@@ -45,32 +45,27 @@ class ViewSavedJob extends React.Component {
 
     render() {
         return (
-            <div key={this.props.detail_info[0].job_id}>
-                <div>
-                    <button type="button" className="bt btn btn-secondary" onClick={this.props.handleIndexView}>Back</button>
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-12 col-md-8">
-                                <div key={this.props.detail_info[0].job_id}>
-                                    <div>
-                                        <h3>{this.props.detail_info[0].title}</h3>
-                                        <h5>{this.props.detail_info[0].company_name}</h5>
-                                    </div>
-                                    <div className="url">
-                                        <button type="button" className="btn btn-link" onClick={this.redirectApplication}>
-                                            Link to Company Site
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="jd">{this.props.detail_info[0].description.split("\n").map((item, key) => {
-                                            return <span key={key}>{item}<br/></span>})}
+            <div key={this.props.detail_info[0].job_id} className="container">
+                <div className="row">
+                    <div className="col-12 col-md-9">
+                        <button type="button" className="bt btn btn-secondary" onClick={this.props.handleIndexView}>Back</button>
+                        <button type="button" className="btn btn-outline-success url" onClick={this.redirectApplication}>Link to Company Site</button>
+                        <br />
+                        <div className="saved-job-detail">
+                            <div key={this.props.detail_info[0].job_id}>
+                                <div>
+                                    <h3>{this.props.detail_info[0].title}</h3>
+                                    <h5>{this.props.detail_info[0].company_name}</h5>
                                 </div>
                             </div>
-                            <div class="col-6 col-md-4">
-                                <p>History</p>
-                                {this.generateNoteCard()}
+                            <div className="jd">{this.props.detail_info[0].description.split("\n").map((item, key) => {
+                                        return <span key={key}>{item}<br/></span>})}
                             </div>
                         </div>
+                    </div>
+                    <div className="col-6 col-md-3">
+                        <span className="badge badge-pill badge-warning history-tag">History</span>
+                        {this.generateNoteCard()}
                     </div>
                 </div>
             </div>

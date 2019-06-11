@@ -64,12 +64,12 @@ class Board extends React.Component {
     render() {
         return (
             <div>
-                <AddJob reFresh={this.reFresh}/>
-                    <div>
-                        <div className="row status-columns justify-content-center">
-                            {this.generateStatusColumns()}
-                        </div>
-                    </div>
+                <div>
+                    <AddJob reFresh={this.reFresh} />
+                </div>
+                <div className="row status-columns justify-content-center">
+                    {this.generateStatusColumns()}
+                </div>
             </div>
         ); 
     }
