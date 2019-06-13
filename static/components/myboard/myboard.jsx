@@ -64,28 +64,30 @@ class Board extends React.Component {
     render() {
         return (
             <div>
-                <div>
-                     {/* form is not working currently */}
-                    <form className="form-row align-items-right myjobs-search">
-                        <div className="col-auto">
-                            <input type="text"
-                                id="keyword-field"
-                                name="keyword"
-                                className="form-control mb-2"
-                                size="35"
-                                placeholder="Search by keywords"
-                                />
-                        </div>
-                        <div className="col-auto">
-                            <button type="submit"
-                                    className="btn btn-secondary mb-2"
-                                    key="search-button">
-                                Search
-                            </button>
-                        </div>
-                    </form>
+                <div className="row search-and-add">
+                    <div className="col-5">
+                        {/* form is not working currently */}
+                        <form className="form-row align-items-right myjobs-search">
+                            <div className="col-auto">
+                                <input type="text"
+                                    id="keyword-field"
+                                    name="keyword"
+                                    className="form-control mb-2"
+                                    size="35"
+                                    placeholder="Search by keywords"
+                                    />
+                            </div>
+                            <div className="col-auto">
+                                <button type="submit"
+                                        className="btn btn-secondary mb-2"
+                                        key="search-button">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <AddJob reFresh={this.reFresh} />
                 </div>
-                <AddJob reFresh={this.reFresh} />
                 <div className="row status-columns justify-content-center">
                     {this.generateStatusColumns()}
                 </div>
@@ -105,8 +107,13 @@ class MyBoard extends React.Component {
 
 
 window.addEventListener("load", () => {
+    console.log('after event listener')
     ReactDOM.render(
         <MyBoard />,
         document.getElementById("myboard")
     );
 })
+
+// ReactDOM.render(
+//     <MyBoard />,
+//     document.getElementById("myboard"));

@@ -8,11 +8,10 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div className="jumbotron">
-                <h1>Hello, world!</h1>
+            <div className="jumbotron homepage-jumbotron">
+                <h3>Welcome to seekr!</h3>
                 <p>
-                    This is a simple hero unit, a simple jumbotron-style component for calling
-                    extra attention to featured content or information.
+                    
                 </p>
                 <p>
                 <button type="button" className="btn btn-info">Start</button>

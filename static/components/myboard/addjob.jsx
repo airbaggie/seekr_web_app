@@ -61,8 +61,8 @@ class AddJob extends React.Component {
         const Button = ReactBootstrap.Button;
 
         return (
-            <div>
-                <Button className="add-job-button" variant="info" onClick={(evt) => {
+            <div className="add-job-button col-6">
+                <Button variant="info" onClick={(evt) => {
                                                     this.handleShow(evt);
                                                     }}>
                     + add job

@@ -99,7 +99,6 @@ class JobSearch extends React.Component {
         this.generateJobCard = this.generateJobCard.bind(this);
         this.displayResults = this.displayResults.bind(this);
         this.countResults = this.countResults.bind(this);
-
     }
 
     reFresh() {
@@ -217,7 +216,7 @@ class JobSearch extends React.Component {
 
     displayResults() {
         if ((this.state.results.length === 0) & (!this.state.detail) & (!this.state.mapview)) {
-            return [<p>New Jobs</p>, <div className="jobcards card-columns" id="job-cards">{this.generateJobCard()}</div>];
+            return [];
         } else if ((this.state.results.length === 0) & (!this.state.detail) & (this.state.mapview)) {
             return [<div className="google-map" id="google-map" ref={this.mapRef}></div>, <span className="job-div" id="job-div"></span>];
         } else if ((!this.state.mapview) & (!this.state.detail)) {
@@ -318,10 +317,14 @@ class JobSearchApp extends React.Component {
     }
 }
 
-window.addEventListener("load", () => {
-    ReactDOM.render(
-        <JobSearchApp />,
-        document.getElementById("app")
-    );
-})
+// window.addEventListener("load", () => {
+//     ReactDOM.render(
+//         <JobSearchApp />,
+//         document.getElementById("app")
+//     );
+// })
 
+ReactDOM.render(
+    <JobSearchApp />,
+    document.getElementById("app")
+);

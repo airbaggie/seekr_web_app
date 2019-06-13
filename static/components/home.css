@@ -81,3 +81,7 @@ nav {
 .navbar-brand:hover {
     color: #FEFFFF;
 }
+
+.homepage-jumbotron {
+    height: 130%;
+}
