@@ -30,7 +30,7 @@ class JobCard extends React.Component {
                     <p className="card-title d-inline-block">{this.props.title}</p>
                     <p>
                         <span className="card-text">{this.props.company_name}</span>
-                        <span className="badge badge-pill badge-info">{this.props.rating}</span>
+                        <span className="rating badge badge-pill badge-info">{this.props.rating}</span>
                     </p>    
                     <p className="card-text"><small className="text-muted">{job_tags}</small></p>
                 </div>
@@ -61,13 +61,13 @@ class MapViewJobCard extends React.Component {
         }
 
         return(
-            <div className="card" style={{width: 30+"rem"}}>
+            <div className="card map-view-card" style={{width: 30+"rem"}}>
                 <div className="card-body">
                     <p className="card-title" onClick={() => {
                                                                 this.props.fetchDetailInfo(`${this.props.job_id}`);
                                                                 }}>{this.props.title}</p>
                     <span className="card-text">{this.props.company_name}</span>
-                    <span className="badge badge-pill badge-info">{this.props.rating}</span>
+                    <span className="rating badge badge-pill badge-info">{this.props.rating}</span>
                     <p className="card-text"><small className="text-muted">{job_tags}</small></p>
                 </div>
             </div>
@@ -110,9 +110,9 @@ class JobSearch extends React.Component {
             });
     }
 
-    // componentDidMount() {
-    //     this.reFresh();
-    // }
+    componentDidMount() {
+        this.reFresh();
+    }
 
     handleKeywordChange(evt) {
         this.setState({ keyword: evt.target.value });
@@ -164,19 +164,18 @@ class JobSearch extends React.Component {
         const database_list = ["MySQL", "SQL", "PostgreSQL", "Oracle", "MongoDB", "Redis", "RDS"];
 
         for (const item of language_list) {
-            search_by_language.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
+            search_by_language.push(<button type="button" className="quick-search-btn btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
         }
         for (const item of framework_list) {
-            search_by_framework.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
+            search_by_framework.push(<button type="button" className="quick-search-btn btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
         }
         for (const item of database_list) {
-            search_by_database.push(<button type="button" className="btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
+            search_by_database.push(<button type="button" className="quick-search-btn btn btn-link" value={item} onClick={(evt) => {this.quickSearching(evt)}}>{item}</button>)
         }
 
         return (
             <div>
-                <span>Language: </span>
-                {search_by_language}<br />
+                <div className="quick-search-row">Language: {search_by_language}</div>
                 <span>Framework: </span>
                 {search_by_framework}<br />
                 <span>Database: </span>
@@ -217,54 +216,56 @@ class JobSearch extends React.Component {
     }
 
     displayResults() {
-        if ((!this.state.mapview) & (!this.state.detail)) {
-            return <div className="jobcards card-columns" id="job-cards">{this.generateJobCard()}</div>;
-        } else if ((this.state.mapview) & (!this.state.detail)) {
+        if ((this.state.results.length === 0) & (!this.state.detail) & (!this.state.mapview)) {
+            return [<p>New Jobs</p>, <div className="jobcards card-columns" id="job-cards">{this.generateJobCard()}</div>];
+        } else if ((this.state.results.length === 0) & (!this.state.detail) & (this.state.mapview)) {
             return [<div className="google-map" id="google-map" ref={this.mapRef}></div>, <span className="job-div" id="job-div"></span>];
+        } else if ((!this.state.mapview) & (!this.state.detail)) {
+            return [<p>Results({this.countResults()})</p>, <div className="jobcards card-columns" id="job-cards">{this.generateJobCard()}</div>];
+        } else if ((this.state.mapview) & (!this.state.detail)) {
+            return [<p>Results({this.countResults()})</p>, <div className="google-map" id="google-map" ref={this.mapRef}></div>, <span className="job-div" id="job-div"></span>];
         }
     }
 
     render() {
         return (
             <div className="job-search">
-                <div className="jumbotron">
-                    <form>
-                        <div className="form-row align-items-center">
-                            <div className="col-auto">
-                                <input type="text"
-                                    id="keyword-field"
-                                    name="keyword"
-                                    className="form-control mb-2"
-                                    value={this.state.keyword}
-                                    onChange={this.handleKeywordChange}
-                                    placeholder="Search by keywords"
-                                    />
-                            </div>
-                            <div className="form-check mb-2">
-                                <input type="checkbox"
-                                    checked={this.state.mapview}
-                                    onChange={this.handleViewChange}
-                                    id="map-view"
-                                    className="form-check-input" />
-                                <label className="form-check-label" >
-                                    Mapview
-                                </label>
-                            </div>
-                            <div className="col-auto">
-                                <button type="submit"
-                                        className="btn btn-secondary mb-2"
-                                        onClick={this.fetchSearchingResult}
-                                        key="search-button">
-                                    Search
-                                </button>
-                            </div>
+                <div className="jumbotron vertical-center">
+                    <form className="form-row align-items-center">
+                        <div className="col-auto">
+                            <input type="text"
+                                id="keyword-field"
+                                name="keyword"
+                                className="form-control mb-2"
+                                size="35"
+                                value={this.state.keyword}
+                                onChange={this.handleKeywordChange}
+                                placeholder="Search by keywords"
+                                />
+                        </div>
+                        <div className="col-auto">
+                            <button type="submit"
+                                    className="btn btn-secondary mb-2"
+                                    onClick={this.fetchSearchingResult}
+                                    key="search-button">
+                                Search
+                            </button>
+                        </div>
+                        <div className="form-check mb-2">
+                            <input type="checkbox"
+                                checked={this.state.mapview}
+                                onChange={this.handleViewChange}
+                                id="map-view"
+                                className="form-check-input" />
+                            <label className="form-check-label" >
+                                Mapview
+                            </label>
                         </div>
                     </form>
                     <div className="quick-search">
                         {this.generateQuickSearchLinks()}
                     </div>
                 </div>
-                <p>Results({this.countResults()})</p>
                 <div>{this.displayResults()}</div>
             </div>
         );

@@ -31,10 +31,10 @@ class SavedJob extends React.Component {
 
             buttons.push(
                         <span>
-                            <button type="button" className="btn btn-primary btn-sm" onClick={this.props.removeJob}>
+                            <button type="button" className="btn btn-light btn-sm" onClick={this.props.removeJob}>
                                 Remove
                             </button>
-                            <button type="button" className="btn btn-primary btn-sm" onClick={() => {
+                            <button type="button" className="btn btn-info btn-sm" onClick={() => {
                                                                                               this.props.changeStatus(this.props.user_job_id, "Applied");
                                                                                               this.postAppliedNote(this.props.user_job_id)}} >
                                 Applied
@@ -254,8 +254,57 @@ class JobIndex extends React.Component {
                     <button type="button" className="btn btn-link" data-toggle="pill" value="Offer" onClick={(evt) => {this.switchStatus(evt)}}>Offer</button><br />
                 </div>
                 <div className="col-10">
+                    {/* form is not working currently */}
+                    <form className="form-row align-items-right myjobs-search">
+                        <div className="col-auto">
+                            <input type="text"
+                                id="keyword-field"
+                                name="keyword"
+                                className="form-control mb-2"
+                                size="35"
+                                placeholder="Search by keywords"
+                                />
+                        </div>
+                        <div className="col-auto">
+                            <button type="submit"
+                                    className="btn btn-secondary mb-2"
+                                    key="search-button">
+                                Search
+                            </button>
+                        </div>
+                    </form>
                     <table className="table">
-                        <caption></caption>
+                        <form className="form-row align-items-center">
+                        <div className="col-auto">
+                            <input type="text"
+                                id="keyword-field"
+                                name="keyword"
+                                className="form-control mb-2"
+                                size="35"
+                                value={this.state.keyword}
+                                onChange={this.handleKeywordChange}
+                                placeholder="Search by keywords"
+                                />
+                        </div>
+                        <div className="col-auto">
+                            <button type="submit"
+                                    className="btn btn-secondary mb-2"
+                                    onClick={this.fetchSearchingResult}
+                                    key="search-button">
+                                Search
+                            </button>
+                        </div>
+                        <div className="form-check mb-2">
+                            <input type="checkbox"
+                                checked={this.state.mapview}
+                                onChange={this.handleViewChange}
+                                id="map-view"
+                                className="form-check-input" />
+                            <label className="form-check-label" >
+                                Mapview
+                            </label>
+                        </div>
+                    </form>
                         <thead>
                             <tr>
                                 <th scope="col" className="field td-title">title</th>

@@ -42,12 +42,12 @@ class ViewJob extends React.Component {
         const save_button = [];
         if (!this.state.saved) {
             save_button.push(
-                            <button type="button" className="btn btn-primary" onClick={this.handleSave} key={this.props.detail_info[0].job_id}>
+                            <button type="button" className="btn btn-info" onClick={this.handleSave} key={this.props.detail_info[0].job_id}>
                                 Save
                             </button>);
         } else {
             save_button.push(
-                            <button type="button" className="btn btn-primary" disabled key={this.props.detail_info[0].job_id}>
+                            <button type="button" className="btn btn-info" disabled key={this.props.detail_info[0].job_id}>
                                 Saved
                             </button>);
         }
@@ -60,7 +60,7 @@ class ViewJob extends React.Component {
                         <div className="col">
                             <button type="button" className="bt btn btn-secondary" onClick={this.props.handleListView}>Back</button>
                             <span>{save_button}</span>
-                            <button type="button" className="btn btn-outline-success url" onClick={this.redirectApplication}>Apply on Company Site</button>
+                            <button type="button" className="btn btn-outline-warning url" onClick={this.redirectApplication}>Apply on Company Site</button>
                         </div>
                     </div>
                     <br />

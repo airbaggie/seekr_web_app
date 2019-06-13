@@ -138,8 +138,8 @@ class NoteModal extends React.Component {
                     <Modal.Header closeButton>
                     <Modal.Title>
                         <div>
-                            <h5>{this.props.title}</h5>
-                            <p>{this.props.company_name}</p>
+                            <h4 className="modal-title">{this.props.title}</h4>
+                            <p className="modal-company">{this.props.company_name}</p>
                         </div>
                         <DropdownButton user_job_id={this.props.user_job_id}
                                         status={this.props.status} 
@@ -160,7 +160,7 @@ class NoteModal extends React.Component {
                         Close
                     </Button>
                     <button type="button"
-                            className="btn btn-primary"
+                            className="btn btn-info"
                             onClick={() => {
                                 this.postNote(`${this.props.user_job_id}`, `${this.state.note}`);
                                 }}>

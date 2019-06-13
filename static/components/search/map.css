@@ -1,19 +1,17 @@
 .google-map {
-    min-width: 1050px;
-    width: 60%;
-    min-height: 700px;
-    height: 40%;
-    border: 1px solid grey;
+    min-width: max-content;
+    min-height: 740px;
     z-index: auto;
 }
 
 .job-div {
+    border: 1px solid white;
+    border-bottom-color: #C5D6E8;
+    border-bottom-width: 3px;
     z-index: 1;
     position: relative;
-    top: -130px;
-    left: 283px;
-    /* height:200px;
-    width:200px; */
+    top: -650px;
+    left: 11px;
 }
 
 .job-div:hover {

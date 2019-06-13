@@ -8,7 +8,7 @@ class NoteCard extends React.Component {
     
     render() {
         return (
-            <div className="card mb-3">
+            <div className="card mb-1">
                 <div className="card-body note-card">
                     <p className="card-text">{this.props.note}</p>
                     <p className="card-text"><small className="text-muted">{this.props.timestamp}</small></p>
@@ -49,7 +49,7 @@ class ViewSavedJob extends React.Component {
                 <div className="row">
                     <div className="col-12 col-md-9">
                         <button type="button" className="bt btn btn-secondary" onClick={this.props.handleIndexView}>Back</button>
-                        <button type="button" className="btn btn-outline-success url" onClick={this.redirectApplication}>Link to Company Site</button>
+                        <button type="button" className="btn btn-outline-warning url" onClick={this.redirectApplication}>Link to Company Site</button>
                         <br />
                         <div className="saved-job-detail">
                             <div key={this.props.detail_info[0].job_id}>
@@ -64,7 +64,7 @@ class ViewSavedJob extends React.Component {
                         </div>
                     </div>
                     <div className="col-6 col-md-3">
-                        <span className="badge badge-pill badge-warning history-tag">History</span>
+                        <span className="history-tag">History</span>
                         {this.generateNoteCard()}
                     </div>
                 </div>

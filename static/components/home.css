@@ -1,3 +1,7 @@
+#nav {
+    margin-left: 150px;
+    margin-right: 150px;
+}
 
 #home {
     margin-top: 80px;
@@ -53,4 +57,27 @@ span {
 .btn {
     margin: 3px;
     border-radius: 2rem;
+}
+
+nav {
+    background: #17252A;
+}
+
+.nav-link {
+    color: #FEFFFF;
+    border-radius: 3px;
+}
+
+.nav-link:hover {
+    background-color: #D9B310;
+    color:black;
+    font-weight: bold;
+}
+
+.navbar-brand {
+    color: #FEFFFF;
+}
+
+.navbar-brand:hover {
+    color: #FEFFFF;
 }

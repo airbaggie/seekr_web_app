@@ -66,9 +66,9 @@ class RawStatusColumn extends React.Component {
 
         let backgroundColor = ""
         if (isActive) {
-            backgroundColor = "#e8f4f9"
+            backgroundColor = "#A3D6C9"
         } else if (canDrop) {
-            backgroundColor = "#f1f7d9"
+            backgroundColor = "#D7E8C5"
         }
 
         return (

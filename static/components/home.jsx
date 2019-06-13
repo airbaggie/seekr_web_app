@@ -15,7 +15,7 @@ class Home extends React.Component {
                     extra attention to featured content or information.
                 </p>
                 <p>
-                <button type="button" className="btn btn-primary">Start</button>
+                <button type="button" className="btn btn-info">Start</button>
                 </p>
             </div>
         );

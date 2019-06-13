@@ -2,3 +2,5 @@ env/
 g.conf
 .DS_Store
 __pycache__/
+seed_continue.py
+companies_tojson.py

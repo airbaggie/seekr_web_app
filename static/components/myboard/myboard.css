@@ -7,7 +7,7 @@
     margin: 5px;
     border-radius: 3px;
     background-color: whitesmoke;
-    border-left-color: #f0ad4e;
+    border-left-color: #d9b310;
     border-left-width: 3px;
 }
 
@@ -17,7 +17,7 @@
     margin: 4px;
     border-radius: 3px;
     width: 19%;
-    background-color: #EBE9E8;
+    background-color: #EDEDED;
 }
 
 .status-columns {
@@ -28,6 +28,8 @@
     text-align: left;
     margin: 4px;
     padding: 2px;
+    margin-left: 10px;
+    font-size: larger;
 }
 
 .column-body {
@@ -78,7 +80,8 @@
 .add-job-button {
     text-align: right;
     border-radius: 2rem;
-    margin-left: 15px;
+    margin-top: 2px;
+    margin-left: 600px;
 }
 
 .job-input {
@@ -92,4 +95,13 @@
 
 .notetime-in-modal {
     text-align: right;
+}
+
+.modal-title {
+    margin-left: 10px;
+}
+
+.modal-company {
+    margin-left: 10px;
+    font-size: medium;
 }

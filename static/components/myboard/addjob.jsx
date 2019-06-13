@@ -62,7 +62,7 @@ class AddJob extends React.Component {
 
         return (
             <div>
-                <Button className="add-job-button" variant="secondary" onClick={(evt) => {
+                <Button className="add-job-button" variant="info" onClick={(evt) => {
                                                     this.handleShow(evt);
                                                     }}>
                     + add job
@@ -98,7 +98,7 @@ class AddJob extends React.Component {
                         Close
                     </Button>
                     <button type="submit"
-                            className="btn btn-primary"
+                            className="btn btn-info"
                             onClick={() => {
                                     this.postJob(`${this.state.title}`, `${this.state.company_name}`, `${this.state.description}`, `${this.state.apply_url}`);
                                     this.props.reFresh();

@@ -1,10 +1,11 @@
 .status-index {
     text-align: right;
+    margin-top: 60px;
 }
 
 .note-card {
     border: 1px solid white;
-    border-left-color:#C5E8E8;
+    border-left-color:#d9b310;
     border-left-width: 3px;
 }
     
@@ -58,6 +59,9 @@ tr {
 .history-tag {
     font-weight: normal;
     font-size: medium;
-    background-color: #C5E8E8;
     font-weight: bolder;
+}
+
+.myjobs-search {
+    margin-bottom: 12px;
 }
