@@ -35,7 +35,7 @@ def load_user(id):
 
 class Search(Resource):
     def get(self):
-        """Job searching from database."""
+        """Get job searching results from database."""
 
         key = request.args.get('key')
 
@@ -52,7 +52,7 @@ api.add_resource(Search, '/api/search')
 
 class Job_Detail(Resource):
     def get(self):
-        """Public job post detail from database."""
+        """Get public job post detail from database."""
 
         key = request.args.get('key')
         job = Job.query.filter(Job.job_id == key).one()
@@ -67,7 +67,7 @@ api.add_resource(Job_Detail, '/api/jobdetail')
 
 class Job_Tags(Resource):
     def get(self):
-        """Job tags from database."""
+        """Get job tags from database."""
 
         key = request.args.get('key')
         search_result = JobTag.query.filter(JobTag.job_id == key).all()
@@ -83,7 +83,7 @@ api.add_resource(Job_Tags, '/api/tags')
 
 class User_Jobs(Resource):
     def get(self):
-        """User jobs from database."""
+        """Get user job list from database."""
 
         if not current_user.is_active:
             return 'No permission.'
@@ -140,7 +140,7 @@ api.add_resource(User_Jobs, '/api/userjobs')
 
 class User_Job_Detail(Resource):
     def get(self):
-        """Job post detail from database include user comments."""
+        """Get job post detail from database include logs and user notes."""
         
         if not current_user.is_active:
             return 'No permission.'
@@ -150,10 +150,6 @@ class User_Job_Detail(Resource):
         results = []
         
         results.append(user_job.to_job.get_detail_info())
-
-        print('')
-        print(results)
-        print('')
 
         return jsonify(results)
     
@@ -179,7 +175,7 @@ api.add_resource(User_Job_Detail, '/api/userjobdetail')
 
 class User_Job_Notes(Resource):
     def get(self):
-        """User notes from database."""
+        """Get user notes from database."""
 
         if not current_user.is_active:
             return 'No permission.'
@@ -194,6 +190,8 @@ class User_Job_Notes(Resource):
         return jsonify(results)
 
     def post(self):
+        """Update database when user added a note."""
+
         if not current_user.is_active:
             return 'No permission.'
 
@@ -212,7 +210,7 @@ api.add_resource(User_Job_Notes, '/api/notes')
 
 class Private_Job(Resource):
     def post(delf):
-        """Adda private job."""
+        """Add a private job."""
 
         if not current_user.is_active:
             return 'Please login first.'
@@ -261,7 +259,7 @@ api.add_resource(Private_Job, '/api/privatejob')
 
 class Track(Resource):
     def get(self):
-        """User jobs from database."""
+        """Get user jobs from database."""
 
         if not current_user.is_active:
             return 'No permission.'
@@ -318,7 +316,7 @@ def login():
 
 @app.route('/signup', methods=['GET', 'POST'])
 def sign_up():
-    """Show form for user signup."""
+    """Display sign up form and handle user signup."""
 
     if request.method == 'POST':
         email = request.form['email']
@@ -340,6 +338,7 @@ def sign_up():
 @app.route('/myjobs')
 @login_required
 def view_my_saved_jobs():
+    """User jobs indexing page."""
 
     return render_template('myjobs.html')
 
@@ -347,6 +346,7 @@ def view_my_saved_jobs():
 @app.route('/myboard')
 @login_required
 def view_my_dashboard():
+    """Tracking board page."""
 
     return render_template('myboard.html')
 
@@ -354,6 +354,8 @@ def view_my_dashboard():
 @app.route('/logout')
 @login_required
 def logout():
+    """Handle logging out user."""
+
     logout_user()
     return redirect('/')
 
