@@ -5,6 +5,7 @@ from model import connect_to_db, db, Job, User, Tag, JobTag, UserJob, Note, Comp
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
 from flask_restful import Resource, Api
 from flask_cors import CORS
+import secrets
 
 app = Flask(__name__)
 api = Api(app) 
@@ -289,11 +290,11 @@ def index():
 
     return render_template('home.html')
 
-@app.route('/jobs')
+@app.route('/search')
 def search_job():
     """Search page."""
 
-    return render_template('search.html')
+    return render_template('search.html', key=secrets.key.get('key'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

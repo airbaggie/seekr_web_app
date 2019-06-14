@@ -1,5 +1,6 @@
 env/
 g.conf
+secrets.py
 .DS_Store
 __pycache__/
 seed_continue.py
