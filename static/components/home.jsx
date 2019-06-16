@@ -8,23 +8,32 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div className="jumbotron homepage-jumbotron">
-                <h3>Welcome to seekr!</h3>
-                <p>
-                    
-                </p>
-                <p>
-                <button type="button" className="btn btn-info">Start</button>
-                </p>
+            <div id="carouselExampleControls" className="carousel slide" data-ride="carousel">
+                <div className="carousel-inner">
+                    <div className="carousel-item active">
+                        <img className="d-block w-100" src="/static/assets/1.png" alt="First slide" />
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src="/static/assets/2.png" alt="Second slide" />
+                    </div>
+                    <div className="carousel-item">
+                        <img className="d-block w-100" src="/static/assets/3.png" alt="Third slide" />
+                    </div>
+                </div>
+                <a className="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Previous</span>
+                </a>
+                <a className="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span className="sr-only">Next</span>
+                </a>
             </div>
         );
     }
 };
 
-
-window.addEventListener("load", () => {
-    ReactDOM.render(
-        <Home />,
-        document.getElementById("home")
-    );
-})
+ReactDOM.render(
+    <Home />,
+    document.getElementById("home")
+);

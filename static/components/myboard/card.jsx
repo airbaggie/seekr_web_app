@@ -15,7 +15,7 @@ class RawTrackingCard extends React.Component {
         const isDragging = this.props.isDragging;               // new added
         const opacity = isDragging ? 0.4 : 1;
         return (
-            <div key={this.props.user_job_id} className="tracking-card"
+            <div key={this.props.user_job_id} className={`tracking-card ${ this.props.status }`}
                  ref={connectDragSource} style={{ opacity }}>
                 <p className="card-title">{this.props.title}</p>
                 <p className="card-company">{this.props.company_name}</p>

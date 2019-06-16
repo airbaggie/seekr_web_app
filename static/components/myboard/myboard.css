@@ -7,8 +7,26 @@
     margin: 5px;
     border-radius: 3px;
     background-color: whitesmoke;
-    border-left-color: #d9b310;
     border-left-width: 3px;
+}
+
+.Applied {
+    border-left-color: #d9b310;
+}
+
+.Online {
+    border-left-color: lightskyblue;
+}
+.Phone {
+    border-left-color: lightskyblue;
+}
+
+.On-site {
+    border-left-color: lightskyblue;
+}
+
+.Offer {
+    border-left-color: lightgreen;
 }
 
 .status-column {

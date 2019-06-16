@@ -245,14 +245,6 @@ class JobIndex extends React.Component {
     render() {
         return (
             <div className="myjobs row">
-                <div className="col-2 status-index">
-                    <button type="button" className="btn btn-link" data-toggle="pill" value="Saved" onClick={(evt) => {this.switchStatus(evt)}}>Saved</button><br />
-                    <button type="button" className="btn btn-link" data-toggle="pill" value="Applied" onClick={(evt) => {this.switchStatus(evt)}}>Applied</button><br />
-                    <button type="button" className="btn btn-link" data-toggle="pill" value="Online assessment" onClick={(evt) => {this.switchStatus(evt)}}>Online assessment</button><br />
-                    <button type="button" className="btn btn-link" data-toggle="pill" value="Phone screen" onClick={(evt) => {this.switchStatus(evt)}}>Phone screen</button><br />
-                    <button type="button" className="btn btn-link" data-toggle="pill" value="On-site" onClick={(evt) => {this.switchStatus(evt)}}>On-site</button><br />
-                    <button type="button" className="btn btn-link" data-toggle="pill" value="Offer" onClick={(evt) => {this.switchStatus(evt)}}>Offer</button><br />
-                </div>
                 <div className="col-10">
                     {/* form is not working currently */}
                     <form className="form-row align-items-right myjobs-search">
@@ -317,6 +309,16 @@ class JobIndex extends React.Component {
                             {this.generateJobCard()}
                         </tbody>
                     </table>
+                </div>
+                <div className="col-2 status-index">
+                    <div className="status-index-name">
+                    <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Saved" onClick={(evt) => {this.switchStatus(evt)}}>Saved</button><br />
+                    </div>
+                    <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Applied" onClick={(evt) => {this.switchStatus(evt)}}>Applied</button><br />
+                    <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Online assessment" onClick={(evt) => {this.switchStatus(evt)}}>Online assessment</button><br />
+                    <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Phone screen" onClick={(evt) => {this.switchStatus(evt)}}>Phone screen</button><br />
+                    <button type="button" className="btn btn-link index-text" data-toggle="pill" value="On-site" onClick={(evt) => {this.switchStatus(evt)}}>On-site</button><br />
+                    <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Offer" onClick={(evt) => {this.switchStatus(evt)}}>Offer</button><br />
                 </div>
             </div>
         );

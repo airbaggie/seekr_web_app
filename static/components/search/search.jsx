@@ -28,8 +28,8 @@ class JobCard extends React.Component {
                     }}>
                 <div className="card-body">
                     <p className="card-title d-inline-block">{this.props.title}</p>
-                    <p>
-                        <span className="card-text">{this.props.company_name}</span>
+                    <p className="company-rating">
+                        <span className="card-text search-card-company">{this.props.company_name}</span>
                         <span className="rating badge badge-pill badge-info">{this.props.rating}</span>
                     </p>    
                     <p className="card-text"><small className="text-muted">{job_tags}</small></p>
@@ -66,7 +66,7 @@ class MapViewJobCard extends React.Component {
                     <p className="card-title" onClick={() => {
                                                                 this.props.fetchDetailInfo(`${this.props.job_id}`);
                                                                 }}>{this.props.title}</p>
-                    <span className="card-text">{this.props.company_name}</span>
+                    <span className="card-text search-card-company">{this.props.company_name}</span>
                     <span className="rating badge badge-pill badge-info">{this.props.rating}</span>
                     <p className="card-text"><small className="text-muted">{job_tags}</small></p>
                 </div>
@@ -220,7 +220,7 @@ class JobSearch extends React.Component {
         } else if ((this.state.results.length === 0) & (!this.state.detail) & (this.state.mapview)) {
             return [<div className="google-map" id="google-map" ref={this.mapRef}></div>, <span className="job-div" id="job-div"></span>];
         } else if ((!this.state.mapview) & (!this.state.detail)) {
-            return [<p>Results({this.countResults()})</p>, <div className="jobcards card-columns" id="job-cards">{this.generateJobCard()}</div>];
+            return [<p>Results({this.countResults()})</p>, <div className="jobcards card-decks row" id="job-cards">{this.generateJobCard()}</div>];
         } else if ((this.state.mapview) & (!this.state.detail)) {
             return [<p>Results({this.countResults()})</p>, <div className="google-map" id="google-map" ref={this.mapRef}></div>, <span className="job-div" id="job-div"></span>];
         }
@@ -239,7 +239,7 @@ class JobSearch extends React.Component {
                                 size="35"
                                 value={this.state.keyword}
                                 onChange={this.handleKeywordChange}
-                                placeholder="Search by keywords"
+                                placeholder="Job title, keywords, or company"
                                 />
                         </div>
                         <div className="col-auto">

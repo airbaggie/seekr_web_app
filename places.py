@@ -31,10 +31,17 @@ def get_and_load_company_info():
 
             # Commit company info update to database.
             if data['candidates']:
+                print('')
+                print(data['candidates'])
+                print('')
                 address = data['candidates'][0]['formatted_address']
                 lat = data['candidates'][0]['geometry']['location']['lat'] 
                 lng = data['candidates'][0]['geometry']['location']['lng']
-                rating = data['candidates'][0]['rating'] 
+
+                if 'rating' in data['candidates'][0]:
+                    rating = data['candidates'][0]['rating']
+                else:
+                    rating = None
 
                 company = Company.query.filter(Company.company_name==comp_name).one()
                 company.address = address

@@ -107,7 +107,6 @@ class MyBoard extends React.Component {
 
 
 window.addEventListener("load", () => {
-    console.log('after event listener')
     ReactDOM.render(
         <MyBoard />,
         document.getElementById("myboard")

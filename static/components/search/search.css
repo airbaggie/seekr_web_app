@@ -7,10 +7,6 @@
     margin: 0;
 }
 
-.card-columns {
-    column-count: 3;
-}
-
 .job-detail {
     margin-top: 15px;
 }
@@ -21,8 +17,10 @@
 
 .job-card {
     border: 1px solid white;
-    border-bottom-color: #d9b310;
+    border-bottom-color: lightgrey;
     border-bottom-width: 3px;
+    width: 32%;
+    margin: 6px;
 }
 
 .job-card:hover {
@@ -51,4 +49,12 @@
 
 .rating {
     margin-left: 5px;  
+}
+
+.search-card-company {
+    margin-left: 4px;
+}
+
+.jobcards {
+    align-items: center;
 }
