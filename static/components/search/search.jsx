@@ -317,13 +317,6 @@ class JobSearchApp extends React.Component {
     }
 }
 
-// window.addEventListener("load", () => {
-//     ReactDOM.render(
-//         <JobSearchApp />,
-//         document.getElementById("app")
-//     );
-// })
-
 ReactDOM.render(
     <JobSearchApp />,
     document.getElementById("app")
