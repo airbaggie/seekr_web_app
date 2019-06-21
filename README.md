@@ -3,12 +3,12 @@ Seekr is a web app where job seekers can search for open tech positions in the B
 
 *In order to use the tracking tool feature, user must register with an email and password - the password is stored as a hash in the database.*
 
-## Technologies
+### Technologies
 Backend: Python, Flask, Flask RESTful API, PostgreSQL, SQLAlchemy<br />
 Frontend: JavaScript, ReactJS, React-DnD, CSS, Bootstrap<br />
 API: Google Places, Google Maps<br />
 
-## Setup
+### Setup
 Install the dependencies from requirements.txt using pip install:
 ```
 pip install -r requirements.txt
@@ -28,3 +28,7 @@ Start the server:
 python server.py
 ```
 
+### Features
+![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/1.png)
+![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/2.png)
+![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/3.png)
