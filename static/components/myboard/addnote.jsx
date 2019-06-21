@@ -35,6 +35,10 @@ class DropdownButton extends React.Component {
                                                                         this.props.changeStatus(`${this.props.user_job_id}`, "Offer");
                                                                         this.props.reFresh();
                                                                         }}>Offer</Dropdown.Item>
+                    <Dropdown.Item className="dropdown-item" onClick={() => {
+                                                                        this.props.changeStatus(`${this.props.user_job_id}`, "Archived");
+                                                                        this.props.reFresh();
+                                                                        }}>Archived</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>   
         );

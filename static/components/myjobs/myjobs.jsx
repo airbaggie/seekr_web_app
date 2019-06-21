@@ -78,6 +78,7 @@ class JobIndex extends React.Component {
                         Phone_screen: [],
                         Onsite: [],
                         Offer: [],
+                        Archived: [],
                         status: "Saved",
         };
     }
@@ -112,6 +113,11 @@ class JobIndex extends React.Component {
             .then(res => res.json())
             .then(data => {
                 this.setState({ Offer: data });
+            });
+        fetch("/api/track?key=Archived")
+            .then(res => res.json())
+            .then(data => {
+                this.setState({ Archived: data });
             });
     }
 
@@ -233,6 +239,21 @@ class JobIndex extends React.Component {
                                           />
                 )
             }
+        } else if (this.state.status === "Archived") {
+            for (const job of this.state.Archived) {
+                job_cards.push(
+                                <SavedJob key={job.user_job_id}
+                                        job_id={job.job_id}
+                                        user_job_id={job.user_job_id}
+                                        title={job.title}
+                                        company_name={job.company_name}
+                                        removeJob={() => this.removeJob(job.job_id)}
+                                        changeStatus={this.changeStatus}
+                                        status={job.status}
+                                        fetchDetailInfo={this.props.fetchDetailInfo}
+                                        />
+                )
+            }
         }
     
         return job_cards;
@@ -261,14 +282,13 @@ class JobIndex extends React.Component {
                     </table>
                 </div>
                 <div className="col-2 status-index">
-                    <div className="status-index-name">
                     <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Saved" onClick={(evt) => {this.switchStatus(evt)}}>Saved</button><br />
-                    </div>
                     <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Applied" onClick={(evt) => {this.switchStatus(evt)}}>Applied</button><br />
                     <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Online assessment" onClick={(evt) => {this.switchStatus(evt)}}>Online assessment</button><br />
                     <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Phone screen" onClick={(evt) => {this.switchStatus(evt)}}>Phone screen</button><br />
                     <button type="button" className="btn btn-link index-text" data-toggle="pill" value="On-site" onClick={(evt) => {this.switchStatus(evt)}}>On-site</button><br />
                     <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Offer" onClick={(evt) => {this.switchStatus(evt)}}>Offer</button><br />
+                    <button type="button" className="btn btn-link index-text" data-toggle="pill" value="Archived" onClick={(evt) => {this.switchStatus(evt)}}>Archived</button><br />
                 </div>
             </div>
         );

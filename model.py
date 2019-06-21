@@ -167,7 +167,7 @@ class UserJob(db.Model):
     to_note = db.relationship("Note")
 
     # Status: 
-    #   Saved / Applied / Online assessment / Phone screen / On-site / Offer
+    #   Saved / Applied / Online assessment / Phone screen / On-site / Offer / Archived
 
     def __init__(self, user_id, job_id, status="Saved"):
         """Instantiate a UserJob."""
