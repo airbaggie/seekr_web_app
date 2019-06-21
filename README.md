@@ -13,16 +13,10 @@ Install the dependencies from requirements.txt using pip install:
 ```
 pip install -r requirements.txt
 ```
-Create Postgre database:
+Create Postgre database and seed with static data:
 ```
 createdb soft
-```
-Create data model:
-```
 python model.py
-```
-Seed database:
-```
 python seed.py
 ```
 Collect company's geolocation and rating info (you would need a Google Places API key):
