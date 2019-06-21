@@ -12,7 +12,7 @@ def get_and_load_company_info():
     # Send get request to Google Places API.
     URL = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json"
 
-    with open("g.conf") as g:
+    with open("g.conf") as g:    # Replace "g.conf" with your secrets file where you store the Google API key.
         k = g.read()
 
         for comp in comp_list:
