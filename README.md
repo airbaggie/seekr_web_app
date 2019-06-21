@@ -3,8 +3,10 @@ Seekr is a web app where job seekers can search for open tech positions in the B
 
 *In order to use the tracking tool feature, user must register with an email and password - the password is stored as a hash in the database.*
 
-## Tech Stack
-PostgreSQL, SQLAlchemy  |  Python, Flask, Flask RESTful API  |  JavaScript, ReactJS, React-DnD, CSS, Bootstrap
+## Technologies
+Backend: Python, Flask, Flask RESTful API, PostgreSQL, SQLAlchemy<br />
+Frontend: JavaScript, ReactJS, React-DnD, CSS, Bootstrap<br />
+API: Google Places, Google Maps<br />
 
 ## Setup
 Install the dependencies from requirements.txt using pip install:
