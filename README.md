@@ -1,10 +1,14 @@
 # Seekr
-Seekr is a web app where job seekers can search for open tech positions in the Bay Area and track application process. Features include an automated web scraper with Beautiful Soup, API extensibility with Flask RESTful API, toggleable views implementing Google APIs (Places, Maps), and a draggable/droppable, JIRA-like tracking board using React-DnD.<br />
+Seekr is a web app where job seekers can search for open tech positions in the Bay Area and track application process. Features include:
+- An automated web scraper with Beautiful Soup and Selenium
+- API extensibility with Flask RESTful API
+- Toggleable views implementing Google APIs (Places, Maps)
+- JIRA-like tracking board using React-DnD.
 
 ### Technologies
-Backend: Python, Flask, Flask RESTful API, PostgreSQL, SQLAlchemy<br />
-Frontend: JavaScript, ReactJS, React-DnD, CSS, Bootstrap<br />
-API: Google Places, Google Maps<br />
+- Backend: Python, Flask, Flask RESTful API, PostgreSQL, SQLAlchemy<br />
+- Frontend: JavaScript, ReactJS, React-DnD, CSS, Bootstrap<br />
+- API: Google Places, Google Maps<br />
 
 ### Setup
 Install the dependencies from requirements.txt using pip install:
@@ -15,7 +19,7 @@ Create Postgre database and seed with static data:
 ```
 $ createdb soft
 $ python model.py
-python seed.py
+$ python seed.py
 ```
 Collect company's geolocation and rating info (you would need a Google Places API key):
 ```
@@ -26,7 +30,7 @@ Start the server:
 $ python server.py
 ```
 
-### Features and Screenshots
+### Production Screenshots
 ![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/1.png)
 ![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/2.png)
 ![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/3.png)
