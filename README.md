@@ -1,9 +1,9 @@
 # Seekr
 Seekr is a web app where job seekers can search for open tech positions in the Bay Area and track application process. Features include:
-- An automated web scraper with Beautiful Soup and Selenium
-- API extensibility with Flask RESTful API
 - Toggleable views implementing Google APIs (Places, Maps)
-- JIRA-like tracking board using React-DnD.
+- JIRA-like tracking board using React-DnD
+- Automated web scraper with Beautiful Soup and Selenium
+- API extensibility with Flask RESTful API
 
 ### Technologies
 - Backend: Python, Flask, Flask RESTful API, PostgreSQL, SQLAlchemy<br />
