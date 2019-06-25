@@ -44,6 +44,7 @@ $ python server.py
 
 <a name="screens"></a>
 ### Screenshots
+![homepage](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/home.gif)
 ![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/1.png)
 ![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/2.png)
 ![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/3.png)
