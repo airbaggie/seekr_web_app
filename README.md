@@ -4,7 +4,7 @@
 1. [The Project](#project)
 2. [Technologies](#tech)
 3. [Setup](#setup)
-4. [Screenshots](#screens)
+4. [Demo](#demo)
 5. [Developer Notes](#notes)
 
 <a name="project"></a>
@@ -42,15 +42,27 @@ Start the server:
 $ python server.py
 ```
 
-<a name="screens"></a>
-### Screenshots
+<a name="demo"></a>
+### Demo
+Homepage:
 ![homepage](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/home.gif)
-![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/1.png)
-![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/2.png)
-![](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/3.png)
+
+User can search job by keyword or use quick search; click job card to view description detail:
+![search](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/search.gif)
+
+User can toggle to see the searching results on Google Map; click info window to view description detail:
+![map](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/map.gif)
+
+User can save a job and change its status or remove it from saving list. Each applied job stores user application history and notes:
+![myjobs](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/myjobs.gif)
+
+User can track interview process by dragging job card on the board. The board gets refreshed without hard reload right after card dropping. There are also modals for user to add interview notes or to manually create job cards to track.
+![myboard](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/myboard.gif)
+
 
 <a name="notes"></a>
 ### Developer Notes
 - The web is currently live at http://seekr.link. Notice that I have stopped scraping more job post data, which means the searching results will be out of date. However, I encourage you to sign up and check out the tracking feature. You can still use it to manage your actual interview process by using the “add job” button, which creates your private job instance.
 - In order to use the tracking tool feature, user must register with an email and password - the password is stored as a hash in the database.
 - Repo of the web scraping script: https://github.com/airbaggie/web_scraper
+
