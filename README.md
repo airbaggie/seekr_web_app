@@ -4,7 +4,7 @@
 1. [The Project](#project)
 2. [Technologies](#tech)
 3. [Setup](#setup)
-4. [Demo](#demo)
+4. [Demo of How It Works](#demo)
 5. [Developer Notes](#notes)
 
 <a name="project"></a>
@@ -43,7 +43,7 @@ $ python server.py
 ```
 
 <a name="demo"></a>
-## Demo
+## Demo of How It Works
 * Homepage:
 ![homepage](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/home.gif)
 
