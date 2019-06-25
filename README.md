@@ -47,19 +47,16 @@ $ python server.py
 * Homepage:
 ![homepage](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/home.gif)
 
-* User can search jobs by keyword or use quick search. Can click job card to view description detail.
-* In the job detail page, user can save a job or apply job on company website:
+* User can search jobs by keyword or use quick search. Can click job card to view description detail. In the job detail page, user can save a job or apply job on company website:
 ![search](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/search.gif)
 
 * User can toggle to see the searching results on Google Map. Can click info window to view description detail as well:
 ![map](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/map.gif)
 
-* User can save a job, change its status or remove it from saving list.
-* Each applied job stores user application history, includes status changing logs and personal notes:
+* User can save a job, change its status or remove it from saving list. Each applied job stores user application history, includes status changing logs and personal notes:
 ![myjobs](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/myjobs.gif)
 
-* User can track interview process by dragging job card on the board. The board gets refreshed right after card dropping without a hard reload.
-* There are "add note" and "add job" buttons for user to add interview notes or to manually create job cards to track.
+* User can track interview process by dragging job card on the board. The board gets refreshed right after card dropping without a hard reload. There are "add note" and "add job" buttons for user to add interview notes or to manually create job cards to track.
 ![myboard](https://github.com/airbaggie/seekr_web_app/blob/master/static/assets/gif/myboard.gif)
 
 
