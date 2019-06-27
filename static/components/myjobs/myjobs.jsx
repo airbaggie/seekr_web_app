@@ -348,9 +348,8 @@ class MyJobs extends React.Component {
     }
 }
 
-window.addEventListener("load", () => {
-    ReactDOM.render(
-        <MyJobs />,
-        document.getElementById("myjobs")
-    );
-})
+
+ReactDOM.render(
+    <MyJobs />,
+    document.getElementById("myjobs")
+);
